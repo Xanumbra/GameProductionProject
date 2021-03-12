@@ -47,6 +47,7 @@ MonoBehaviour:
   coordinates:
     x: 0
     z: 0
+  lineRenderer: {fileID: 0}
 --- !u!120 &314226998985316909
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -65,7 +66,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 64195dac121419d429f8bc78eacba8ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
