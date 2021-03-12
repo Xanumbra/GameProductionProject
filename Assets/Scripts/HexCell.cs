@@ -11,6 +11,14 @@ public class HexCell : MonoBehaviour
     public void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        SetupLineRenderer();
+    }
+    void SetupLineRenderer()
+    {
+        lineRenderer.startWidth = 0.10f;
+        lineRenderer.endWidth = 0.10f;
+        lineRenderer.startColor = Color.white;
+        lineRenderer.endColor = Color.white;
     }
     void Start()
     {

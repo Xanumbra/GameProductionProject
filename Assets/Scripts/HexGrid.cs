@@ -7,6 +7,8 @@ public class HexGrid : MonoBehaviour
 	public int width = 6;
 	public int height = 6;
 
+	public const int HexCount = 19;
+
 	public HexCell cellPrefab;
 	public Text cellLabelPrefab;
 
@@ -20,22 +22,37 @@ public class HexGrid : MonoBehaviour
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 
-		cells = new HexCell[height * width];
-
-		for (int z = 0, i = 0; z < height; z++)
-		{
-			for (int x = 0; x < width; x++)
-			{
-				CreateCell(x, z, i++);
-			}
-		}
+		cells = new HexCell[HexCount];
+		CreateBoard();
 	}
 	void Start()
 	{
 		hexMesh.Triangulate(cells);
-		
 	}
-
+	void CreateBoard()
+    {
+		int i = 0;
+		for (int j = -1; j < 2; j++)
+		{
+			CreateCell(j, 2, i++);
+		}
+		for (int j = -2; j < 2; j++)
+		{
+			CreateCell(j, 1, i++);
+		}
+		for (int j = -2; j < 3; j++)
+		{
+			CreateCell(j, 0, i++);
+		}
+		for (int j = -1; j < 3; j++)
+		{
+			CreateCell(j, -1, i++);
+		}
+		for (int j = -1; j < 2; j++)
+		{
+			CreateCell(j, -2, i++);
+		}
+	}
 	void CreateCell(int x, int z, int i)
 	{
 		Vector3 position;
