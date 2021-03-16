@@ -44,7 +44,7 @@ public class Player : NetworkBehaviour
         var rnd = new System.Random();
         clientId = NetworkServer.connections.Count;
 
-        TurnManager.singleton.AddPlayer(p);
+        TurnManager.Instance.AddPlayer(p);
     }
 
 
@@ -58,12 +58,12 @@ public class Player : NetworkBehaviour
     [Command]
     private void CmdGetCurPlayer()
     {
-        if (TurnManager.singleton.curPlayer == null)
+        if (TurnManager.Instance.curPlayer == null)
         {
-            TurnManager.singleton.SetCurPlayer(TurnManager.singleton.players[0]);
+            TurnManager.Instance.SetCurPlayer(TurnManager.Instance.players[0]);
         }
 
-        TargetGetCurPlayer(TurnManager.singleton.curPlayer);
+        TargetGetCurPlayer(TurnManager.Instance.curPlayer);
     }
 
     [TargetRpc]

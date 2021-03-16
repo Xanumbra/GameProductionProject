@@ -8,9 +8,19 @@ public class SyncListPlayer : SyncList<Player> { }
 
 public class TurnManager : NetworkBehaviour
 {
-    public static TurnManager singleton;
-    private void Awake() { singleton = this; }
-
+    private static TurnManager _instance;
+    public static TurnManager Instance { get { return _instance; } }
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
     [SyncVar] public Player curPlayer;
 
     public SyncListPlayer players = new SyncListPlayer();
