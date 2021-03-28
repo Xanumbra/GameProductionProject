@@ -15,8 +15,9 @@ public class HexGrid : MonoBehaviour
 	public HexCell[] cells;
 	public List<HexVertices> hexVertices;
 	public List<HexEdges> hexEdges;
+	
 	Canvas gridCanvas;
-
+	
 
 
 	void Awake()
@@ -29,11 +30,15 @@ public class HexGrid : MonoBehaviour
 	}
 	void Start()
 	{
-		for(int i = 0; i < HexCount; i++)
-        {
+		InitializeVerticesAndEdges();
+	}
+    void InitializeVerticesAndEdges()
+    {
+		for (int i = 0; i < HexCount; i++)
+		{
 			AddVerticesToHexagon(cells[i]);
 			AddEdgesToVertices(cells[i]);
-        }
+		}
 	}
 	void CreateBoard()
     {
