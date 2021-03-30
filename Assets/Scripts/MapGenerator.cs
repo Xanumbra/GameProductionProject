@@ -85,9 +85,9 @@ public class MapGenerator : NetworkBehaviour
         Random.InitState(seed);
         ShuffleRessourceList();
 
-        if (spawnedPlanets.Count > 0) ClearPlanets();
+        if (spawnedPlanets.Count > 0) RpcClearPlanets();
 
-        SpawnPlanets(resources);
+        RpcSpawnPlanets(resources);
     }
 
     [Server]
@@ -109,7 +109,7 @@ public class MapGenerator : NetworkBehaviour
     }
 
     [ClientRpc]
-    void SpawnPlanets(List<Resources> resources)
+    void RpcSpawnPlanets(List<Resources> resources)
     {
         for (int i = 0; i < resources.Count; i++)
         {
@@ -119,7 +119,7 @@ public class MapGenerator : NetworkBehaviour
     }
 
     [ClientRpc]
-    void ClearPlanets()
+    void RpcClearPlanets()
     {
         foreach (var cell in hexGrid.cells)
         {
