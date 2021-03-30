@@ -47,6 +47,19 @@ public class Player : NetworkBehaviour
         TurnManager.Instance.AddPlayer(p);
     }
 
+    // -- Map Generation --
+    [Client]
+    public void GenerateMap()
+    {
+        CmdGenerateMap();
+    }
+
+    [Command]
+    private void CmdGenerateMap()
+    {
+        MapGenerator.Instance.GeneratePlanets();
+    }
+
 
     #region Temp / Debug
     [Client]
