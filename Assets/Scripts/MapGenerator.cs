@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Mirror;
+using TMPro;
 
 public enum Resources
 {
@@ -67,22 +68,49 @@ public class MapGenerator : NetworkBehaviour
 
     private int seed = 2345;
 
-    private int[] numbers = { 2, 3, 3, 4, 4, 5, 5, 9, 9, 10, 10, 11, 11, 12 };
+    private int[] initialNumbers = { 2, 3, 3, 4, 4, 5, 5, 9, 9, 10, 10, 11, 11, 12 };
+    private int[] shuffledNumbers = new int[14];
     private int[] numbers68 = { 6, 6, 8, 8 };
-    private int[,] gamefield = {
-                    {0, 0, 1, 1, 1},
-                     {0, 1, 1, 1, 1},
-                      {1, 1, 0, 1, 1},
-                       {1, 1, 1, 1, 0},
-                        {1, 1, 1, 0, 0}
+    private Dictionary<int, List<int>> neighborCells = new Dictionary<int, List<int>>
+    {
+        { 0, new List<int> {1, 3, 4} },
+        { 1, new List<int> {0, 2, 4, 5} },
+        { 2, new List<int> {1, 5, 6} },
+        { 3, new List<int> {0, 4, 7, 8} },
+        { 4, new List<int> {0, 1, 3, 5, 8, 9} },
+        { 5, new List<int> {1, 2, 4, 6, 9, 10} },
+        { 6, new List<int> {2, 5, 10, 11} },
+        { 7, new List<int> {3, 8, 12} },
+        { 8, new List<int> {3, 4, 7, 9, 12, 13} },
+        //{ 9, new List<int> {1, 3, 4} },
+        { 10, new List<int> {5, 6, 9, 11, 14, 15} },
+        { 11, new List<int> {6, 10, 15} },
+        { 12, new List<int> {7, 8, 13, 16} },
+        { 13, new List<int> {8, 9, 12, 14, 16, 17} },
+        { 14, new List<int> {9, 10, 13, 15, 17, 18} },
+        { 15, new List<int> {10, 11, 14, 18} },
+        { 16, new List<int> {12, 13, 17} },
+        { 17, new List<int> {13, 14, 16, 18} },
+        { 18, new List<int> {14, 15, 17} },
+
     };
+
+    private int[] finalNumbers = new int[19];
 
     private List<GameObject> spawnedPlanets = new List<GameObject>();
 
-    [Server]
-    public int GeneratePlanets(string seedInput)
+
+    void OnEnable()
     {
-        Random.InitState(1);
+        InitNumbers68();
+        InitNumbersOthers();
+        PrintNumbers();
+    }
+
+    [Server]
+    public int GenerateMap(string seedInput)
+    {
+        Random.InitState(System.Environment.TickCount);
 
         try
         {
@@ -98,14 +126,14 @@ public class MapGenerator : NetworkBehaviour
 
         Random.InitState(seed);
         ShuffleRessourceList();
+        InitNumbers68();
+        InitNumbersOthers();
 
         if (spawnedPlanets.Count > 0) RpcClearPlanets();
-
-        RpcSpawnPlanets(shuffledResources);
+        RpcSpawnPlanets(shuffledResources, finalNumbers);
 
         return seed;
     }
-
 
     [Server]
     void ShuffleRessourceList()
@@ -128,12 +156,21 @@ public class MapGenerator : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcSpawnPlanets(List<Resources> resources)
+    void RpcSpawnPlanets(List<Resources> resources, int[] numbers)
     {
         for (int i = 0; i < resources.Count; i++)
         {
             var planet = Instantiate(planetPrefabs.Where(dict => dict.resource == resources[i]).Select(dict => dict.planetPrefab).ElementAt(0), hexGrid.cells[i].transform);
             spawnedPlanets.Add(planet);
+
+            try
+            {
+                planet.GetComponentInChildren<TMP_Text>().text = numbers[i].ToString();
+            }
+            catch
+            {
+                Debug.Log("No text at sun");
+            }
         }
     }
 
@@ -146,73 +183,67 @@ public class MapGenerator : NetworkBehaviour
         }
     }
 
+    [Server]
     void InitNumbers68()
     {
-        var i = Random.Range(0, 4);
-        var j = Random.Range(0, 4);
+        finalNumbers = new int[19];
+        var index = 0;
 
-        while (gamefield[i,j] != 1)
+        bool collision = false;
+        for (int i = 0; i < numbers68.Length; i++)
         {
-            i = Random.Range(0, 4);
-            j = Random.Range(0, 4);
-        }
-
-        gamefield[i, j] = numbers68[0];
-        Debug.Log($"Fill cell {i}-{j} with {numbers[0]}");
-
-
-        for (int n = 1; n <= 4; n++)
-        {
-            i = Random.Range(0, 4);
-            j = Random.Range(0, 4);
-
-            // ENDLESS LOOP WEGEN SEED --> LÖSUNG FINDEN
-            while (gamefield[i,j] != 1 || 
-                (i > 0 && (gamefield[i-1, j] == 6 || gamefield[i-1, j] == 8)) 
-                || ((i > 0 && j< 4) && (gamefield[i - 1, j + 1] == 6 || gamefield[i - 1, j + 1] == 8))
-                || (j > 0 && (gamefield[i, j - 1] == 6 || gamefield[i, j - 1] == 8)) 
-                || (j < 4 && (gamefield[i, j + 1] == 6 || gamefield[i, j + 1] == 8)) 
-                || ((i < 4 && j > 0) && (gamefield[i + 1, j - 1] == 6 || gamefield[i + 1, j - 1] == 8)) 
-                || (i < 4 && (gamefield[i + 1, j] == 6 || gamefield[i + 1, j] == 8)))
+            do
             {
-                Debug.Log($"Neighbor collision at index: {i}-{j}");
-                i = Random.Range(0, 4);
-                j = Random.Range(0, 4);
-            }
+                index = Random.Range(0, 18);
+                collision = false;
 
-            gamefield[i, j] = numbers68[n];
-            Debug.Log($"Fill cell {i}-{j} with {numbers68[n]}");
+                if (index != 9 && finalNumbers[index] == 0)
+                {
+                    foreach (var cell in neighborCells[index])
+                    {
+                        if (finalNumbers[cell] == 6 || finalNumbers[cell] == 8)
+                        {
+                            collision = true;
+                            break;
+                        }
+                    }
+                }
+                else collision = true;
+
+            } while (collision);
+
+            finalNumbers[index] = numbers68[i];
         }
     }
 
+    [Server]
     void InitNumbersOthers()
     {
         ShuffleNumbers();
 
         int n = 0;
-        for (int i = 0; i < gamefield.GetLength(0); i++)
+        for (int i = 0; i < finalNumbers.Length; i++)
         {
-            for (int j = 0; j < gamefield.GetLength(1); j++)
+            if (finalNumbers[i] == 0 && i != 9)
             {
-                if (gamefield[i,j] != 1)
-                {
-                    gamefield[i, j] = numbers[n];
-                    n++;
-                }
+                finalNumbers[i] = shuffledNumbers[n];
+                n++;
             }
         }
     }
 
+    [Server]
     void ShuffleNumbers()
     {
-        int n = numbers.Length;
+        int n = initialNumbers.Length;
+        initialNumbers.CopyTo(shuffledNumbers, 0);
         while (n > 0)
         {
             n--;
             int k = Random.Range(0, n - 1);
-            int value = numbers[k];
-            numbers[k] = numbers[n];
-            numbers[n] = value;
+            int value = shuffledNumbers[k];
+            shuffledNumbers[k] = shuffledNumbers[n];
+            shuffledNumbers[n] = value;
         }
     }
 
@@ -236,9 +267,10 @@ public class MapGenerator : NetworkBehaviour
         Debug.Log("-------- Numbers --------");
 
         string s = "";
-        foreach (var n in gamefield)
+        foreach (var n in finalNumbers)
         {
             s += n;
+            s += "-";
         }
 
         Debug.Log(s);

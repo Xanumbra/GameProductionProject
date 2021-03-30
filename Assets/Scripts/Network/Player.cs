@@ -71,7 +71,7 @@ public class Player : NetworkBehaviour
     [Command]
     private void CmdGenerateMap(string seedInput)
     {
-        var seed = MapGenerator.Instance.GeneratePlanets(seedInput);
+        var seed = MapGenerator.Instance.GenerateMap(seedInput);
 
         RpcShowSeedOnClients(seed);
     }
