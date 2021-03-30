@@ -41,7 +41,7 @@ public class MapGenerator : NetworkBehaviour
     public HexGrid hexGrid;
     public List<PlanetResourcesDict> planetPrefabs;
 
-    private List<Resources> resources = new List<Resources>
+    private List<Resources> initialResources = new List<Resources>
     {
         Resources.darkMatter,
         Resources.darkMatter,
@@ -63,12 +63,12 @@ public class MapGenerator : NetworkBehaviour
         Resources.energy,
         Resources.sun
     };
+    private List<Resources> shuffledResources = new List<Resources>();
 
-    public int seed = 2345;
+    private int seed = 2345;
 
     private int[] numbers = { 2, 3, 3, 4, 4, 5, 5, 9, 9, 10, 10, 11, 11, 12 };
     private int[] numbers68 = { 6, 6, 8, 8 };
-
     private int[,] gamefield = {
                     {0, 0, 1, 1, 1},
                      {0, 1, 1, 1, 1},
@@ -80,32 +80,56 @@ public class MapGenerator : NetworkBehaviour
     private List<GameObject> spawnedPlanets = new List<GameObject>();
 
     [Server]
-    public void GeneratePlanets()
+    public int GeneratePlanets(string seedInput)
     {
+        Random.InitState(1);
+
+        try
+        {
+            //if (seed == System.Int32.Parse(seedInput))
+            //{
+            //    Debug.Log("No Seed Changes (" + seed + ")");
+            //    return seed;
+            //}
+            seed = System.Int32.Parse(seedInput);
+            Debug.Log("User seed: " + seedInput);
+        }
+        catch
+        {
+            Debug.Log("No or invalid seed entered!");
+            seed = Random.Range(1000, 10000000);
+            Debug.Log("Random Seed: " + seed);
+        }
+
         Random.InitState(seed);
         ShuffleRessourceList();
 
         if (spawnedPlanets.Count > 0) RpcClearPlanets();
 
-        RpcSpawnPlanets(resources);
+        RpcSpawnPlanets(shuffledResources);
+
+        return seed;
     }
+
 
     [Server]
     void ShuffleRessourceList()
     {
-        int n = resources.Count;
+        int n = initialResources.Count;
+        shuffledResources = new List<Resources>(initialResources);
+
         while (n > 0)
         {
             n--;
             int k = Random.Range(0, n-1);
-            Resources value = resources[k];
-            resources[k] = resources[n];
-            resources[n] = value;
+            Resources value = shuffledResources[k];
+            shuffledResources[k] = shuffledResources[n];
+            shuffledResources[n] = value;
         }
 
-        var sunIndex = resources.IndexOf(Resources.sun);
-        resources[sunIndex] = resources[9];
-        resources[9] = Resources.sun;
+        var sunIndex = shuffledResources.IndexOf(Resources.sun);
+        shuffledResources[sunIndex] = shuffledResources[9];
+        shuffledResources[9] = Resources.sun;
     }
 
     [ClientRpc]
@@ -202,7 +226,7 @@ public class MapGenerator : NetworkBehaviour
         Debug.Log("-------- Ressources --------");
         string s = "";
 
-        foreach (var r in resources)
+        foreach (var r in initialResources)
         {
             s += r.ToString();
             s += "-";

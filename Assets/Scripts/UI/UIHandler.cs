@@ -1,27 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class UIHandler : MonoBehaviour
 {
     public GameObject generateMapBtn;
-
-    void Start()
-    {
-    }
-
-    void Update()
-    {
-        
-    }
-
-    public void ActivateGenerateMapBtn()
-    {
-        generateMapBtn.SetActive(true);
-    }
+    public InputField seedInput;
 
     public void GenerateMapBtn()
     {
-        Player.localPlayer.GenerateMap();
+        var seed = seedInput.text;
+        Player.localPlayer.GenerateMap(seed);
     }
+
+    public void ActivateUI()
+    {
+        generateMapBtn.SetActive(true);
+        seedInput.interactable = true;
+    }
+
+    public void ShowSeed(int seed)
+    {
+        seedInput.text = seed.ToString(); 
+    }
+
 }

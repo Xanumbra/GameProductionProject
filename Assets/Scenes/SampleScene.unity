@@ -1194,7 +1194,6 @@ MonoBehaviour:
   - planetPrefab: {fileID: 4857250452507302611, guid: 048e52b1baac24240b34d1894500cf19,
       type: 3}
     resource: 5
-  seed: 2345
 --- !u!114 &944396753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,7 +1513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1132530488
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1674,6 +1673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generateMapBtn: {fileID: 1920121624}
+  seedInput: {fileID: 1418406312}
 --- !u!1 &1196963979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,7 +1767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1382153571
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1946,7 +1946,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1960,7 +1960,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1418406313}
   m_TextComponent: {fileID: 783271240}
   m_Placeholder: {fileID: 1756716383}
@@ -2170,10 +2170,10 @@ RectTransform:
   m_Father: {fileID: 1014448736}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -17.4, y: 32.8}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1575894175
 MonoBehaviour:
@@ -2201,13 +2201,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Title
+  m_Text: Map Seed
 --- !u!222 &1575894176
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2285,7 +2285,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: Seed
 --- !u!222 &1756716384
 CanvasRenderer:
   m_ObjectHideFlags: 0

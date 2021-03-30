@@ -57,21 +57,30 @@ public class Player : NetworkBehaviour
     {
         if (isServer)
         {
-            FindObjectOfType<UIHandler>().ActivateGenerateMapBtn();
+            FindObjectOfType<UIHandler>().ActivateUI();
         }
     }
 
     // -- Map Generation --
     [Client]
-    public void GenerateMap()
+    public void GenerateMap(string seed)
     {
-        CmdGenerateMap();
+        CmdGenerateMap(seed);
     }
 
     [Command]
-    private void CmdGenerateMap()
+    private void CmdGenerateMap(string seedInput)
     {
-        MapGenerator.Instance.GeneratePlanets();
+        var seed = MapGenerator.Instance.GeneratePlanets(seedInput);
+
+        RpcShowSeedOnClients(seed);
+    }
+
+
+    [ClientRpc]
+    void RpcShowSeedOnClients(int seed)
+    {
+        FindObjectOfType<UIHandler>().ShowSeed(seed);
     }
 
 
