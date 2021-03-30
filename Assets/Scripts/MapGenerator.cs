@@ -86,11 +86,6 @@ public class MapGenerator : NetworkBehaviour
 
         try
         {
-            //if (seed == System.Int32.Parse(seedInput))
-            //{
-            //    Debug.Log("No Seed Changes (" + seed + ")");
-            //    return seed;
-            //}
             seed = System.Int32.Parse(seedInput);
             Debug.Log("User seed: " + seedInput);
         }
