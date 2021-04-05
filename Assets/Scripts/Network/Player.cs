@@ -14,9 +14,8 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            localPlayer = this;
             Debug.Log("Spawning local Player");
-
+            localPlayer = this;
             CmdClientJoined(this);
         }
         else
@@ -45,6 +44,43 @@ public class Player : NetworkBehaviour
         clientId = NetworkServer.connections.Count;
 
         TurnManager.Instance.AddPlayer(p);
+
+        if (TurnManager.Instance.players.Count == 2)
+        {
+            Debug.Log("Enough Players joined - Active UI");
+            RpcActivateUI();
+        }
+    }
+
+    [ClientRpc]
+    private void RpcActivateUI()
+    {
+        if (isServer)
+        {
+            FindObjectOfType<UIHandler>().ActivateUI();
+        }
+    }
+
+    // -- Map Generation --
+    [Client]
+    public void GenerateMap(string seed)
+    {
+        CmdGenerateMap(seed);
+    }
+
+    [Command]
+    private void CmdGenerateMap(string seedInput)
+    {
+        var seed = MapGenerator.Instance.GenerateMap(seedInput);
+
+        RpcShowSeedOnClients(seed);
+    }
+
+
+    [ClientRpc]
+    void RpcShowSeedOnClients(int seed)
+    {
+        FindObjectOfType<UIHandler>().ShowSeed(seed);
     }
 
 
