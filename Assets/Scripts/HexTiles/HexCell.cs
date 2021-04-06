@@ -10,6 +10,7 @@ public class HexCell : MonoBehaviour
     public Vector3[] HexEdges;
     public List<HexVertices> hexVertices = new List<HexVertices>(6);
     public int cellID;
+    public Resources cellResourceType;
 
     public void Awake()
     {
