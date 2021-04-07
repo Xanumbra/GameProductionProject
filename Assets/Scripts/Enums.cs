@@ -11,4 +11,14 @@ public class Enums
         energy,     //#4
         sun         //#1
     }
+
+    public enum GameState
+    {
+        waitingForPlayers,
+        mapGeneration,
+        turnDetermination,
+        preGame,
+        inGame,
+        postGame
+    }
 }
