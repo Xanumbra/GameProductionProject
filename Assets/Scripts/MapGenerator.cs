@@ -158,6 +158,11 @@ public class MapGenerator : NetworkBehaviour
             try
             {
                 planet.GetComponentInChildren<TMP_Text>().text = numbers[i].ToString();
+
+                if (numbers[i] == 6 || numbers[i] == 8)
+                {
+                    planet.GetComponentInChildren<TMP_Text>().color = Color.red;
+                }
             }
             catch
             {
