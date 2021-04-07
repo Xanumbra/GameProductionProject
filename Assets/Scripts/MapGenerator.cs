@@ -5,21 +5,13 @@ using System.Linq;
 using Mirror;
 using TMPro;
 
-public enum Resources
-{
-    darkMatter, //#3
-    spacePig,   //#4
-    water,      //#4
-    metal,      //#3
-    energy,     //#4
-    sun         //#1  --> always on index 9
-}
+
 
 [System.Serializable]
 public struct PlanetResourcesDict
 {
     public GameObject planetPrefab;
-    public Resources resource;
+    public Enums.Resources resource;
 }
 
 public class MapGenerator : NetworkBehaviour
@@ -42,29 +34,29 @@ public class MapGenerator : NetworkBehaviour
     public HexGrid hexGrid;
     public List<PlanetResourcesDict> planetPrefabs;
 
-    private List<Resources> initialResources = new List<Resources>
+    private List<Enums.Resources> initialResources = new List<Enums.Resources>
     {
-        Resources.darkMatter,
-        Resources.darkMatter,
-        Resources.darkMatter,
-        Resources.spacePig,
-        Resources.spacePig,
-        Resources.spacePig,
-        Resources.spacePig,
-        Resources.water,
-        Resources.water,
-        Resources.water,
-        Resources.water,
-        Resources.metal,
-        Resources.metal,
-        Resources.metal,
-        Resources.energy,
-        Resources.energy,
-        Resources.energy,
-        Resources.energy,
-        Resources.sun
+        Enums.Resources.darkMatter,
+        Enums.Resources.darkMatter,
+        Enums.Resources.darkMatter,
+        Enums.Resources.spacePig,
+        Enums.Resources.spacePig,
+        Enums.Resources.spacePig,
+        Enums.Resources.spacePig,
+        Enums.Resources.water,
+        Enums.Resources.water,
+        Enums.Resources.water,
+        Enums.Resources.water,
+        Enums.Resources.metal,
+        Enums.Resources.metal,
+        Enums.Resources.metal,
+        Enums.Resources.energy,
+        Enums.Resources.energy,
+        Enums.Resources.energy,
+        Enums.Resources.energy,
+        Enums.Resources.sun
     };
-    private List<Resources> shuffledResources = new List<Resources>();
+    private List<Enums.Resources> shuffledResources = new List<Enums.Resources>();
 
     private int seed = 2345;
 
@@ -139,24 +131,24 @@ public class MapGenerator : NetworkBehaviour
     void ShuffleRessourceList()
     {
         int n = initialResources.Count;
-        shuffledResources = new List<Resources>(initialResources);
+        shuffledResources = new List<Enums.Resources>(initialResources);
 
         while (n > 0)
         {
             n--;
             int k = Random.Range(0, n-1);
-            Resources value = shuffledResources[k];
+            Enums.Resources value = shuffledResources[k];
             shuffledResources[k] = shuffledResources[n];
             shuffledResources[n] = value;
         }
 
-        var sunIndex = shuffledResources.IndexOf(Resources.sun);
+        var sunIndex = shuffledResources.IndexOf(Enums.Resources.sun);
         shuffledResources[sunIndex] = shuffledResources[9];
-        shuffledResources[9] = Resources.sun;
+        shuffledResources[9] = Enums.Resources.sun;
     }
 
     [ClientRpc]
-    void RpcSpawnPlanets(List<Resources> resources, int[] numbers)
+    void RpcSpawnPlanets(List<Enums.Resources> resources, int[] numbers)
     {
         for (int i = 0; i < resources.Count; i++)
         {
