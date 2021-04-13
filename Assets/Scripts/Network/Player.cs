@@ -48,6 +48,7 @@ public class Player : NetworkBehaviour
         if (TurnManager.Instance.players.Count == 2)
         {
             Debug.Log("Enough Players joined - Active UI");
+            GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
             RpcActivateUI();
         }
     }
