@@ -1176,22 +1176,22 @@ MonoBehaviour:
   syncInterval: 0.1
   hexGrid: {fileID: 124948127}
   planetPrefabs:
-  - planetPrefab: {fileID: 4953357445741845604, guid: 725e5ef14a99f434ba4d2fe2d50e7fc0,
+  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
       type: 3}
     resource: 0
-  - planetPrefab: {fileID: 2119179594679931224, guid: 451def62c40142f45a41b82409dd944f,
+  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
       type: 3}
     resource: 4
-  - planetPrefab: {fileID: 4224471986322414034, guid: 83f0c6d24612f744f973b01007b3f86b,
+  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
       type: 3}
     resource: 3
-  - planetPrefab: {fileID: 5761989650644836351, guid: f5026a77dc5db2c4d81ab264c5b52ef4,
+  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
       type: 3}
     resource: 1
-  - planetPrefab: {fileID: 7531868465249710778, guid: 0c6c1b602218465438a886aeefa5c364,
+  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
       type: 3}
     resource: 2
-  - planetPrefab: {fileID: 4857250452507302611, guid: 048e52b1baac24240b34d1894500cf19,
+  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
       type: 3}
     resource: 5
 --- !u!114 &944396753
