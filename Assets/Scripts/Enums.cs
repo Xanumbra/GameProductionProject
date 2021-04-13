@@ -1,4 +1,4 @@
-﻿public enum BuildingType {Road, Settlement, City, None };
+﻿
 
 public class Enums 
 {
@@ -11,6 +11,13 @@ public class Enums
         energy,     //#4
         sun         //#1
     }
+    public enum BuildingType 
+    { 
+        Road,
+        Settlement,
+        City,
+        None 
+    };
 
     public enum GameState
     {

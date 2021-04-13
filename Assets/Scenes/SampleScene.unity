@@ -1179,19 +1179,19 @@ MonoBehaviour:
   - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
       type: 3}
     resource: 0
-  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
+  - planetPrefab: {fileID: 3530624382445896140, guid: c4d4699e3cf43fc4495ef9f87fcb1e82,
       type: 3}
     resource: 4
-  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
+  - planetPrefab: {fileID: 2633949116885637790, guid: 4f0c22a93ee23a944b99e750eb6fca26,
       type: 3}
     resource: 3
-  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
+  - planetPrefab: {fileID: 919132149155446097, guid: e87d829b11fa8e34491081aee4d14340,
       type: 3}
     resource: 1
-  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
+  - planetPrefab: {fileID: 6918734734687564252, guid: cb6773cf6de990748947222b316efed7,
       type: 3}
     resource: 2
-  - planetPrefab: {fileID: 3401406935809400203, guid: 1ce23116c2747e54cb135b5da687963b,
+  - planetPrefab: {fileID: 1111100286403596457, guid: 264de5361a509384cbd4d1f80662b9d0,
       type: 3}
     resource: 5
 --- !u!114 &944396753
