@@ -25,7 +25,6 @@ public class TurnManager : NetworkBehaviour
         diceRoll = GetComponent<DiceRoll>();
     }
 
-    //[SyncVar]
     [SyncVar(hook = nameof(UpdateCurPlayer))]
     public Player curPlayer;
     public SyncListPlayer players = new SyncListPlayer();

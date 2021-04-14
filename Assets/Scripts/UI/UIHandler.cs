@@ -43,7 +43,6 @@ public class UIHandler : MonoBehaviour
     {
         Player.localPlayer.RollDice();
         rollDiceBtn.GetComponent<Button>().interactable = false;
-        //StartCoroutine(AnimateDice(true));
     }
 
     public void FinishTurnBtn()
@@ -175,6 +174,4 @@ public class UIHandler : MonoBehaviour
         diceValLocal.text = diceVal1 + " + " + diceVal2 + " = " + diceSum;
         diceValRemote.text = diceVal1 + " + " + diceVal2 + " = " + diceSum;
     }
-    
-
 }

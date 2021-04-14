@@ -8,7 +8,6 @@ public class Player : NetworkBehaviour
 {
     public static Player localPlayer;
 
-    //[SyncVar(hook = nameof(IsCurPlayerChanged))]
     [SyncVar]
     public bool isCurPlayer;
     [SyncVar] public int clientId;
@@ -57,19 +56,8 @@ public class Player : NetworkBehaviour
             Debug.Log("Enough Players joined - Active UI");
 
             GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
-            
-            //RpcActivateMapGenerationUI();
         }
     }
-
-    //[ClientRpc]
-    //private void RpcActivateMapGenerationUI()
-    //{
-    //    if (isServer)
-    //    {
-    //        uiHandler.ActivateMapGenerationUIHost();
-    //    }
-    //}
 
     // -- Map Generation --
     [Client]
