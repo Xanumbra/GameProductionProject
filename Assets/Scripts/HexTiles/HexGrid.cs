@@ -12,6 +12,10 @@ public class HexGrid : MonoBehaviour
 	public HexVertices verticePrefab;
 	public Text cellLabelPrefab;
 
+	public GameObject cellParent;
+	public GameObject edgeParent;
+	public GameObject verticesParent;
+
 	public HexCell[] cells;
 	public List<HexVertices> hexVertices;
 	public List<HexEdges> hexEdges;
@@ -75,6 +79,7 @@ public class HexGrid : MonoBehaviour
             {
 				HexVertices newVertice = Instantiate(verticePrefab);
 				newVertice.transform.SetPositionAndRotation(expectedPosition, Quaternion.identity);
+				newVertice.transform.SetParent(verticesParent.transform);
 				hexVertices.Add(newVertice);
 				hexcell.hexVertices.Add(newVertice);
             }
@@ -95,6 +100,7 @@ public class HexGrid : MonoBehaviour
             {
 				HexEdges newEdge = Instantiate(edgePrefab);
 				newEdge.transform.SetPositionAndRotation(expectedPosition, Quaternion.identity);
+				newEdge.transform.SetParent(edgeParent.transform);
 				hexEdges.Add(newEdge);
 				hexcell.hexVertices[i].connectedEdges.Add(newEdge);
 				hexcell.hexVertices[(i + 1) % 6].connectedEdges.Add(newEdge);
@@ -132,7 +138,7 @@ public class HexGrid : MonoBehaviour
 		position.z = z * (HexMetrics.outerRadius * 1.5f);
 		// Cell Part
 		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
-		cell.transform.SetParent(transform, false);
+		cell.transform.SetParent(cellParent.transform, false);
 		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 		cell.cellID = i;

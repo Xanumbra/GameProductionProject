@@ -7,10 +7,14 @@ public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
     public LineRenderer lineRenderer;
+
     public Vector3[] HexEdges;
     public List<HexVertices> hexVertices = new List<HexVertices>(6);
+
     public int cellID;
     public Enums.Resources cellResourceType;
+
+
 
     public void Awake()
     {
