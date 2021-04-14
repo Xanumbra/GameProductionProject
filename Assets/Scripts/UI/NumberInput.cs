@@ -10,8 +10,6 @@ public class NumberInput : MonoBehaviour
 
 	void Update()
 	{
-        inputField = GameObject.Find("/-UI/Canvas/UI_TextInput/NumberInput");
-        cameraComponent = Camera.main.GetComponent<CameraMovement>();
 		//Debug.Log(inputField);
   //      Debug.Log(inputField.GetComponent<InputField>());
   //      Debug.Log(inputField.GetComponent<InputField>().isFocused);

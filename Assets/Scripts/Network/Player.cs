@@ -9,9 +9,12 @@ public class Player : NetworkBehaviour
 
     [SyncVar] public int clientId;
 
+    private UIHandler uiHandler;
+
     [Client]
     public override void OnStartClient()
     {
+        uiHandler = FindObjectOfType<UIHandler>();
         if (isLocalPlayer)
         {
             Debug.Log("Spawning local Player");
@@ -48,19 +51,21 @@ public class Player : NetworkBehaviour
         if (TurnManager.Instance.players.Count == 2)
         {
             Debug.Log("Enough Players joined - Active UI");
+
             GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
-            RpcActivateUI();
+            
+            //RpcActivateMapGenerationUI();
         }
     }
 
-    [ClientRpc]
-    private void RpcActivateUI()
-    {
-        if (isServer)
-        {
-            FindObjectOfType<UIHandler>().ActivateUI();
-        }
-    }
+    //[ClientRpc]
+    //private void RpcActivateMapGenerationUI()
+    //{
+    //    if (isServer)
+    //    {
+    //        uiHandler.ActivateMapGenerationUIHost();
+    //    }
+    //}
 
     // -- Map Generation --
     [Client]
@@ -81,7 +86,39 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     void RpcShowSeedOnClients(int seed)
     {
-        FindObjectOfType<UIHandler>().ShowSeed(seed);
+        uiHandler.UpdateSeedVal(seed);
+    }
+
+    // -- Start Game --
+    [Client]
+    public void StartGame()
+    {
+        CmdStartGame();
+    }
+
+    [Command]
+    void CmdStartGame()
+    {
+        GameManager.Instance.curGameState = Enums.GameState.turnDetermization;
+    }
+
+    // -- UI Updates --
+    [Client]
+    public void UpdateGameState(string curGameState)
+    {
+        uiHandler.UpdateCurStateVal(curGameState);
+    }
+
+    [Client]
+    public void UpdateCurPlayer(string curPlayer)
+    {
+        uiHandler.UpdateCurPlayerVal(curPlayer);
+    }
+
+    [Client]
+    public void SwitchGameStateUI(Enums.GameState newState)
+    {
+        FindObjectOfType<UIHandler>().SwitchGameStateUI(newState);
     }
 
 

@@ -23,7 +23,7 @@ public class Enums
     {
         waitingForPlayers,
         mapGeneration,
-        turnDetermination,
+        turnDetermization,
         preGame,
         inGame,
         postGame

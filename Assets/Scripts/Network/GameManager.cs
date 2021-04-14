@@ -19,17 +19,19 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [SyncVar] public Enums.GameState curGameState;
+    [SyncVar(hook = nameof(UpdateGameState))]
+    public Enums.GameState curGameState;
 
     void Start()
     {
         curGameState = Enums.GameState.waitingForPlayers;
     }
 
-    void Update()
+    // Sync var Hook --> Called on Client when SyncVar changes
+    void UpdateGameState(Enums.GameState oldState, Enums.GameState newState)
     {
-        
+        Debug.Log($"Game State changed from {oldState.ToString()} to {newState.ToString()}");
+        Player.localPlayer.UpdateGameState(newState.ToString());
+        Player.localPlayer.SwitchGameStateUI(newState);
     }
-
-
 }

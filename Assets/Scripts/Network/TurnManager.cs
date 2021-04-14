@@ -21,7 +21,9 @@ public class TurnManager : NetworkBehaviour
             _instance = this;
         }
     }
-    [SyncVar] public Player curPlayer;
+
+    [SyncVar(hook = nameof(UpdateCurPlayer))]
+    public Player curPlayer;
 
     public SyncListPlayer players = new SyncListPlayer();
 
@@ -46,5 +48,12 @@ public class TurnManager : NetworkBehaviour
     {
         curPlayer = p;
         Debug.Log($"Switched curPlayer");
+    }
+
+    void UpdateCurPlayer(Player oldPlayer, Player newPlayer)
+    {
+        var s = "player " + players.IndexOf(curPlayer);
+        Debug.Log($"Current Player changed to {s}");
+        Player.localPlayer.UpdateGameState(s);
     }
 }
