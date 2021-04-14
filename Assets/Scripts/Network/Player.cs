@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Linq;
 
 public class Player : NetworkBehaviour
 {
     public static Player localPlayer;
 
+    //[SyncVar(hook = nameof(IsCurPlayerChanged))]
+    [SyncVar]
+    public bool isCurPlayer;
     [SyncVar] public int clientId;
 
     private UIHandler uiHandler;
@@ -44,9 +48,9 @@ public class Player : NetworkBehaviour
     private void CmdClientJoined(Player p)
     {
         var rnd = new System.Random();
-        clientId = NetworkServer.connections.Count;
 
         TurnManager.Instance.AddPlayer(p);
+        clientId = TurnManager.Instance.players.IndexOf(p);
 
         if (TurnManager.Instance.players.Count == 2)
         {
@@ -93,13 +97,49 @@ public class Player : NetworkBehaviour
     [Client]
     public void StartGame()
     {
-        CmdStartGame();
+        CmdStartGame(localPlayer);
     }
 
     [Command]
-    void CmdStartGame()
+    void CmdStartGame(Player host)
     {
         GameManager.Instance.curGameState = Enums.GameState.turnDetermization;
+        TurnManager.Instance.SetCurPlayer(host);
+    }
+
+    // -- Roll Dice --
+    [Client]
+    public void RollDice()
+    {
+        CmdRollDice();
+    }
+
+    [Command]
+    void CmdRollDice()
+    {
+        int diceVal1;
+        int diceVal2;
+        var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
+        RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+    }
+
+    [ClientRpc]
+    void RpcShowDiceOnClients(int diceSum, int diceVal1, int diceVal2)
+    {
+        uiHandler.ShowDiceVal(diceSum, diceVal1, diceVal2);
+    }
+
+    // -- Turn Finishing --
+    [Client]
+    public void FinishTurn()
+    {
+        CmdFinishTurn();
+    }
+
+    [Command]
+    void CmdFinishTurn()
+    {
+        TurnManager.Instance.SetCurPlayerNext();
     }
 
     // -- UI Updates --
@@ -118,9 +158,23 @@ public class Player : NetworkBehaviour
     [Client]
     public void SwitchGameStateUI(Enums.GameState newState)
     {
-        FindObjectOfType<UIHandler>().SwitchGameStateUI(newState);
+        uiHandler.SwitchGameStateUI(newState);
     }
 
+    [Client]
+    public void SwitchCurPlayerUI(Player newPlayer)
+    {
+        if (this == newPlayer)
+        {
+            uiHandler.ActivateCurPlayerUI(newPlayer);
+            Debug.Log("Activate Current Player UI");
+        }
+        else
+        {
+            uiHandler.DeActivatecurPlayerUI();
+            Debug.Log("DeActivate Current Player UI");
+        }
+    }
 
     #region Temp / Debug
     [Client]
@@ -132,12 +186,11 @@ public class Player : NetworkBehaviour
     [Command]
     private void CmdGetCurPlayer()
     {
-        if (TurnManager.Instance.curPlayer == null)
+        if (TurnManager.Instance.curPlayer != null)
         {
-            TurnManager.Instance.SetCurPlayer(TurnManager.Instance.players[0]);
-        }
-
-        TargetGetCurPlayer(TurnManager.Instance.curPlayer);
+            //TurnManager.Instance.SetCurPlayer(TurnManager.Instance.players[0]);
+            TargetGetCurPlayer(TurnManager.Instance.curPlayer);
+        }  
     }
 
     [TargetRpc]

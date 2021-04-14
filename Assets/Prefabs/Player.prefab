@@ -62,6 +62,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
-  turnManagerPrefab: {fileID: 6726268878783275784, guid: 9e1ffe9632b257245a10e496afbd2f91,
-    type: 3}
+  syncInterval: 0
+  clientId: 0

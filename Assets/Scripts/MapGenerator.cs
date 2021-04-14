@@ -94,9 +94,9 @@ public class MapGenerator : NetworkBehaviour
 
     void OnEnable()
     {
-        InitNumbers68();
-        InitNumbersOthers();
-        PrintNumbers();
+        //InitNumbers68();
+        //InitNumbersOthers();
+        //PrintNumbers();
     }
 
     [Server]
@@ -166,7 +166,7 @@ public class MapGenerator : NetworkBehaviour
             }
             catch
             {
-                Debug.Log("No text at sun");
+                //Debug.Log("No text at sun");
             }
         }
     }

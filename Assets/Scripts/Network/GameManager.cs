@@ -31,6 +31,7 @@ public class GameManager : NetworkBehaviour
     void UpdateGameState(Enums.GameState oldState, Enums.GameState newState)
     {
         Debug.Log($"Game State changed from {oldState.ToString()} to {newState.ToString()}");
+
         Player.localPlayer.UpdateGameState(newState.ToString());
         Player.localPlayer.SwitchGameStateUI(newState);
     }
