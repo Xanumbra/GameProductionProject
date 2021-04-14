@@ -1185,7 +1185,7 @@ MonoBehaviour:
   - planetPrefab: {fileID: 2633949116885637790, guid: 4f0c22a93ee23a944b99e750eb6fca26,
       type: 3}
     resource: 3
-  - planetPrefab: {fileID: 919132149155446097, guid: e87d829b11fa8e34491081aee4d14340,
+  - planetPrefab: {fileID: 5761989650644836351, guid: f5026a77dc5db2c4d81ab264c5b52ef4,
       type: 3}
     resource: 1
   - planetPrefab: {fileID: 6918734734687564252, guid: cb6773cf6de990748947222b316efed7,
