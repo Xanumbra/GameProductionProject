@@ -20,6 +20,8 @@ public class UIHandler : MonoBehaviour
     public TMP_Text diceValRemote;
     private bool isDiceRolling = false;
 
+    public GameObject clickManager;
+
     public GameObject finishTurnBtn;
 
     private void Start()
@@ -97,6 +99,8 @@ public class UIHandler : MonoBehaviour
         ActivateRemoteUI(false);
 
         finishTurnBtn.SetActive(true);
+
+        clickManager.SetActive(true);
     }
 
     public void DeActivatecurPlayerUI()
@@ -107,6 +111,8 @@ public class UIHandler : MonoBehaviour
         ActivateRemoteUI(true);
 
         finishTurnBtn.SetActive(false);
+
+        clickManager.SetActive(false);
     }
 
     void ActivateDiceUI(bool activate)

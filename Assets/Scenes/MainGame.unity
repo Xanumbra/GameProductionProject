@@ -2534,6 +2534,7 @@ MonoBehaviour:
   rollDiceBtn: {fileID: 2138073823}
   diceValLocal: {fileID: 1934982644}
   diceValRemote: {fileID: 874098542}
+  clickManager: {fileID: 1476196965}
   finishTurnBtn: {fileID: 1963126270}
 --- !u!1 &1196963979
 GameObject:
@@ -3326,7 +3327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1476196966
 Transform:
   m_ObjectHideFlags: 0

@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class ObjectClicker : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        Debug.Log("Object Clicker Enabled");
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("Object Clicker Disabled");
+    }
+
     // Update is called once per frame
     void Update()
     {
