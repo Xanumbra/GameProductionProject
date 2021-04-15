@@ -25,6 +25,17 @@ public class ObjectClicker : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 1000.0f))
             {
                 PrintName(hit.transform.gameObject);
+                Enums.BuildingType type = Enums.BuildingType.None;
+                if (hit.transform.gameObject.name.Contains("Edge"))
+                {
+                    type = Enums.BuildingType.Road;
+                }
+                else if (hit.transform.gameObject.name.Contains("Vertex"))
+                {
+                    type = Enums.BuildingType.Settlement;
+                }
+
+                Player.localPlayer.PlaceBuilding(hit.transform.gameObject, type);
             }
             else
             {

@@ -24,6 +24,8 @@ public class UIHandler : MonoBehaviour
 
     public GameObject finishTurnBtn;
 
+    public GameObject placementConfirmationMenu;
+
     private void Start()
     {
         seedInput = seedInputParent.GetComponentInChildren<InputField>();
@@ -179,5 +181,23 @@ public class UIHandler : MonoBehaviour
         
         diceValLocal.text = diceVal1 + " + " + diceVal2 + " = " + diceSum;
         diceValRemote.text = diceVal1 + " + " + diceVal2 + " = " + diceSum;
+    }
+
+    // -- Place Building --
+    public void OpenPlacementConfirmation()
+    {
+        placementConfirmationMenu.SetActive(true);
+    }
+
+    public void PlacementConfirmationYes()
+    {
+        Player.localPlayer.ConfirmPlacement(true);
+        placementConfirmationMenu.SetActive(false);
+    }
+
+    public void PlacementConfirmationNo()
+    {
+        Player.localPlayer.ConfirmPlacement(false);
+        placementConfirmationMenu.SetActive(false);
     }
 }

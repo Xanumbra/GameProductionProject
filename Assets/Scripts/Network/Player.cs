@@ -8,8 +8,7 @@ public class Player : NetworkBehaviour
 {
     public static Player localPlayer;
 
-    [SyncVar]
-    public bool isCurPlayer;
+    [SyncVar] public bool isCurPlayer;
     [SyncVar] public int clientId;
 
     private UIHandler uiHandler;
@@ -128,6 +127,35 @@ public class Player : NetworkBehaviour
     void CmdFinishTurn()
     {
         TurnManager.Instance.SetCurPlayerNext();
+    }
+
+    // -- Building Placement --
+    private Enums.BuildingType currentType;
+    private Vector3 buildingPos;
+    private Quaternion buildingRot;
+
+    [Client]
+    public void PlaceBuilding(GameObject hex, Enums.BuildingType type)
+    {
+        buildingPos = hex.transform.position;
+        buildingRot = hex.transform.rotation;
+        currentType = type;
+
+        ObjectPlacer.Instance.PlacePreview(hex, type);
+        uiHandler.OpenPlacementConfirmation();
+    }
+
+    [Client]
+    public void ConfirmPlacement(bool confirm)
+    {
+        ObjectPlacer.Instance.ConfirmPlacement(confirm);
+        if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType);
+    }
+
+    [Command]
+    void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type)
+    {
+        ObjectPlacer.Instance.SpawnBuilding(pos, rot, type);
     }
 
     // -- UI Updates --
