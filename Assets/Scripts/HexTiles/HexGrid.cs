@@ -99,7 +99,10 @@ public class HexGrid : MonoBehaviour
 			if(edge == null)
             {
 				HexEdges newEdge = Instantiate(edgePrefab);
-				newEdge.transform.SetPositionAndRotation(expectedPosition, Quaternion.identity);
+                var rotation = Quaternion.Euler(0, 0, 0);
+                if (i == 0 || i == 3) rotation = Quaternion.Euler(0, -60, 0);
+                else if (i == 2 || i == 5) rotation = Quaternion.Euler(0, 60, 0);
+				newEdge.transform.SetPositionAndRotation(expectedPosition, rotation);
 				newEdge.transform.SetParent(edgeParent.transform);
 				hexEdges.Add(newEdge);
 				hexcell.hexVertices[i].connectedEdges.Add(newEdge);
