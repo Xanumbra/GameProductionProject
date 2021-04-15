@@ -628,7 +628,7 @@ MonoBehaviour:
   serverBatching: 0
   serverBatchInterval: 0
   offlineScene: Assets/Scenes/StartMenuScene.unity
-  onlineScene: Assets/Scenes/SampleScene.unity
+  onlineScene: Assets/Scenes/MainGame.unity
   transport: {fileID: 761385418}
   networkAddress: localhost
   maxConnections: 4
