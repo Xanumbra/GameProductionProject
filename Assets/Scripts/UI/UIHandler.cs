@@ -74,6 +74,8 @@ public class UIHandler : MonoBehaviour
                 {
                     clickManager.GetComponent<ObjectClicker>().enabled = true;
                 }
+                ActivateDiceUI(false);
+                ActivateRemoteDiceUI(false);
                 break;
         }
     }
@@ -104,7 +106,7 @@ public class UIHandler : MonoBehaviour
         Debug.Log("Activate CurPlayer UI");
 
         ActivateDiceUI(true);
-        ActivateRemoteUI(false);
+        ActivateRemoteDiceUI(false);
 
         finishTurnBtn.SetActive(true);
 
@@ -119,7 +121,7 @@ public class UIHandler : MonoBehaviour
         Debug.Log("DeActivate CurPlayer UI");
 
         ActivateDiceUI(false);
-        ActivateRemoteUI(true);
+        ActivateRemoteDiceUI(true);
 
         finishTurnBtn.SetActive(false);
 
@@ -134,7 +136,7 @@ public class UIHandler : MonoBehaviour
         rollDiceBtn.GetComponent<Button>().interactable = activate;
     }
 
-    void ActivateRemoteUI(bool activate)
+    void ActivateRemoteDiceUI(bool activate)
     {
         diceValRemote.text = "";
         diceValRemote.gameObject.SetActive(activate);
