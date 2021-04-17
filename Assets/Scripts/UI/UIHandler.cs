@@ -7,6 +7,8 @@ using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
+    public TMP_Text localPlayerName;
+
     public GameObject mapGenerationStateBtns;
     public GameObject seedInputParent;
     InputField seedInput;
@@ -68,6 +70,10 @@ public class UIHandler : MonoBehaviour
                 ActivateInfoTexts(true);
                 break;
             case Enums.GameState.preGame:
+                if (Player.localPlayer == TurnManager.Instance.curPlayer)
+                {
+                    clickManager.GetComponent<ObjectClicker>().enabled = true;
+                }
                 break;
         }
     }
@@ -102,7 +108,10 @@ public class UIHandler : MonoBehaviour
 
         finishTurnBtn.SetActive(true);
 
-        clickManager.SetActive(true);
+        if (GameManager.Instance.curGameState == Enums.GameState.inGame || GameManager.Instance.curGameState == Enums.GameState.preGame)
+        {
+            clickManager.GetComponent<ObjectClicker>().enabled = true;
+        }
     }
 
     public void DeActivatecurPlayerUI()
@@ -114,7 +123,7 @@ public class UIHandler : MonoBehaviour
 
         finishTurnBtn.SetActive(false);
 
-        clickManager.SetActive(false);
+        clickManager.GetComponent<ObjectClicker>().enabled = false;
     }
 
     void ActivateDiceUI(bool activate)
@@ -145,6 +154,11 @@ public class UIHandler : MonoBehaviour
     public void UpdateCurStateVal(string curState)
     {
         curStateVal.text = curState;
+    }
+
+    public void SetLocalPlayerName(string name)
+    {
+        localPlayerName.text = name;
     }
 
     // -- Dice --

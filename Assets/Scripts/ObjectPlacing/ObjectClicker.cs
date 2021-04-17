@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ObjectClicker : MonoBehaviour
 {
+    private void Awake()
+    {
+        gameObject.SetActive(false);    
+    }
+
     private void OnEnable()
     {
         Debug.Log("Object Clicker Enabled");

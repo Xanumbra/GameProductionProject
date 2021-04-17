@@ -49,6 +49,7 @@ public class Player : NetworkBehaviour
 
         TurnManager.Instance.AddPlayer(p);
         clientId = TurnManager.Instance.players.IndexOf(p);
+        TargetClientJoined(clientId);
 
         if (TurnManager.Instance.players.Count == 2)
         {
@@ -56,6 +57,12 @@ public class Player : NetworkBehaviour
 
             GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
         }
+    }
+
+    [TargetRpc]
+    private void TargetClientJoined(int clientId)
+    {
+        uiHandler.SetLocalPlayerName("player " + clientId);
     }
 
     // -- Map Generation --
@@ -148,7 +155,7 @@ public class Player : NetworkBehaviour
     [Client]
     public void ConfirmPlacement(bool confirm)
     {
-        ObjectPlacer.Instance.ConfirmPlacement(confirm);
+        ObjectPlacer.Instance.ConfirmPlacement();
         if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType);
     }
 

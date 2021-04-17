@@ -78,7 +78,7 @@ public class ObjectPlacer : NetworkBehaviour
     }
 
     [Client]
-    public void ConfirmPlacement(bool confirm)
+    public void ConfirmPlacement()
     {
         objClicker.enabled = true;
         currentlyPreviewing = false;
