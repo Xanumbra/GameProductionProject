@@ -10,6 +10,7 @@ public class Player : NetworkBehaviour
 
     [SyncVar] public bool isCurPlayer;
     [SyncVar] public int clientId;
+    [SyncVar] public Color playerColor;
 
     private UIHandler uiHandler;
 
@@ -50,12 +51,33 @@ public class Player : NetworkBehaviour
         TurnManager.Instance.AddPlayer(p);
         clientId = TurnManager.Instance.players.IndexOf(p);
         TargetClientJoined(clientId);
+        SetPlayerColor();
 
         if (TurnManager.Instance.players.Count == 2)
         {
             Debug.Log("Enough Players joined - Active UI");
 
             GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
+        }
+    }
+
+    [Server]
+    void SetPlayerColor()
+    {
+        switch (clientId)
+        {
+            case 0:
+                playerColor = Color.red;
+                break;
+            case 1:
+                playerColor = Color.blue;
+                break;
+            case 2:
+                playerColor = Color.magenta;
+                break;
+            case 3:
+                playerColor = Color.green;
+                break;
         }
     }
 
@@ -148,7 +170,7 @@ public class Player : NetworkBehaviour
         buildingRot = hex.transform.rotation;
         currentType = type;
 
-        ObjectPlacer.Instance.PlacePreview(hex, type);
+        ObjectPlacer.Instance.PlacePreview(hex, type, playerColor);
         uiHandler.OpenPlacementConfirmation();
     }
 
@@ -156,13 +178,13 @@ public class Player : NetworkBehaviour
     public void ConfirmPlacement(bool confirm)
     {
         ObjectPlacer.Instance.ConfirmPlacement();
-        if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType);
+        if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer);
     }
 
     [Command]
-    void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type)
+    void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner)
     {
-        ObjectPlacer.Instance.SpawnBuilding(pos, rot, type);
+        ObjectPlacer.Instance.SpawnBuilding(pos, rot, type, owner);
     }
 
     // -- UI Updates --
@@ -213,7 +235,7 @@ public class Player : NetworkBehaviour
         {
             //TurnManager.Instance.SetCurPlayer(TurnManager.Instance.players[0]);
             TargetGetCurPlayer(TurnManager.Instance.curPlayer);
-        }  
+        }
     }
 
     [TargetRpc]

@@ -31,7 +31,7 @@ public class ObjectPlacer : NetworkBehaviour
     private bool currentlyPreviewing;
 
     [Client]
-    public void PlacePreview(GameObject hexObject, Enums.BuildingType type)
+    public void PlacePreview(GameObject hexObject, Enums.BuildingType type, Color playerColor)
     {
         currentlyPreviewing = true;
         objClicker.enabled = false;
@@ -49,6 +49,7 @@ public class ObjectPlacer : NetworkBehaviour
                 break;
         }
 
+        currentBuilding.GetComponent<MeshRenderer>().material.color = playerColor;
         currentBuilding.transform.position = hexObject.transform.position + new Vector3(0, 8, 0);
         currentBuilding.transform.rotation = hexObject.transform.rotation;
         StartCoroutine(AnimatePreviewBuilding());
@@ -87,7 +88,7 @@ public class ObjectPlacer : NetworkBehaviour
     }
 
     [Server]
-    public void SpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type)
+    public void SpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner)
     {
         var newObj = gameObject;
         switch (type)
@@ -103,6 +104,7 @@ public class ObjectPlacer : NetworkBehaviour
                 break;
         }
 
+        newObj.GetComponent<Building>().owner = owner;
         newObj.transform.position = pos;
         newObj.transform.rotation = rot;
 
