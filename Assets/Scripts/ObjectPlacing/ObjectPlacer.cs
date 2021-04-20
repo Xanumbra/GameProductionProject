@@ -24,6 +24,7 @@ public class ObjectPlacer : NetworkBehaviour
     public GameObject cityPrefab;
     public GameObject roadPrefab;
     public GameObject settlementPrefab;
+    public Transform buildingsParent;
 
     private ObjectClicker objClicker;
 
@@ -39,13 +40,13 @@ public class ObjectPlacer : NetworkBehaviour
         switch (type)
         {
             case Enums.BuildingType.City:
-                currentBuilding = Instantiate(cityPrefab);
+                currentBuilding = Instantiate(cityPrefab, buildingsParent);
                 break;
             case Enums.BuildingType.Road:
-                currentBuilding = Instantiate(roadPrefab);
+                currentBuilding = Instantiate(roadPrefab, buildingsParent);
                 break;
             case Enums.BuildingType.Settlement:
-                currentBuilding = Instantiate(settlementPrefab);
+                currentBuilding = Instantiate(settlementPrefab, buildingsParent);
                 break;
         }
 
@@ -94,17 +95,18 @@ public class ObjectPlacer : NetworkBehaviour
         switch (type)
         {
             case Enums.BuildingType.City:
-                newObj = Instantiate(cityPrefab);
+                newObj = Instantiate(cityPrefab, buildingsParent);
                 break;
             case Enums.BuildingType.Road:
-                newObj = Instantiate(roadPrefab);
+                newObj = Instantiate(roadPrefab, buildingsParent);
                 break;
             case Enums.BuildingType.Settlement:
-                newObj = Instantiate(settlementPrefab);
+                newObj = Instantiate(settlementPrefab, buildingsParent);
                 break;
         }
 
         newObj.GetComponent<Building>().owner = owner;
+        newObj.GetComponent<Building>().parent = buildingsParent;
         newObj.transform.position = pos;
         newObj.transform.rotation = rot;
 
