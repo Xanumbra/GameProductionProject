@@ -23,18 +23,16 @@ public class InfoBoxManager : MonoBehaviour
         }
         infoBox = infoBoxHolder;
     }
-    private void Start()
-    {
-        writeMessage("Hello, world!");
-        writeMessage("Test Message");
-    }
-
     static void writeMessage(string message)
     {
         infoBox.text += "\n" + message;
     }
-    static void playerTurnMessage(string playername)
+    static void playerTurnMessage(string playerName)
     {
-        infoBox.text += "\nIt's "+ playername +"'s turn.";
+        infoBox.text += "\nIt's "+ playerName +"'s turn.";
+    }
+    static void diceRollMessage(string playerName,int diceTotal)
+    {
+        infoBox.text += "\n" + playerName + " rolled " + diceTotal + ".";
     }
 }
