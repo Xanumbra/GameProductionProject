@@ -7,6 +7,7 @@ public class DragMovement : MonoBehaviour
 {
     public bool movable = true;
     public float dragSpeed = 1;
+    private bool anotherBool;
     bool clicked = false;
     private Vector3 screenPoint;
     private Vector3 previousPoint;
