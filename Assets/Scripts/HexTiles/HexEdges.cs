@@ -6,4 +6,20 @@ public class HexEdges : MonoBehaviour
 {
     public HexVertices[] connectedVertices = new HexVertices[2];
 
+    public bool hasRoad = false;
+
+
+    public bool HasNeighborSettlement(HexVertices caller)
+    {
+        foreach (var vertex in connectedVertices)
+        {
+            if (vertex != caller && vertex.hasSettlement)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

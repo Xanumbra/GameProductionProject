@@ -162,12 +162,14 @@ public class Player : NetworkBehaviour
     private Enums.BuildingType currentType;
     private Vector3 buildingPos;
     private Quaternion buildingRot;
+    private int objectIndex;
 
     [Client]
-    public void PlaceBuilding(GameObject hex, Enums.BuildingType type)
+    public void PlaceBuilding(GameObject hex, Enums.BuildingType type, int objectIndex)
     {
         buildingPos = hex.transform.position;
         buildingRot = hex.transform.rotation;
+        this.objectIndex = objectIndex;
         currentType = type;
 
         ObjectPlacer.Instance.PlacePreview(hex, type, playerColor);
@@ -178,13 +180,27 @@ public class Player : NetworkBehaviour
     public void ConfirmPlacement(bool confirm)
     {
         ObjectPlacer.Instance.ConfirmPlacement();
-        if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer);
+        if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer, objectIndex);
     }
 
     [Command]
-    void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner)
+    void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner, int objectIndex)
     {
         ObjectPlacer.Instance.SpawnBuilding(pos, rot, type, owner);
+        RpcUpdateVertexSettlement(type, objectIndex);
+    }
+
+    [ClientRpc]
+    void RpcUpdateVertexSettlement(Enums.BuildingType type, int objectIndex)
+    {
+        if (type == Enums.BuildingType.Settlement)
+        {
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateVertex(objectIndex);
+        }
+        else if (type == Enums.BuildingType.Road)
+        {
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex);
+        }
     }
 
     // -- UI Updates --
