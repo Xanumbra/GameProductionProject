@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
-public class ObjectClicker : NetworkBehaviour
+public class ObjectClicker : MonoBehaviour
 {
     public HexGrid hexGrid;
 
@@ -37,25 +36,28 @@ public class ObjectClicker : NetworkBehaviour
                 Enums.BuildingType type = Enums.BuildingType.None;
                 if (clickedObject.name.Contains("Edge"))
                 {
-                    // TODO -- ADD PLACEMENT RULES FOR ROADS
                     type = Enums.BuildingType.Road;
                     var hexEdge = clickedObject.GetComponent<HexEdges>();
-                    hexEdge.hasRoad = true;
-                    Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexEdges.IndexOf(hexEdge));
-
+                    if (hexEdge.IsRoadValid())
+                    {
+                        Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexEdges.IndexOf(hexEdge));
+                    }
+                    else
+                    {
+                        Debug.Log("Cannot Build here");
+                    }
                 }
                 else if (clickedObject.name.Contains("Vertex"))
                 {
                     type = Enums.BuildingType.Settlement;
                     var hexVertex = clickedObject.GetComponent<HexVertices>();
-                    if (hexVertex.IsBuildingValid())
+                    if (hexVertex.IsSettlementValid())
                     {
-                        hexVertex.hasSettlement = true;
                         Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
                     }
                     else
                     {
-                        Debug.Log("Cannot Build here - Neighbor Collision");
+                        Debug.Log("Cannot Build here ");
                     }
                 }
             }
@@ -70,17 +72,18 @@ public class ObjectClicker : NetworkBehaviour
         Debug.Log(go.name);
     }
 
-    public void RpcUpdateVertex(int index)
+    public void RpcUpdateVertex(int index, bool localOwner)
     {
         hexGrid.hexVertices[index].hasSettlement = true;
+        hexGrid.hexVertices[index].localPlayerOwnsSettlement = localOwner;
         Debug.Log("Rpc Update Vertexx");
     }
 
 
-    public void RpcUpdateEdge(int index)
+    public void RpcUpdateEdge(int index, bool localOwner)
     {
         hexGrid.hexEdges[index].hasRoad = true;
+        hexGrid.hexEdges[index].localPlayerOwnsRoad = localOwner;
         Debug.Log("Rpc Update Road");
     }
-
 }

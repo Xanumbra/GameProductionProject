@@ -7,8 +7,9 @@ public class HexVertices : MonoBehaviour
     public List<HexEdges> connectedEdges;
 
     public bool hasSettlement = false;
+    public bool localPlayerOwnsSettlement = false;
 
-    public bool IsBuildingValid()
+    public bool IsSettlementValid()
     {
         foreach (var edge in connectedEdges)
         {
@@ -19,6 +20,27 @@ public class HexVertices : MonoBehaviour
             }
         }
 
+        if (GameManager.Instance.curGameState != Enums.GameState.preGame)
+        {
+            if (HasNeighborRoad())
+            {
+                return false;
+            }
+        }
+
         return true;
+    }
+
+    public bool HasNeighborRoad(HexEdges caller = null)
+    {
+        foreach (var edge in connectedEdges)
+        {
+            if (edge != caller && edge.hasRoad && edge.localPlayerOwnsRoad)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

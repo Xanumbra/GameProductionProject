@@ -187,19 +187,19 @@ public class Player : NetworkBehaviour
     void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner, int objectIndex)
     {
         ObjectPlacer.Instance.SpawnBuilding(pos, rot, type, owner);
-        RpcUpdateVertexSettlement(type, objectIndex);
+        RpcUpdateVertexSettlement(type, objectIndex, owner);
     }
 
     [ClientRpc]
-    void RpcUpdateVertexSettlement(Enums.BuildingType type, int objectIndex)
+    void RpcUpdateVertexSettlement(Enums.BuildingType type, int objectIndex, Player owner)
     {
         if (type == Enums.BuildingType.Settlement)
         {
-            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateVertex(objectIndex);
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateVertex(objectIndex, localPlayer == owner);
         }
         else if (type == Enums.BuildingType.Road)
         {
-            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex);
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex, localPlayer == owner);
         }
     }
 
