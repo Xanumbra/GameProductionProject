@@ -53,7 +53,7 @@ public class Player : NetworkBehaviour
         TargetClientJoined(clientId);
         SetPlayerColor();
 
-        if (TurnManager.Instance.players.Count == 3)
+        if (TurnManager.Instance.players.Count == 2)
         {
             Debug.Log("Enough Players joined - Active UI");
 

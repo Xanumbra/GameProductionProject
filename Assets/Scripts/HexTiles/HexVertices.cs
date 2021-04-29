@@ -15,15 +15,16 @@ public class HexVertices : MonoBehaviour
         {
             if (edge.HasNeighborSettlement(this))
             {
-
+                Debug.Log("Cannot Build Settlement - Neighbor Settlement");
                 return false;
             }
         }
 
         if (GameManager.Instance.curGameState != Enums.GameState.preGame)
         {
-            if (HasNeighborRoad())
+            if (HasNeighborRoad() == false)
             {
+                Debug.Log("Cannot Build Settlement - Must be next to Road");
                 return false;
             }
         }

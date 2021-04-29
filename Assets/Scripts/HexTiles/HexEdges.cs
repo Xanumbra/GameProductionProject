@@ -24,6 +24,7 @@ public class HexEdges : MonoBehaviour
             }
         }
 
+        Debug.Log("Cannot build Road here - Must be next to Settlement or other Road");
         return false;
     }
 

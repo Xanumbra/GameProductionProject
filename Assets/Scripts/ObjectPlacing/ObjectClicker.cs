@@ -42,10 +42,6 @@ public class ObjectClicker : MonoBehaviour
                     {
                         Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexEdges.IndexOf(hexEdge));
                     }
-                    else
-                    {
-                        Debug.Log("Cannot Build Road here - Must be next to Settlement");
-                    }
                 }
                 else if (clickedObject.name.Contains("Vertex"))
                 {
@@ -54,10 +50,6 @@ public class ObjectClicker : MonoBehaviour
                     if (hexVertex.IsSettlementValid())
                     {
                         Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
-                    }
-                    else
-                    {
-                        Debug.Log("Cannot Build Settlement here");
                     }
                 }
             }
