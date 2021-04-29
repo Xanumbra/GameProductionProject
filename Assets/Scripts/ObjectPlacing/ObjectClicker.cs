@@ -44,7 +44,7 @@ public class ObjectClicker : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Cannot Build here");
+                        Debug.Log("Cannot Build Road here - Must be next to Settlement");
                     }
                 }
                 else if (clickedObject.name.Contains("Vertex"))
@@ -57,7 +57,7 @@ public class ObjectClicker : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Cannot Build here ");
+                        Debug.Log("Cannot Build Settlement here");
                     }
                 }
             }

@@ -41,24 +41,30 @@ public class Player : NetworkBehaviour
         {
             Debug.Log("Remote Player disconnected");
         }
+
+        localPlayer.CmdClientLeft(this);
     }
 
     [Command]
-    private void CmdClientJoined(Player p)
+    void CmdClientJoined(Player p)
     {
-        var rnd = new System.Random();
-
         TurnManager.Instance.AddPlayer(p);
         clientId = TurnManager.Instance.players.IndexOf(p);
         TargetClientJoined(clientId);
         SetPlayerColor();
 
-        if (TurnManager.Instance.players.Count == 2)
+        if (TurnManager.Instance.players.Count == 3)
         {
             Debug.Log("Enough Players joined - Active UI");
 
             GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
         }
+    }
+
+    [Command]
+    void CmdClientLeft(Player p)
+    {
+        TurnManager.Instance.RemovePlayer(p);
     }
 
     [Server]
@@ -135,8 +141,30 @@ public class Player : NetworkBehaviour
     {
         int diceVal1;
         int diceVal2;
-        var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
-        RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+
+        if (GameManager.Instance.curGameState == Enums.GameState.turnDetermization)
+        {
+            bool lastRollTurnDetermization;
+            var diceSum = TurnManager.Instance.RollDiceTurnDetermization(out diceVal1, out diceVal2, out lastRollTurnDetermization);
+            RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+
+            if (!lastRollTurnDetermization)
+                StartCoroutine(WaitForDiceAnimation());
+        }
+        else
+        {
+            var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
+            RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+        }
+
+
+    }
+
+    [Server]
+    IEnumerator WaitForDiceAnimation()
+    {
+        yield return new WaitForSeconds(3f);
+        SrvFinishTurn();
     }
 
     [ClientRpc]
@@ -155,6 +183,12 @@ public class Player : NetworkBehaviour
     [Command]
     void CmdFinishTurn()
     {
+        SrvFinishTurn();
+    }
+
+    [Server]
+    void SrvFinishTurn()
+    {
         TurnManager.Instance.SetCurPlayerNext();
     }
 
@@ -167,6 +201,15 @@ public class Player : NetworkBehaviour
     [Client]
     public void PlaceBuilding(GameObject hex, Enums.BuildingType type, int objectIndex)
     {
+        if (GameManager.Instance.curGameState == Enums.GameState.preGame)
+        {
+            if(!CheckPreGameConstraints(type))
+            {
+                Debug.Log("Cannot Build " + type + " - PreGrameConstraint");
+                return;
+            }
+        }
+
         buildingPos = hex.transform.position;
         buildingRot = hex.transform.rotation;
         this.objectIndex = objectIndex;
@@ -176,11 +219,49 @@ public class Player : NetworkBehaviour
         uiHandler.OpenPlacementConfirmation();
     }
 
+    private bool hasBuiltSettlement;
+    private bool hasBuiltRoad;
+
+    [Client]
+    bool CheckPreGameConstraints(Enums.BuildingType type)
+    {
+        if (type == Enums.BuildingType.Settlement)
+        {
+            if (hasBuiltSettlement) return false;
+            hasBuiltSettlement = true;
+        }
+        else if (type == Enums.BuildingType.Road)
+        {
+            if (hasBuiltRoad) return false;
+            hasBuiltRoad = true;
+        }
+
+        return true;
+    }
+
     [Client]
     public void ConfirmPlacement(bool confirm)
     {
         ObjectPlacer.Instance.ConfirmPlacement();
-        if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer, objectIndex);
+        if (confirm)
+        {
+            CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer, objectIndex);
+
+            if (GameManager.Instance.curGameState == Enums.GameState.preGame && hasBuiltRoad && hasBuiltSettlement)
+            {
+                hasBuiltSettlement = false;
+                hasBuiltRoad = false;
+                CmdFinishTurn();
+            }
+        }
+        else
+        {
+            if (currentType == Enums.BuildingType.Road)
+                hasBuiltRoad = false;
+
+            else if (currentType == Enums.BuildingType.Settlement)
+                hasBuiltSettlement = false;
+        }
     }
 
     [Command]
@@ -227,12 +308,12 @@ public class Player : NetworkBehaviour
     {
         if (this == newPlayer)
         {
-            uiHandler.ActivateCurPlayerUI(newPlayer);
+            uiHandler.ActivateCurPlayerUI();
             Debug.Log("Activate Current Player UI");
         }
         else
         {
-            uiHandler.DeActivatecurPlayerUI();
+            uiHandler.DeActivateCurPlayerUI();
             Debug.Log("DeActivate Current Player UI");
         }
     }
@@ -261,4 +342,5 @@ public class Player : NetworkBehaviour
     }
 
     #endregion
+
 }
