@@ -15,7 +15,8 @@ public class HexVertices : MonoBehaviour
         {
             if (edge.HasNeighborSettlement(this))
             {
-                Debug.Log("Cannot Build Settlement - Neighbor Settlement");
+                // Debug.Log("Cannot Build Settlement - Neighbor Settlement");
+                InfoBoxManager.Instance.ErrorMessageOnClient("Cannot Build Settlement - Neighbor Settlement");
                 return false;
             }
         }

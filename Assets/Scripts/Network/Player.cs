@@ -109,6 +109,7 @@ public class Player : NetworkBehaviour
     }
 
 
+
     [ClientRpc]
     void RpcShowSeedOnClients(int seed)
     {
@@ -147,6 +148,7 @@ public class Player : NetworkBehaviour
             bool lastRollTurnDetermization;
             var diceSum = TurnManager.Instance.RollDiceTurnDetermization(out diceVal1, out diceVal2, out lastRollTurnDetermization);
             RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+            InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
 
             if (!lastRollTurnDetermization)
                 StartCoroutine(WaitForDiceAnimation());
@@ -154,6 +156,7 @@ public class Player : NetworkBehaviour
         else
         {
             var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
+            InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
             RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
         }
 
