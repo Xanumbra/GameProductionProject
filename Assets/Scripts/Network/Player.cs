@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
-
+[System.Serializable]
 public class Player : NetworkBehaviour
 {
     public static Player localPlayer;
