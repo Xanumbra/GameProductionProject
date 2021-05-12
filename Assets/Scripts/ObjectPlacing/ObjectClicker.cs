@@ -40,7 +40,12 @@ public class ObjectClicker : MonoBehaviour
                     var hexEdge = clickedObject.GetComponent<HexEdges>();
                     if (hexEdge.IsRoadValid())
                     {
-                        Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexEdges.IndexOf(hexEdge));
+                        if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(type))
+                            || GameManager.Instance.curGameState == Enums.GameState.preGame)
+                        {
+                            Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexEdges.IndexOf(hexEdge));
+                        }
+                        else Debug.Log("Not enough Resources");
                     }
                 }
                 else if (clickedObject.name.Contains("Vertex"))
@@ -49,7 +54,12 @@ public class ObjectClicker : MonoBehaviour
                     var hexVertex = clickedObject.GetComponent<HexVertices>();
                     if (hexVertex.IsSettlementValid())
                     {
-                        Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
+                        if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(type))
+                            || GameManager.Instance.curGameState == Enums.GameState.preGame)
+                        {
+                            Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
+                        }
+                        else Debug.Log("Not enough Resources");
                     }
                 }
             }

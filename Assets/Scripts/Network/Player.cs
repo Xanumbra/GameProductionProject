@@ -12,6 +12,12 @@ public class Player : NetworkBehaviour
     [SyncVar] public int clientId;
     [SyncVar] public Color playerColor;
 
+    [SyncVar] public int darkMatterAmount;
+    [SyncVar] public int spacePigAmount;
+    [SyncVar] public int waterAmount;
+    [SyncVar] public int metalAmount;
+    [SyncVar] public int energyAmount;
+
     private UIHandler uiHandler;
 
     [Client]
@@ -53,7 +59,7 @@ public class Player : NetworkBehaviour
         TargetClientJoined(clientId);
         SetPlayerColor();
 
-        if (TurnManager.Instance.players.Count == 2)
+        if (TurnManager.Instance.players.Count == 1)
         {
             Debug.Log("Enough Players joined - Active UI");
 
@@ -248,6 +254,9 @@ public class Player : NetworkBehaviour
         ObjectPlacer.Instance.ConfirmPlacement();
         if (confirm)
         {
+            if (GameManager.Instance.curGameState != Enums.GameState.preGame)
+                UseResources(currentType); // don't use resources in preGame
+
             CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer, objectIndex);
 
             if (GameManager.Instance.curGameState == Enums.GameState.preGame && hasBuiltRoad && hasBuiltSettlement)
@@ -285,6 +294,74 @@ public class Player : NetworkBehaviour
         {
             ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex, localPlayer == owner);
         }
+    }
+
+    // -- Resources --
+    [Client]
+    public bool HasResources(Enums.BuildingType type)
+    {
+        bool hasResources = false;
+
+        switch (type)
+        {
+            case Enums.BuildingType.City:
+                hasResources = (darkMatterAmount >= 3 && spacePigAmount >= 2);
+                break;
+            case Enums.BuildingType.Settlement:
+                hasResources = (spacePigAmount >= 1 && waterAmount >= 1 && energyAmount >= 1 && metalAmount >= 1);
+                break;
+            case Enums.BuildingType.Road:
+                hasResources = (metalAmount >= 1 && energyAmount >= 1);
+                break;
+        }
+
+        return hasResources;
+    }
+
+    [Command]
+    public void UseResources(Enums.BuildingType type)
+    {
+        switch (type)
+        {
+            case Enums.BuildingType.City:
+                ChangeResourceAmount(Enums.Resources.darkMatter, -3);
+                ChangeResourceAmount(Enums.Resources.spacePig, -2);
+                break;
+            case Enums.BuildingType.Settlement:
+                ChangeResourceAmount(Enums.Resources.spacePig, -1);
+                ChangeResourceAmount(Enums.Resources.water, -1);
+                ChangeResourceAmount(Enums.Resources.energy, -1);
+                ChangeResourceAmount(Enums.Resources.metal, -1);
+                break;
+            case Enums.BuildingType.Road:
+                ChangeResourceAmount(Enums.Resources.energy, -1);
+                ChangeResourceAmount(Enums.Resources.metal, -1);
+                break;
+        }
+    }
+
+    [Server]
+    void ChangeResourceAmount(Enums.Resources resource, int amount)
+    {
+        Debug.Log("Resources getting used: " + resource.ToString() + " - " + amount);
+        switch (resource)
+        {
+            case Enums.Resources.darkMatter:
+                darkMatterAmount += amount;
+                break;
+            case Enums.Resources.energy:
+                energyAmount += amount;
+                break;
+            case Enums.Resources.metal:
+                metalAmount += amount;
+                break;
+            case Enums.Resources.spacePig:
+                spacePigAmount += amount;
+                break;
+            case Enums.Resources.water:
+                waterAmount += amount;
+                break;
+        } 
     }
 
     // -- UI Updates --
