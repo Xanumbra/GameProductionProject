@@ -8,6 +8,7 @@ public class HexVertices : MonoBehaviour
 
     public bool hasSettlement = false;
     public bool localPlayerOwnsSettlement = false;
+    public int ownerIndex = -1;
 
     public bool IsSettlementValid()
     {

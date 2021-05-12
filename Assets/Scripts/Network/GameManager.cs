@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Linq;
 
 public class GameManager : NetworkBehaviour
 {
@@ -22,9 +23,13 @@ public class GameManager : NetworkBehaviour
     [SyncVar(hook = nameof(UpdateGameState))]
     public Enums.GameState curGameState;
 
+
+    private HexGrid hexGrid;
+
     void Start()
     {
         curGameState = Enums.GameState.waitingForPlayers;
+        hexGrid = FindObjectOfType<HexGrid>();
     }
 
     // Sync var Hook --> Called on Client when SyncVar changes
@@ -34,5 +39,25 @@ public class GameManager : NetworkBehaviour
 
         Player.localPlayer.UpdateGameState(newState.ToString());
         Player.localPlayer.SwitchGameStateUI(newState);
+    }
+
+    [Server]
+    public void DistributeResources(int diceSum)
+    {
+        var matchingCells = hexGrid.cells.Where(c => c.cellDiceNumber == diceSum).Select(c => c);
+
+
+        foreach (var cell in matchingCells)
+        {
+            Debug.Log(cell.cellID + "---" + cell.cellResourceType);
+
+            var ownerIndices = cell.hexVertices.Where(v => v.hasSettlement).Select(v => v.ownerIndex);
+
+            foreach (var i in ownerIndices)
+            {
+                TurnManager.Instance.players[i].ChangeResourceAmount(cell.cellResourceType, 1);
+            }
+
+        }
     }
 }

@@ -8,6 +8,7 @@ public class HexEdges : MonoBehaviour
 
     public bool hasRoad = false;
     public bool localPlayerOwnsRoad = false;
+    public int ownerIndex = -1;
 
     public bool IsRoadValid()
     {

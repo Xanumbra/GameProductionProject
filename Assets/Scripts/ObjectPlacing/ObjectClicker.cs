@@ -74,18 +74,20 @@ public class ObjectClicker : MonoBehaviour
         Debug.Log(go.name);
     }
 
-    public void RpcUpdateVertex(int index, bool localOwner)
+    public void RpcUpdateVertex(int index, bool localOwner, int ownerIndex)
     {
         hexGrid.hexVertices[index].hasSettlement = true;
         hexGrid.hexVertices[index].localPlayerOwnsSettlement = localOwner;
+        hexGrid.hexVertices[index].ownerIndex = ownerIndex;
         Debug.Log("Rpc Update Vertexx");
     }
 
 
-    public void RpcUpdateEdge(int index, bool localOwner)
+    public void RpcUpdateEdge(int index, bool localOwner, int ownerIndex)
     {
         hexGrid.hexEdges[index].hasRoad = true;
         hexGrid.hexEdges[index].localPlayerOwnsRoad = localOwner;
+        hexGrid.hexEdges[index].ownerIndex = ownerIndex;
         Debug.Log("Rpc Update Road");
     }
 }

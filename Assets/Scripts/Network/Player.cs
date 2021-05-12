@@ -164,6 +164,8 @@ public class Player : NetworkBehaviour
             var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
             InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
             RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+
+            GameManager.Instance.DistributeResources(diceSum);
         }
 
 
@@ -288,11 +290,11 @@ public class Player : NetworkBehaviour
     {
         if (type == Enums.BuildingType.Settlement)
         {
-            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateVertex(objectIndex, localPlayer == owner);
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
         }
         else if (type == Enums.BuildingType.Road)
         {
-            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex, localPlayer == owner);
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
         }
     }
 
@@ -341,9 +343,9 @@ public class Player : NetworkBehaviour
     }
 
     [Server]
-    void ChangeResourceAmount(Enums.Resources resource, int amount)
+    public void ChangeResourceAmount(Enums.Resources resource, int amount)
     {
-        Debug.Log("Resources getting used: " + resource.ToString() + " - " + amount);
+        Debug.Log("Resources Change: " + resource.ToString() + " - " + amount);
         switch (resource)
         {
             case Enums.Resources.darkMatter:
