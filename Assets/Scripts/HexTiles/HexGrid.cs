@@ -43,6 +43,7 @@ public class HexGrid : MonoBehaviour
 			AddVerticesToHexagon(cells[i]);
 			AddEdgesToVertices(cells[i]);
 		}
+		SetHarbors();
 	}
 	void CreateBoard()
     {
@@ -146,12 +147,61 @@ public class HexGrid : MonoBehaviour
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 		cell.cellID = i;
         // Label Part
+		/*
 		Text label = Instantiate<Text>(cellLabelPrefab);
 		label.rectTransform.SetParent(gridCanvas.transform, false);
 		label.rectTransform.anchoredPosition =
 			new Vector2(position.x, position.z);
 		label.text = cell.coordinates.ToStringOnSeparateLines();
-
-		
+		*/
+	}
+	void SetHarbors()
+    {
+		hexVertices[0].isHarbor = true;
+		hexVertices[0].harborType = 3;
+		hexVertices[5].isHarbor = true;
+		hexVertices[5].harborType = 3;
+		hexVertices[6].isHarbor = true;
+		hexVertices[6].harborType = 2;
+		hexVertices[6].harborResource = Enums.Resources.darkMatter;
+		hexVertices[7].isHarbor = true;
+		hexVertices[7].harborType = 2;
+		hexVertices[7].harborResource = Enums.Resources.darkMatter;
+		hexVertices[12].isHarbor = true;
+		hexVertices[12].harborType = 2;
+		hexVertices[12].harborResource = Enums.Resources.energy;
+		hexVertices[16].isHarbor = true;
+		hexVertices[16].harborType = 2;
+		hexVertices[16].harborResource = Enums.Resources.metal;
+		hexVertices[17].isHarbor = true;
+		hexVertices[17].harborType = 2;
+		hexVertices[17].harborResource = Enums.Resources.metal;
+		hexVertices[22].isHarbor = true;
+		hexVertices[22].harborType = 2;
+		hexVertices[22].harborResource = Enums.Resources.energy;
+		hexVertices[26].isHarbor = true;
+		hexVertices[26].harborType = 2;
+		hexVertices[26].harborResource = Enums.Resources.spacePig;
+		hexVertices[40].isHarbor = true;
+		hexVertices[40].harborType = 2;
+		hexVertices[40].harborResource = Enums.Resources.spacePig;
+		hexVertices[35].isHarbor = true;
+		hexVertices[35].harborType = 3;
+		hexVertices[36].isHarbor = true;
+		hexVertices[36].harborType = 3;
+		hexVertices[45].isHarbor = true;
+		hexVertices[45].harborType = 2;
+		hexVertices[45].harborResource = Enums.Resources.water;
+		hexVertices[46].isHarbor = true;
+		hexVertices[46].harborType = 2;
+		hexVertices[46].harborResource = Enums.Resources.water;
+		hexVertices[48].isHarbor = true;
+		hexVertices[48].harborType = 3;
+		hexVertices[49].isHarbor = true;
+		hexVertices[49].harborType = 3;
+		hexVertices[50].isHarbor = true;
+		hexVertices[50].harborType = 3;
+		hexVertices[51].isHarbor = true;
+		hexVertices[51].harborType = 3;
 	}
 }

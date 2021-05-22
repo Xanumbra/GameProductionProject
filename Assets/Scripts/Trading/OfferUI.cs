@@ -6,5 +6,4 @@ using UnityEngine.UI;
 public class OfferUI : MonoBehaviour
 {
     [SerializeField] Text PlayerName;
-
 }
