@@ -12,6 +12,12 @@ public class Player : NetworkBehaviour
     [SyncVar] public int clientId;
     [SyncVar] public Color playerColor;
 
+    [SyncVar] public int darkMatterAmount;
+    [SyncVar] public int spacePigAmount;
+    [SyncVar] public int waterAmount;
+    [SyncVar] public int metalAmount;
+    [SyncVar] public int energyAmount;
+
     private UIHandler uiHandler;
 
     [Client]
