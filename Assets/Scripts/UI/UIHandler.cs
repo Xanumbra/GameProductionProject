@@ -77,19 +77,6 @@ public class UIHandler : MonoBehaviour
                 ActivateDiceUI(false);
                 ActivateRemoteDiceUI(false);
                 break;
-            case Enums.GameState.inGame:
-                // Activate Resource UI, etc..
-
-                if (Player.localPlayer.isCurPlayer)
-                {
-                    ActivateCurPlayerUI();
-                }
-                else
-                {
-                    DeActivateCurPlayerUI();
-                }
-
-                break;
         }
     }
 
@@ -114,20 +101,14 @@ public class UIHandler : MonoBehaviour
     }
 
     // -- UI Updates per CurPlayer
-    public void ActivateCurPlayerUI()
+    public void ActivateCurPlayerUI(Player curPlayer)
     {
         Debug.Log("Activate CurPlayer UI");
 
-        if (GameManager.Instance.curGameState == Enums.GameState.inGame)
-        {
-            finishTurnBtn.SetActive(true);
-        }
+        ActivateDiceUI(true);
+        ActivateRemoteDiceUI(false);
 
-        if (GameManager.Instance.curGameState != Enums.GameState.preGame)
-        {
-            ActivateDiceUI(true);
-            ActivateRemoteDiceUI(false);
-        }
+        finishTurnBtn.SetActive(true);
 
         if (GameManager.Instance.curGameState == Enums.GameState.inGame || GameManager.Instance.curGameState == Enums.GameState.preGame)
         {
@@ -135,7 +116,7 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void DeActivateCurPlayerUI()
+    public void DeActivatecurPlayerUI()
     {
         Debug.Log("DeActivate CurPlayer UI");
 
@@ -210,7 +191,7 @@ public class UIHandler : MonoBehaviour
 
     private IEnumerator WaitForDiceAnimation(int diceSum, int diceVal1, int diceVal2)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
 
         isDiceRolling = false;
         
