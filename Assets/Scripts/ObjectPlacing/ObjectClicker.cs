@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class ObjectClicker : MonoBehaviour
 {
+    public HexGrid hexGrid;
+
     private void Awake()
     {
-        gameObject.SetActive(false);    
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -29,18 +31,37 @@ public class ObjectClicker : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 1000.0f))
             {
-                PrintName(hit.transform.gameObject);
+                var clickedObject = hit.transform.gameObject;
+                PrintName(clickedObject);
                 Enums.BuildingType type = Enums.BuildingType.None;
-                if (hit.transform.gameObject.name.Contains("Edge"))
+                if (clickedObject.name.Contains("Edge"))
                 {
                     type = Enums.BuildingType.Road;
+                    var hexEdge = clickedObject.GetComponent<HexEdges>();
+                    if (hexEdge.IsRoadValid())
+                    {
+                        if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(type))
+                            || GameManager.Instance.curGameState == Enums.GameState.preGame)
+                        {
+                            Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexEdges.IndexOf(hexEdge));
+                        }
+                        else Debug.Log("Not enough Resources");
+                    }
                 }
-                else if (hit.transform.gameObject.name.Contains("Vertex"))
+                else if (clickedObject.name.Contains("Vertex"))
                 {
                     type = Enums.BuildingType.Settlement;
+                    var hexVertex = clickedObject.GetComponent<HexVertices>();
+                    if (hexVertex.IsSettlementValid())
+                    {
+                        if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(type))
+                            || GameManager.Instance.curGameState == Enums.GameState.preGame)
+                        {
+                            Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
+                        }
+                        else Debug.Log("Not enough Resources");
+                    }
                 }
-
-                Player.localPlayer.PlaceBuilding(hit.transform.gameObject, type);
             }
             else
             {
@@ -51,5 +72,22 @@ public class ObjectClicker : MonoBehaviour
     private void PrintName(GameObject go)
     {
         Debug.Log(go.name);
+    }
+
+    public void RpcUpdateVertex(int index, bool localOwner, int ownerIndex)
+    {
+        hexGrid.hexVertices[index].hasSettlement = true;
+        hexGrid.hexVertices[index].localPlayerOwnsSettlement = localOwner;
+        hexGrid.hexVertices[index].ownerIndex = ownerIndex;
+        Debug.Log("Rpc Update Vertexx");
+    }
+
+
+    public void RpcUpdateEdge(int index, bool localOwner, int ownerIndex)
+    {
+        hexGrid.hexEdges[index].hasRoad = true;
+        hexGrid.hexEdges[index].localPlayerOwnsRoad = localOwner;
+        hexGrid.hexEdges[index].ownerIndex = ownerIndex;
+        Debug.Log("Rpc Update Road");
     }
 }

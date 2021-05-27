@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InfoBoxManager : MonoBehaviour
+public class InfoBoxManager : NetworkBehaviour
 {
-    // Start is called before the first frame update
     private static InfoBoxManager _instance;
 
-    public static Text infoBox;
-    public Text infoBoxHolder;
+    public Text infoBox;
+
+    private const string BoldColorEnding = "</b></color>";
     public static InfoBoxManager Instance { get { return _instance; } }
     void Awake()
     {
@@ -21,18 +20,74 @@ public class InfoBoxManager : MonoBehaviour
         {
             _instance = this;
         }
-        infoBox = infoBoxHolder;
     }
-    static void writeMessage(string message)
+    [ClientRpc]
+    public void writeMessage(string message)
     {
         infoBox.text += "\n" + message;
     }
-    static void playerTurnMessage(string playerName)
+    [ClientRpc]
+    public void playerTurnMessage(string playerName,int order)
     {
-        infoBox.text += "\nIt's "+ playerName +"'s turn.";
+        playerName = SetPlayerNameBoldColorWithS(playerName, order);
+        infoBox.text += "\nIt's " + playerName + " turn.";
     }
-    static void diceRollMessage(string playerName,int diceTotal)
+    [ClientRpc]
+    public void diceRollMessage(string playerName,int order, int diceTotal)
     {
+        playerName = SetPlayerNameBoldColor(playerName, order);
         infoBox.text += "\n" + playerName + " rolled " + diceTotal + ".";
     }
+    [ClientRpc]
+    public  void robberActivatedMessage()
+    {
+        infoBox.text += "<color=black>Robber has been activated!</color>Players who have more than <b>7</b> cards loses half of it(9 Cards = 4 cards being discarded)";
+    }
+    [Client]
+    public void ErrorMessageOnClient(string message)
+    {
+        infoBox.text += "\n" + message;
+    }
+
+    string SetPlayerNameBoldColor(string playerName, int order)
+    {
+        string coloredName = playerName;
+        switch (order)
+        {
+            case 0:
+                coloredName = "<color=red><b>" + playerName + BoldColorEnding;
+                break;
+            case 1:
+                coloredName = "<color=blue><b>" + playerName + BoldColorEnding;
+                break;
+            case 2:
+                coloredName = "<color=magenta><b>" + playerName + BoldColorEnding;
+                break;
+            case 3:
+                coloredName = "<color=green><b>" + playerName + BoldColorEnding;
+                break;
+        }
+        return coloredName;
+    }
+    string SetPlayerNameBoldColorWithS(string playerName, int order)
+    {
+        string coloredName = playerName;
+        switch (order)
+        {
+            case 0:
+                coloredName = "<color=red><b>" + playerName + "'s" + BoldColorEnding;
+                break;
+            case 1:
+                coloredName = "<color=blue><b>" + playerName + "'s" + BoldColorEnding;
+                break;
+            case 2:
+                coloredName = "<color=magenta><b>" + playerName + "'s" + BoldColorEnding;
+                break;
+            case 3:
+                coloredName = "<color=green><b>" + playerName + "'s" + BoldColorEnding;
+                break;
+        }
+        return coloredName;
+    }
+
 }

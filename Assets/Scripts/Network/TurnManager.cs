@@ -30,8 +30,9 @@ public class TurnManager : NetworkBehaviour
     public SyncListPlayer players = new SyncListPlayer();
 
     private Dictionary<Player, int> turnDetermizationDiceRolls = new Dictionary<Player, int>();
-
     private DiceRoll diceRoll;
+
+    private int preGameTurnCounter = -1;
 
     [Server]
     public void AddPlayer(Player p)
@@ -44,7 +45,7 @@ public class TurnManager : NetworkBehaviour
     [Server]
     public void RemovePlayer(Player p)
     {
-        players.Add(p);
+        players.Remove(p);
         Debug.Log("Removed Player");
         Debug.Log($"Player count: {players.Count}");
     }
@@ -52,10 +53,33 @@ public class TurnManager : NetworkBehaviour
     [Server]
     public void SetCurPlayer(Player p)
     {
+        if (GameManager.Instance.curGameState == Enums.GameState.preGame)
+        {
+            preGameTurnCounter++;
+            Debug.Log("Pregame TurnCounter " + preGameTurnCounter);
+            if (preGameTurnCounter == players.Count)
+            {
+                Debug.Log("PreGame Last Player Again");
+                return;
+            }
+            else if (preGameTurnCounter == players.Count * 2)
+            {
+                Debug.Log("PreGame - Over");
+                p = players[0];
+                GameManager.Instance.curGameState = Enums.GameState.inGame;
+            }
+            else if (preGameTurnCounter > players.Count)
+            {
+                p = GetNextPlayerReverse();
+                Debug.Log("PreGame - Reverse Order");
+            }
+        }
+
         if (curPlayer != null) curPlayer.isCurPlayer = false;
         curPlayer = p;
         p.isCurPlayer = true;
         Debug.Log($"Switched curPlayer");
+        InfoBoxManager.Instance.playerTurnMessage("Player" + curPlayer.clientId, curPlayer.clientId);
     }
 
     [Server]
@@ -65,6 +89,15 @@ public class TurnManager : NetworkBehaviour
         if (i == players.Count - 1) i = 0;
         else i++;
         SetCurPlayer(players[i]);
+    }
+
+    [Server]
+    public Player GetNextPlayerReverse()
+    {
+        var i = players.IndexOf(curPlayer);
+        if (i == 0) i = players.Count - 1;
+        else i--;
+        return players[i];
     }
 
     //Sync var Hook --> Called on Client when SyncVar changes
@@ -84,9 +117,22 @@ public class TurnManager : NetworkBehaviour
 
         Debug.Log($"Roll Dice Result: {diceVal1} + {diceVal2} = {result}");
 
+        return result;
+    }
+
+    [Server]
+    public int RollDiceTurnDetermization(out int diceVal1, out int diceVal2, out bool lastRoll)
+    {
+        var result = diceRoll.RollDice(out diceVal1, out diceVal2);
+
+        Debug.Log($"Roll Dice Result: {diceVal1} + {diceVal2} = {result}");
+
+        lastRoll = false;
+
         turnDetermizationDiceRolls[curPlayer] = result;
         if (turnDetermizationDiceRolls.Count == players.Count) // every player rolled
         {
+            lastRoll = true;
             Debug.Log("Finalizing Turn Order");
             DetermineStartOrder();
         }
@@ -117,6 +163,5 @@ public class TurnManager : NetworkBehaviour
         yield return new WaitForSeconds(3);
         GameManager.Instance.curGameState = Enums.GameState.preGame;
         SetCurPlayer(players[0]);
-
     }
 }

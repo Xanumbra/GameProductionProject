@@ -13,6 +13,7 @@ public class HexCell : MonoBehaviour
 
     public int cellID;
     public Enums.Resources cellResourceType;
+    public int cellDiceNumber;
 
 
 

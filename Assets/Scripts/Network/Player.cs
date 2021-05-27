@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
-
+[System.Serializable]
 public class Player : NetworkBehaviour
 {
     public static Player localPlayer;
@@ -47,13 +47,13 @@ public class Player : NetworkBehaviour
         {
             Debug.Log("Remote Player disconnected");
         }
+
+        localPlayer.CmdClientLeft(this);
     }
 
     [Command]
-    private void CmdClientJoined(Player p)
+    void CmdClientJoined(Player p)
     {
-        var rnd = new System.Random();
-
         TurnManager.Instance.AddPlayer(p);
         clientId = TurnManager.Instance.players.IndexOf(p);
         TargetClientJoined(clientId);
@@ -65,6 +65,12 @@ public class Player : NetworkBehaviour
 
             GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
         }
+    }
+
+    [Command]
+    void CmdClientLeft(Player p)
+    {
+        TurnManager.Instance.RemovePlayer(p);
     }
 
     [Server]
@@ -109,6 +115,7 @@ public class Player : NetworkBehaviour
     }
 
 
+
     [ClientRpc]
     void RpcShowSeedOnClients(int seed)
     {
@@ -141,8 +148,34 @@ public class Player : NetworkBehaviour
     {
         int diceVal1;
         int diceVal2;
-        var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
-        RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+
+        if (GameManager.Instance.curGameState == Enums.GameState.turnDetermization)
+        {
+            bool lastRollTurnDetermization;
+            var diceSum = TurnManager.Instance.RollDiceTurnDetermization(out diceVal1, out diceVal2, out lastRollTurnDetermization);
+            RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+            InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
+
+            if (!lastRollTurnDetermization)
+                StartCoroutine(WaitForDiceAnimation());
+        }
+        else
+        {
+            var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
+            InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
+            RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
+
+            GameManager.Instance.DistributeResources(diceSum);
+        }
+
+
+    }
+
+    [Server]
+    IEnumerator WaitForDiceAnimation()
+    {
+        yield return new WaitForSeconds(3f);
+        SrvFinishTurn();
     }
 
     [ClientRpc]
@@ -161,6 +194,12 @@ public class Player : NetworkBehaviour
     [Command]
     void CmdFinishTurn()
     {
+        SrvFinishTurn();
+    }
+
+    [Server]
+    void SrvFinishTurn()
+    {
         TurnManager.Instance.SetCurPlayerNext();
     }
 
@@ -168,29 +207,163 @@ public class Player : NetworkBehaviour
     private Enums.BuildingType currentType;
     private Vector3 buildingPos;
     private Quaternion buildingRot;
+    private int objectIndex;
 
     [Client]
-    public void PlaceBuilding(GameObject hex, Enums.BuildingType type)
+    public void PlaceBuilding(GameObject hex, Enums.BuildingType type, int objectIndex)
     {
+        if (GameManager.Instance.curGameState == Enums.GameState.preGame)
+        {
+            if(!CheckPreGameConstraints(type))
+            {
+                Debug.Log("Cannot Build " + type + " - PreGrameConstraint");
+                return;
+            }
+        }
+
         buildingPos = hex.transform.position;
         buildingRot = hex.transform.rotation;
+        this.objectIndex = objectIndex;
         currentType = type;
 
         ObjectPlacer.Instance.PlacePreview(hex, type, playerColor);
         uiHandler.OpenPlacementConfirmation();
     }
 
+    private bool hasBuiltSettlement;
+    private bool hasBuiltRoad;
+
+    [Client]
+    bool CheckPreGameConstraints(Enums.BuildingType type)
+    {
+        if (type == Enums.BuildingType.Settlement)
+        {
+            if (hasBuiltSettlement) return false;
+            hasBuiltSettlement = true;
+        }
+        else if (type == Enums.BuildingType.Road)
+        {
+            if (hasBuiltRoad) return false;
+            hasBuiltRoad = true;
+        }
+
+        return true;
+    }
+
     [Client]
     public void ConfirmPlacement(bool confirm)
     {
         ObjectPlacer.Instance.ConfirmPlacement();
-        if (confirm) CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer);
+        if (confirm)
+        {
+            if (GameManager.Instance.curGameState != Enums.GameState.preGame)
+                UseResources(currentType); // don't use resources in preGame
+
+            CmdSpawnBuilding(buildingPos, buildingRot, currentType, localPlayer, objectIndex);
+
+            if (GameManager.Instance.curGameState == Enums.GameState.preGame && hasBuiltRoad && hasBuiltSettlement)
+            {
+                hasBuiltSettlement = false;
+                hasBuiltRoad = false;
+                CmdFinishTurn();
+            }
+        }
+        else
+        {
+            if (currentType == Enums.BuildingType.Road)
+                hasBuiltRoad = false;
+
+            else if (currentType == Enums.BuildingType.Settlement)
+                hasBuiltSettlement = false;
+        }
     }
 
     [Command]
-    void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner)
+    void CmdSpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner, int objectIndex)
     {
         ObjectPlacer.Instance.SpawnBuilding(pos, rot, type, owner);
+        RpcUpdateVertexSettlement(type, objectIndex, owner);
+    }
+
+    [ClientRpc]
+    void RpcUpdateVertexSettlement(Enums.BuildingType type, int objectIndex, Player owner)
+    {
+        if (type == Enums.BuildingType.Settlement)
+        {
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+        }
+        else if (type == Enums.BuildingType.Road)
+        {
+            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+        }
+    }
+
+    // -- Resources --
+    [Client]
+    public bool HasResources(Enums.BuildingType type)
+    {
+        bool hasResources = false;
+
+        switch (type)
+        {
+            case Enums.BuildingType.City:
+                hasResources = (darkMatterAmount >= 3 && spacePigAmount >= 2);
+                break;
+            case Enums.BuildingType.Settlement:
+                hasResources = (spacePigAmount >= 1 && waterAmount >= 1 && energyAmount >= 1 && metalAmount >= 1);
+                break;
+            case Enums.BuildingType.Road:
+                hasResources = (metalAmount >= 1 && energyAmount >= 1);
+                break;
+        }
+
+        return hasResources;
+    }
+
+    [Command]
+    public void UseResources(Enums.BuildingType type)
+    {
+        switch (type)
+        {
+            case Enums.BuildingType.City:
+                ChangeResourceAmount(Enums.Resources.darkMatter, -3);
+                ChangeResourceAmount(Enums.Resources.spacePig, -2);
+                break;
+            case Enums.BuildingType.Settlement:
+                ChangeResourceAmount(Enums.Resources.spacePig, -1);
+                ChangeResourceAmount(Enums.Resources.water, -1);
+                ChangeResourceAmount(Enums.Resources.energy, -1);
+                ChangeResourceAmount(Enums.Resources.metal, -1);
+                break;
+            case Enums.BuildingType.Road:
+                ChangeResourceAmount(Enums.Resources.energy, -1);
+                ChangeResourceAmount(Enums.Resources.metal, -1);
+                break;
+        }
+    }
+
+    [Server]
+    public void ChangeResourceAmount(Enums.Resources resource, int amount)
+    {
+        Debug.Log("Resources Change: " + resource.ToString() + " - " + amount);
+        switch (resource)
+        {
+            case Enums.Resources.darkMatter:
+                darkMatterAmount += amount;
+                break;
+            case Enums.Resources.energy:
+                energyAmount += amount;
+                break;
+            case Enums.Resources.metal:
+                metalAmount += amount;
+                break;
+            case Enums.Resources.spacePig:
+                spacePigAmount += amount;
+                break;
+            case Enums.Resources.water:
+                waterAmount += amount;
+                break;
+        } 
     }
 
     // -- UI Updates --
@@ -217,12 +390,12 @@ public class Player : NetworkBehaviour
     {
         if (this == newPlayer)
         {
-            uiHandler.ActivateCurPlayerUI(newPlayer);
+            uiHandler.ActivateCurPlayerUI();
             Debug.Log("Activate Current Player UI");
         }
         else
         {
-            uiHandler.DeActivatecurPlayerUI();
+            uiHandler.DeActivateCurPlayerUI();
             Debug.Log("DeActivate Current Player UI");
         }
     }
@@ -251,4 +424,5 @@ public class Player : NetworkBehaviour
     }
 
     #endregion
+
 }
