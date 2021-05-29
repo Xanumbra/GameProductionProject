@@ -1,21 +1,26 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TradeManager : MonoBehaviour
+public class TradeManager : NetworkBehaviour
 {
-    public int DarkMatterAmount = 0;
-    public int SpacePigAmount = 0;
-    public int WaterAmount = 0;
-    public int MetalAmount = 0;
-    public int EnergyAmount = 0;
+    public int darkMatterAmount = 0;
+    public int spacePigAmount = 0;
+    public int waterAmount = 0;
+    public int metalAmount = 0;
+    public int energyAmount = 0;
 
     public Text darkMatterAmountText;
     public Text SpacePigAmountText;
     public Text WaterAmountText;
     public Text MetalAmountText;
     public Text EnergyAmountText;
+
+    public GameObject tradePopupPrefab;
+    public Text tradePopUpOfferOwner;
+    public Text tradePopUpOfferInfo;
 
     private static TradeManager _instance;
 
@@ -35,13 +40,13 @@ public class TradeManager : MonoBehaviour
     {
         switch(resourceType){
             case Enums.Resources.darkMatter:
-                DarkMatterAmount += amount;
-                if(DarkMatterAmount > 0)
+                darkMatterAmount += amount;
+                if(darkMatterAmount > 0)
                 {
-                    darkMatterAmountText.text = "+" + DarkMatterAmount;
-                }else if(DarkMatterAmount < 0)
+                    darkMatterAmountText.text = "+" + darkMatterAmount;
+                }else if(darkMatterAmount < 0)
                 {
-                    darkMatterAmountText.text = DarkMatterAmount.ToString();
+                    darkMatterAmountText.text = darkMatterAmount.ToString();
                 }
                 else
                 {
@@ -49,14 +54,14 @@ public class TradeManager : MonoBehaviour
                 }
                 break;
             case Enums.Resources.spacePig:
-                SpacePigAmount += amount;
-                if (SpacePigAmount > 0)
+                spacePigAmount += amount;
+                if (spacePigAmount > 0)
                 {
-                    SpacePigAmountText.text = "+" + SpacePigAmount;
+                    SpacePigAmountText.text = "+" + spacePigAmount;
                 }
-                else if (SpacePigAmount < 0)
+                else if (spacePigAmount < 0)
                 {
-                    SpacePigAmountText.text = SpacePigAmount.ToString();
+                    SpacePigAmountText.text = spacePigAmount.ToString();
                 }
                 else
                 {
@@ -64,14 +69,14 @@ public class TradeManager : MonoBehaviour
                 }
                 break;
             case Enums.Resources.water:
-                WaterAmount += amount;
-                if (WaterAmount > 0)
+                waterAmount += amount;
+                if (waterAmount > 0)
                 {
-                    WaterAmountText.text = "+" + WaterAmount;
+                    WaterAmountText.text = "+" + waterAmount;
                 }
-                else if (WaterAmount < 0)
+                else if (waterAmount < 0)
                 {
-                    WaterAmountText.text = WaterAmount.ToString();
+                    WaterAmountText.text = waterAmount.ToString();
                 }
                 else
                 {
@@ -79,14 +84,14 @@ public class TradeManager : MonoBehaviour
                 }
                 break;
             case Enums.Resources.metal:
-                MetalAmount += amount;
-                if (MetalAmount > 0)
+                metalAmount += amount;
+                if (metalAmount > 0)
                 {
-                    MetalAmountText.text = "+" + MetalAmount;
+                    MetalAmountText.text = "+" + metalAmount;
                 }
-                else if (MetalAmount < 0)
+                else if (metalAmount < 0)
                 {
-                    MetalAmountText.text = MetalAmount.ToString();
+                    MetalAmountText.text = metalAmount.ToString();
                 }
                 else
                 {
@@ -94,14 +99,14 @@ public class TradeManager : MonoBehaviour
                 }
                 break;
             case Enums.Resources.energy:
-                EnergyAmount += amount;
-                if (EnergyAmount > 0)
+                energyAmount += amount;
+                if (energyAmount > 0)
                 {
-                    EnergyAmountText.text = "+" + EnergyAmount;
+                    EnergyAmountText.text = "+" + energyAmount;
                 }
-                else if (EnergyAmount < 0)
+                else if (energyAmount < 0)
                 {
-                    EnergyAmountText.text = EnergyAmount.ToString();
+                    EnergyAmountText.text = energyAmount.ToString();
                 }
                 else
                 {
@@ -112,11 +117,66 @@ public class TradeManager : MonoBehaviour
     }
     public void ResetResourceAmount()
     {
-        DarkMatterAmount = 0;
-        SpacePigAmount = 0;
-        WaterAmount = 0;
-        MetalAmount = 0;
-        EnergyAmount = 0;
+        darkMatterAmount = 0;
+        spacePigAmount = 0;
+        waterAmount = 0;
+        metalAmount = 0;
+        energyAmount = 0;
     }
 
+    
+    public void CreateTradeOffer()
+    {
+        if (CheckTradeValidityForPlayer())
+        {
+            Offer offer = new Offer(darkMatterAmount,spacePigAmount,waterAmount,metalAmount,energyAmount);
+        }
+        else
+        {
+            // Error about trade not being valid
+        }
+    }
+    [Command]
+    public void SendTradeOffer(int ownerId, Offer offer)
+    {
+        for(int i = 0; i < TurnManager.Instance.players.Count; i++)
+        {
+            if(i != ownerId)
+            {
+                ShowTradeOffer(i,ownerId, offer);
+            }
+        }
+    }
+    [TargetRpc]
+    public void ShowTradeOffer(int targetClientId, int ownerId, Offer offer)
+    {
+        
+    }
+    public bool CheckTradeValidityForPlayer()
+    {
+        if(Player.localPlayer.darkMatterAmount < darkMatterAmount
+            || Player.localPlayer.spacePigAmount < spacePigAmount
+            || Player.localPlayer.waterAmount < waterAmount
+            || Player.localPlayer.metalAmount < metalAmount
+            || Player.localPlayer.energyAmount < energyAmount)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    public void DisplayOffer(int tradeOwnerId,Offer offer)
+    {
+        tradePopUpOfferOwner.text = "";
+        tradePopUpOfferInfo.text = "";
+        tradePopUpOfferOwner.text += "Trade Offer from\nPlayer " + tradeOwnerId;
+        tradePopUpOfferInfo.text += offer.darkMatterOffer != 0 ? "DarkMatter: " + darkMatterAmount : "";
+        tradePopUpOfferInfo.text += offer.spacePigOffer != 0 ? "\nSpacePig: " + spacePigAmount : "";
+        tradePopUpOfferInfo.text += offer.waterOffer != 0 ? "\nWater: " + waterAmount : "";
+        tradePopUpOfferInfo.text += offer.metalOffer != 0 ? "\nMetal: " + metalAmount : "";
+        tradePopUpOfferInfo.text += offer.energyOffer != 0 ? "\nEnergy: " + energyAmount : "";
+        tradePopupPrefab.SetActive(true);
+    }
 }

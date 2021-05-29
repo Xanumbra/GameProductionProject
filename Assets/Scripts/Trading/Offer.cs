@@ -5,49 +5,27 @@ using UnityEngine;
 public class Offer : MonoBehaviour
 {
 
-    public Player OfferOwner;
-    public int GivenDarkMatter;
-    public int GivenSpacePig;
-    public int GivenMetal;
-    public int GivenEnergy;
-    public int GivenWater;
-    public int TakenDarkMatter;
-    public int TakenSpacePig;
-    public int TakenMetal;
-    public int TakenEnergy;
-    public int TakenWater;
+    public bool isTradingWithBank;
+    public int darkMatterOffer;
+    public int spacePigOffer;
+    public int waterOffer;
+    public int metalOffer;
+    public int energyOffer;
 
-    public Offer()
+    public Offer(int darkMatterAmount,int spacePigAmount, int waterAmount, int metalAmount, int energyAmount)
     {
-        GivenDarkMatter = 0;
-        GivenSpacePig = 0;
-        GivenMetal = 0;
-        GivenEnergy = 0;
-        GivenWater = 0;
-        TakenDarkMatter = 0;
-        TakenSpacePig = 0;
-        TakenMetal = 0;
-        TakenEnergy = 0;
-        TakenWater = 0;
+        darkMatterOffer = darkMatterAmount;
+        spacePigOffer = spacePigAmount;
+        waterOffer = waterAmount;
+        metalOffer = metalAmount;
+        energyOffer = energyAmount;
     }
-    public void SetGivenOfferResources(int GivenDarkMatter, int GivenSpacePig, int GivenMetal, int GivenEnergy, int GivenWater)
+    public void TradeWithBank()
     {
-        this.GivenDarkMatter = GivenDarkMatter;
-        this.GivenSpacePig = GivenSpacePig;
-        this.GivenMetal = GivenMetal;
-        this.GivenEnergy = GivenEnergy;
-        this.GivenWater = GivenWater;
+        isTradingWithBank = true;
     }
-    public void SetTakenOfferResources(int TakenDarkMatter, int TakenSpacePig, int TakenMetal, int TakenEnergy, int TakenWater)
+    public void TradeWithPlayers()
     {
-        this.TakenDarkMatter = TakenDarkMatter;
-        this.TakenSpacePig = TakenSpacePig;
-        this.TakenMetal = TakenMetal;
-        this.TakenEnergy = TakenEnergy;
-        this.TakenWater = TakenWater;
-    }
-    public void SetOfferOwner(Player OfferOwner)
-    {
-        this.OfferOwner = OfferOwner;
+        isTradingWithBank = false;
     }
 }
