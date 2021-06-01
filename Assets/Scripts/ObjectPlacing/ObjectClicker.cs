@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 
 public class ObjectClicker : MonoBehaviour
 {
@@ -62,6 +64,13 @@ public class ObjectClicker : MonoBehaviour
                         else Debug.Log("Not enough Resources");
                     }
                 }
+                else
+                {
+                    Debug.Log("Planet Clicked");
+                    //var parentCell = hexGrid.cells.Where(c => c == clickedObject.transform.parent.GetComponent<HexCell>()).Select(c => c).ElementAt(0);
+                    
+                    Player.localPlayer.SpawnSpacePirates(clickedObject, Array.FindIndex(hexGrid.cells, val => val.Equals(clickedObject.transform.parent.GetComponent<HexCell>())));
+                }
             }
             else
             {
@@ -89,5 +98,10 @@ public class ObjectClicker : MonoBehaviour
         hexGrid.hexEdges[index].localPlayerOwnsRoad = localOwner;
         hexGrid.hexEdges[index].ownerIndex = ownerIndex;
         Debug.Log("Rpc Update Road");
+    }
+
+    public void RpcUpdateSpacePirateCell(int index)
+    {
+        hexGrid.cells[index].hasSpacePirates = true;
     }
 }

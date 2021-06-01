@@ -15,7 +15,7 @@ public class HexCell : MonoBehaviour
     public Enums.Resources cellResourceType;
     public int cellDiceNumber;
 
-
+    public bool hasSpacePirates;
 
     public void Awake()
     {

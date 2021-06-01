@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3597116402167071592}
   - component: {fileID: 451589055422483661}
   - component: {fileID: 2423124150462298119}
+  - component: {fileID: 8375772107602852799}
   m_Layer: 0
   m_Name: MetalPlanet
   m_TagString: Untagged
@@ -80,6 +81,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8375772107602852799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4224471986322414034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &8491967517446366869
 GameObject:
   m_ObjectHideFlags: 0

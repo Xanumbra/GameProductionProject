@@ -26,10 +26,16 @@ public class ObjectPlacer : NetworkBehaviour
     public GameObject settlementPrefab;
     public Transform buildingsParent;
 
-    private ObjectClicker objClicker;
+    public GameObject spacePiratePrefab;
+
+    public bool placeSpacePirates;
+
+    public ObjectClicker objClicker;
 
     private GameObject currentBuilding;
     private bool currentlyPreviewing;
+
+    private GameObject curSpacePirates;
 
     [Client]
     public void PlacePreview(GameObject hexObject, Enums.BuildingType type, Color playerColor)
@@ -111,5 +117,44 @@ public class ObjectPlacer : NetworkBehaviour
         newObj.transform.rotation = rot;
 
         NetworkServer.Spawn(newObj);
+    }
+
+
+
+    [Server]
+    public bool SpawnSpacePirates(Vector3 pos)
+    {
+        if (!placeSpacePirates)
+        {
+            Debug.Log("Cannot place space Pirates now");
+            return false;
+        }
+
+        if (curSpacePirates != null)
+        {
+            RpcUpdateSpacePirateCell();
+
+            Destroy(curSpacePirates);
+        }
+
+        var newObj = Instantiate(spacePiratePrefab);
+
+        curSpacePirates = newObj;
+
+        newObj.transform.position = pos + new Vector3(0, 8, 0);
+
+
+        NetworkServer.Spawn(newObj);
+        placeSpacePirates = false;
+        return true;
+    }
+
+    [ClientRpc]
+    private void RpcUpdateSpacePirateCell()
+    {
+        foreach (var cell in objClicker.hexGrid.cells)
+        {
+            cell.hasSpacePirates = false;
+        }
     }
 }

@@ -4172,6 +4172,9 @@ MonoBehaviour:
   settlementPrefab: {fileID: 6843492552080999462, guid: 42a06e63f9d1860418ecb018936cc24e,
     type: 3}
   buildingsParent: {fileID: 557483174}
+  spacePiratePrefab: {fileID: 2313123676952288512, guid: 44820e3b9e0f2624ea499b4228190116,
+    type: 3}
+  placeSpacePirates: 0
 --- !u!114 &1476196969
 MonoBehaviour:
   m_ObjectHideFlags: 0

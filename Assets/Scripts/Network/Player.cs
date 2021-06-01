@@ -165,10 +165,16 @@ public class Player : NetworkBehaviour
             InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
             RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
 
-            GameManager.Instance.DistributeResources(diceSum);
+            if (diceSum == 7)
+            {
+                Debug.Log("Space Pirates Time");
+                ObjectPlacer.Instance.placeSpacePirates = true;
+            }
+            else
+            {
+                GameManager.Instance.DistributeResources(diceSum);
+            }
         }
-
-
     }
 
     [Server]
@@ -290,11 +296,11 @@ public class Player : NetworkBehaviour
     {
         if (type == Enums.BuildingType.Settlement)
         {
-            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+            ObjectPlacer.Instance.objClicker.RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
         }
         else if (type == Enums.BuildingType.Road)
         {
-            ObjectPlacer.Instance.gameObject.GetComponent<ObjectClicker>().RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+            ObjectPlacer.Instance.objClicker.RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
         }
     }
 
@@ -398,6 +404,28 @@ public class Player : NetworkBehaviour
             uiHandler.DeActivateCurPlayerUI();
             Debug.Log("DeActivate Current Player UI");
         }
+    }
+
+    // -- Space Pirates --
+    [Client]
+    public void SpawnSpacePirates(GameObject clickedPlanet, int cellIndex)
+    {
+        CmdSpawnSpacePirates(clickedPlanet.transform.position, cellIndex);
+
+
+    }
+
+    [Command]
+    private void CmdSpawnSpacePirates(Vector3 pos, int cellIndex)
+    {
+        if (ObjectPlacer.Instance.SpawnSpacePirates(pos))
+            RpcSpawnSpacePirates(cellIndex);
+    }
+
+    [ClientRpc]
+    private void RpcSpawnSpacePirates(int index)
+    {
+        ObjectPlacer.Instance.objClicker.RpcUpdateSpacePirateCell(index);
     }
 
     #region Temp / Debug

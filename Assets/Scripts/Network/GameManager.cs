@@ -46,18 +46,19 @@ public class GameManager : NetworkBehaviour
     {
         var matchingCells = hexGrid.cells.Where(c => c.cellDiceNumber == diceSum).Select(c => c);
 
-
         foreach (var cell in matchingCells)
         {
             Debug.Log(cell.cellID + "---" + cell.cellResourceType);
 
             var ownerIndices = cell.hexVertices.Where(v => v.hasSettlement).Select(v => v.ownerIndex);
-
-            foreach (var i in ownerIndices)
+            
+            if (!cell.hasSpacePirates)
             {
-                TurnManager.Instance.players[i].ChangeResourceAmount(cell.cellResourceType, 1);
+                foreach (var i in ownerIndices)
+                {
+                    TurnManager.Instance.players[i].ChangeResourceAmount(cell.cellResourceType, 1);
+                }
             }
-
         }
     }
 }
