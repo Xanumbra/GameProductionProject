@@ -27,6 +27,7 @@ public class HexVertices : MonoBehaviour
             if (HasNeighborRoad() == false)
             {
                 Debug.Log("Cannot Build Settlement - Must be next to Road");
+                InfoBoxManager.Instance.ErrorMessageOnClient("Cannot Build Settlement - Must be next to Road");
                 return false;
             }
         }

@@ -113,11 +113,13 @@ public class TurnManager : NetworkBehaviour
     [Server]
     public int RollDice(out int diceVal1, out int diceVal2)
     {
-        var result = diceRoll.RollDice(out diceVal1, out diceVal2);
+        //var result = diceRoll.RollDice(out diceVal1, out diceVal2);
 
-        Debug.Log($"Roll Dice Result: {diceVal1} + {diceVal2} = {result}");
+        //Debug.Log($"Roll Dice Result: {diceVal1} + {diceVal2} = {result}");
 
-        return result;
+        //return result;
+        diceVal1 = 2; diceVal2 = 5;
+        return 7;
     }
 
     [Server]

@@ -47,7 +47,10 @@ public class ObjectClicker : MonoBehaviour
                         {
                             Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexEdges.IndexOf(hexEdge));
                         }
-                        else Debug.Log("Not enough Resources");
+                        else
+                        {
+                            ResourceError();
+                        }
                     }
                 }
                 else if (clickedObject.name.Contains("Vertex"))
@@ -61,13 +64,23 @@ public class ObjectClicker : MonoBehaviour
                         {
                             Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
                         }
-                        else Debug.Log("Not enough Resources");
+                        else
+                        {
+                            ResourceError();
+                        }
                     }
+                }
+                else if (clickedObject.name.Contains("Settlement"))
+                {
+                    Debug.Log("Settlement Clicked");
+
+                    //if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(Enums.BuildingType.City)) {
+                    //    Player.localPlayer.UpgradeBuildung(clickedObject, type);
+                    //}
                 }
                 else
                 {
                     Debug.Log("Planet Clicked");
-                    //var parentCell = hexGrid.cells.Where(c => c == clickedObject.transform.parent.GetComponent<HexCell>()).Select(c => c).ElementAt(0);
                     
                     Player.localPlayer.SpawnSpacePirates(clickedObject, Array.FindIndex(hexGrid.cells, val => val.Equals(clickedObject.transform.parent.GetComponent<HexCell>())));
                 }
@@ -78,6 +91,14 @@ public class ObjectClicker : MonoBehaviour
             }
         }
     }
+
+    private void ResourceError()
+    {
+        Debug.Log("Not enough Resources");
+        InfoBoxManager.Instance.ErrorMessageOnClient("Not enough Resources");
+
+    }
+
     private void PrintName(GameObject go)
     {
         Debug.Log(go.name);
@@ -90,7 +111,6 @@ public class ObjectClicker : MonoBehaviour
         hexGrid.hexVertices[index].ownerIndex = ownerIndex;
         Debug.Log("Rpc Update Vertexx");
     }
-
 
     public void RpcUpdateEdge(int index, bool localOwner, int ownerIndex)
     {

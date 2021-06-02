@@ -20,6 +20,8 @@ public class Player : NetworkBehaviour
 
     private UIHandler uiHandler;
 
+    private bool hasPlacedSpacePirates;
+
     [Client]
     public override void OnStartClient()
     {
@@ -169,6 +171,7 @@ public class Player : NetworkBehaviour
             {
                 Debug.Log("Space Pirates Time");
                 ObjectPlacer.Instance.placeSpacePirates = true;
+                hasPlacedSpacePirates = false;
             }
             else
             {
@@ -194,12 +197,18 @@ public class Player : NetworkBehaviour
     [Client]
     public void FinishTurn()
     {
+        if (hasPlacedSpacePirates == false && ObjectPlacer.Instance.placeSpacePirates)
+        {
+            InfoBoxManager.Instance.ErrorMessageOnClient("Cannot finish turn - you must place Space Pirates");
+            return;
+        }
         CmdFinishTurn();
     }
 
     [Command]
     void CmdFinishTurn()
     {
+        if (ObjectPlacer.Instance.placeSpacePirates) ObjectPlacer.Instance.placeSpacePirates = false;
         SrvFinishTurn();
     }
 
@@ -410,16 +419,22 @@ public class Player : NetworkBehaviour
     [Client]
     public void SpawnSpacePirates(GameObject clickedPlanet, int cellIndex)
     {
+        hasPlacedSpacePirates = true;
         CmdSpawnSpacePirates(clickedPlanet.transform.position, cellIndex);
-
-
     }
 
     [Command]
     private void CmdSpawnSpacePirates(Vector3 pos, int cellIndex)
     {
-        if (ObjectPlacer.Instance.SpawnSpacePirates(pos))
-            RpcSpawnSpacePirates(cellIndex);
+        //if (ObjectPlacer.Instance.objClicker.hexGrid.cells[cellIndex].hadSpacePiratesPreviously)
+        //{
+        //    Debug.Log("This cell had space pirates previously");
+        //} 
+        //else
+        //{
+            if (ObjectPlacer.Instance.SpawnSpacePirates(pos))
+                RpcSpawnSpacePirates(cellIndex);
+        //}
     }
 
     [ClientRpc]
@@ -452,5 +467,4 @@ public class Player : NetworkBehaviour
     }
 
     #endregion
-
 }

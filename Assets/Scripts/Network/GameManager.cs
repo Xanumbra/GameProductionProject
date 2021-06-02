@@ -56,7 +56,16 @@ public class GameManager : NetworkBehaviour
             {
                 foreach (var i in ownerIndices)
                 {
-                    TurnManager.Instance.players[i].ChangeResourceAmount(cell.cellResourceType, 1);
+                    var p = TurnManager.Instance.players[i];
+                    p.ChangeResourceAmount(cell.cellResourceType, 1);
+                    InfoBoxManager.Instance.ResourceMessage("Player" + p.clientId, p.clientId, 1, cell.cellResourceType);
+                }
+            }
+            else
+            {
+                foreach (var i in ownerIndices)
+                {
+                    InfoBoxManager.Instance.writeMessage("Cannot gain Resource " + cell.cellResourceType + " because of SpacePirates");
                 }
             }
         }

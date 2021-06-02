@@ -28,7 +28,7 @@ public class ObjectPlacer : NetworkBehaviour
 
     public GameObject spacePiratePrefab;
 
-    public bool placeSpacePirates;
+    [SyncVar] public bool placeSpacePirates;
 
     public ObjectClicker objClicker;
 
@@ -119,8 +119,6 @@ public class ObjectPlacer : NetworkBehaviour
         NetworkServer.Spawn(newObj);
     }
 
-
-
     [Server]
     public bool SpawnSpacePirates(Vector3 pos)
     {
@@ -143,9 +141,7 @@ public class ObjectPlacer : NetworkBehaviour
 
         newObj.transform.position = pos + new Vector3(0, 8, 0);
 
-
         NetworkServer.Spawn(newObj);
-        placeSpacePirates = false;
         return true;
     }
 
@@ -155,6 +151,7 @@ public class ObjectPlacer : NetworkBehaviour
         foreach (var cell in objClicker.hexGrid.cells)
         {
             cell.hasSpacePirates = false;
+            //cell.hadSpacePiratesPreviously = false;
         }
     }
 }

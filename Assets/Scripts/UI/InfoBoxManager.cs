@@ -12,7 +12,7 @@ public class InfoBoxManager : NetworkBehaviour
     public static InfoBoxManager Instance { get { return _instance; } }
     void Awake()
     {
-       if( _instance != null && _instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
         }
@@ -27,19 +27,19 @@ public class InfoBoxManager : NetworkBehaviour
         infoBox.text += "\n" + message;
     }
     [ClientRpc]
-    public void playerTurnMessage(string playerName,int order)
+    public void playerTurnMessage(string playerName, int order)
     {
         playerName = SetPlayerNameBoldColorWithS(playerName, order);
         infoBox.text += "\nIt's " + playerName + " turn.";
     }
     [ClientRpc]
-    public void diceRollMessage(string playerName,int order, int diceTotal)
+    public void diceRollMessage(string playerName, int order, int diceTotal)
     {
         playerName = SetPlayerNameBoldColor(playerName, order);
         infoBox.text += "\n" + playerName + " rolled " + diceTotal + ".";
     }
     [ClientRpc]
-    public  void robberActivatedMessage()
+    public void robberActivatedMessage()
     {
         infoBox.text += "<color=black>Robber has been activated!</color>Players who have more than <b>7</b> cards loses half of it(9 Cards = 4 cards being discarded)";
     }
@@ -47,6 +47,13 @@ public class InfoBoxManager : NetworkBehaviour
     public void ErrorMessageOnClient(string message)
     {
         infoBox.text += "\n" + message;
+    }
+
+    [ClientRpc]
+    public void ResourceMessage(string playerName, int receiverId, int amount, Enums.Resources type)
+    {
+        playerName = SetPlayerNameBoldColor(playerName, receiverId);
+        infoBox.text += "\n" + playerName + " received " + amount + " " + type;
     }
 
     string SetPlayerNameBoldColor(string playerName, int order)
