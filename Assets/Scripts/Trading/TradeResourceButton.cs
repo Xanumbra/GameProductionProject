@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TradeResourceButton : MonoBehaviour
 {
     public Enums.Resources resourceType;
@@ -11,4 +12,6 @@ public class TradeResourceButton : MonoBehaviour
     {
         TradeManager.Instance.ChangeResourceAmount(resourceType, adjustAmount);
     }
+
+
 }

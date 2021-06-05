@@ -59,7 +59,7 @@ public class Player : NetworkBehaviour
         TargetClientJoined(clientId);
         SetPlayerColor();
 
-        if (TurnManager.Instance.players.Count == 1)
+        if (TurnManager.Instance.players.Count == 2)
         {
             Debug.Log("Enough Players joined - Active UI");
 
@@ -127,6 +127,9 @@ public class Player : NetworkBehaviour
     {
         GameManager.Instance.curGameState = Enums.GameState.turnDetermization;
         TurnManager.Instance.SetCurPlayer(host);
+        TradeManager.Instance.possibleTraders = TurnManager.Instance.players.Count;
+        TradeManager.Instance.SetStatusButtonReferences();
+        
     }
 
     // -- Roll Dice --

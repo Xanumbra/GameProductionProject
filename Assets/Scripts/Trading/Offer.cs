@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+[System.Serializable]
 public class Offer : MonoBehaviour
 {
-
-    public bool isTradingWithBank;
-    public int darkMatterOffer;
-    public int spacePigOffer;
-    public int waterOffer;
-    public int metalOffer;
-    public int energyOffer;
+    [SerializeField] public int darkMatterOffer;
+    [SerializeField] public int spacePigOffer;
+    [SerializeField] public int waterOffer;
+    [SerializeField] public int metalOffer;
+    [SerializeField] public int energyOffer;
+    [SerializeField] public int ownerId;
+    
 
     public Offer(int darkMatterAmount,int spacePigAmount, int waterAmount, int metalAmount, int energyAmount)
     {
@@ -19,13 +22,5 @@ public class Offer : MonoBehaviour
         waterOffer = waterAmount;
         metalOffer = metalAmount;
         energyOffer = energyAmount;
-    }
-    public void TradeWithBank()
-    {
-        isTradingWithBank = true;
-    }
-    public void TradeWithPlayers()
-    {
-        isTradingWithBank = false;
     }
 }

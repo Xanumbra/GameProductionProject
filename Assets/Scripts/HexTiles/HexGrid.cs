@@ -22,8 +22,6 @@ public class HexGrid : MonoBehaviour
 	
 	Canvas gridCanvas;
 	
-
-
 	void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
