@@ -171,6 +171,7 @@ public class Player : NetworkBehaviour
             {
                 Debug.Log("Space Pirates Time");
                 ObjectPlacer.Instance.placeSpacePirates = true;
+                ObjectPlacer.Instance.MarkCurrentSpacePirates();
                 hasPlacedSpacePirates = false;
             }
             else
@@ -208,7 +209,11 @@ public class Player : NetworkBehaviour
     [Command]
     void CmdFinishTurn()
     {
-        if (ObjectPlacer.Instance.placeSpacePirates) ObjectPlacer.Instance.placeSpacePirates = false;
+        if (ObjectPlacer.Instance.placeSpacePirates)
+        {
+            ObjectPlacer.Instance.placeSpacePirates = false;
+            ObjectPlacer.Instance.UnMarkCurrentSpacePirates();
+        }
         SrvFinishTurn();
     }
 

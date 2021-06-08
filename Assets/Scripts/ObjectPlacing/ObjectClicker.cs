@@ -81,8 +81,15 @@ public class ObjectClicker : MonoBehaviour
                 else
                 {
                     Debug.Log("Planet Clicked");
-                    
-                    Player.localPlayer.SpawnSpacePirates(clickedObject, Array.FindIndex(hexGrid.cells, val => val.Equals(clickedObject.transform.parent.GetComponent<HexCell>())));
+                    if(clickedObject.transform.parent.GetComponent<HexCell>().hadSpacePiratesBefore)
+                    {
+
+                        Debug.Log("space pirates before");
+                    }
+                    else
+                    {
+                        Player.localPlayer.SpawnSpacePirates(clickedObject, Array.FindIndex(hexGrid.cells, val => val.Equals(clickedObject.transform.parent.GetComponent<HexCell>())));
+                    }
                 }
             }
             else

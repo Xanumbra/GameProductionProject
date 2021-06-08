@@ -16,6 +16,7 @@ public class HexCell : MonoBehaviour
     public int cellDiceNumber;
 
     public bool hasSpacePirates;
+    public bool hadSpacePiratesBefore;
 
     public void Awake()
     {

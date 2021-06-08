@@ -19,6 +19,7 @@ public class Enums
         None 
     };
 
+
     public enum GameState
     {
         waitingForPlayers,
