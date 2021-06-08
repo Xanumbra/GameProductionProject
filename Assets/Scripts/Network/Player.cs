@@ -318,6 +318,41 @@ public class Player : NetworkBehaviour
         }
     }
 
+    // -- Upgrading Buildings
+    Building buildingToUpgrade;
+    int upgradeVertexIndex;
+
+    [Client]
+    public void UpgradeBuildung(Building building, int vertexIndex)
+    {
+        uiHandler.OpenUpgradingConfirmation();
+        buildingToUpgrade = building;
+        upgradeVertexIndex = vertexIndex;
+    }
+
+    [Client]
+    public void ConfirmUpgrade(bool confirm)
+    {
+        if (confirm)
+        {
+            CmdConfirmUpgrade(buildingToUpgrade, upgradeVertexIndex);
+        }
+    }
+
+    [Command]
+    void CmdConfirmUpgrade(Building building, int vertexIndex)
+    {
+        ObjectPlacer.Instance.UpgradeBuilding(building.transform.position, building.transform.rotation, building.owner);
+        RpcConfirmUpgrade(building, vertexIndex);
+    }
+
+    [ClientRpc]
+    void RpcConfirmUpgrade(Building settlement, int vertexIndex)
+    {
+        ObjectPlacer.Instance.objClicker.hexGrid.hexVertices[vertexIndex].hasCity = true;
+        Destroy(settlement.gameObject);
+    }
+
     // -- Resources --
     [Client]
     public bool HasResources(Enums.BuildingType type)

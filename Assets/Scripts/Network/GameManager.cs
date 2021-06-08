@@ -50,20 +50,33 @@ public class GameManager : NetworkBehaviour
         {
             Debug.Log(cell.cellID + "---" + cell.cellResourceType);
 
-            var ownerIndices = cell.hexVertices.Where(v => v.hasSettlement).Select(v => v.ownerIndex);
-            
+            var settlementOwnerIndices = cell.hexVertices.Where(v => v.hasBuilding && !v.hasCity).Select(v => v.ownerIndex);
+            var cityOwnerIndices = cell.hexVertices.Where(v => v.hasCity).Select(v => v.ownerIndex);
+
             if (!cell.hasSpacePirates)
             {
-                foreach (var i in ownerIndices)
+
+                foreach (var i in settlementOwnerIndices)
                 {
                     var p = TurnManager.Instance.players[i];
                     p.ChangeResourceAmount(cell.cellResourceType, 1);
                     InfoBoxManager.Instance.ResourceMessage("Player" + p.clientId, p.clientId, 1, cell.cellResourceType);
                 }
+
+                foreach (var i in cityOwnerIndices)
+                {
+                    var p = TurnManager.Instance.players[i];
+                    p.ChangeResourceAmount(cell.cellResourceType, 2);
+                    InfoBoxManager.Instance.ResourceMessage("Player" + p.clientId, p.clientId, 2, cell.cellResourceType);
+                }
             }
             else
             {
-                foreach (var i in ownerIndices)
+                foreach (var i in settlementOwnerIndices)
+                {
+                    InfoBoxManager.Instance.writeMessage("Cannot gain Resource " + cell.cellResourceType + " because of SpacePirates");
+                }
+                foreach (var i in cityOwnerIndices)
                 {
                     InfoBoxManager.Instance.writeMessage("Cannot gain Resource " + cell.cellResourceType + " because of SpacePirates");
                 }

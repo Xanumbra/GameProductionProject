@@ -14,7 +14,7 @@ public class HexEdges : MonoBehaviour
     {
         foreach (var vertex in connectedVertices)
         {
-            if (vertex.hasSettlement && vertex.localPlayerOwnsSettlement)
+            if (vertex.hasBuilding && vertex.localPlayerOwnsSettlement)
             {
                 return true;
             }
@@ -34,7 +34,7 @@ public class HexEdges : MonoBehaviour
     {
         foreach (var vertex in connectedVertices)
         {
-            if (vertex != caller && vertex.hasSettlement)
+            if (vertex != caller && vertex.hasBuilding)
             {
                 return true;
             }

@@ -6,7 +6,8 @@ public class HexVertices : MonoBehaviour
 {
     public List<HexEdges> connectedEdges;
 
-    public bool hasSettlement = false;
+    public bool hasBuilding = false;
+    public bool hasCity = false;
     public bool localPlayerOwnsSettlement = false;
     public int ownerIndex = -1;
 

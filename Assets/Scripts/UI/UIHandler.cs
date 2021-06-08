@@ -27,6 +27,7 @@ public class UIHandler : MonoBehaviour
     public GameObject finishTurnBtn;
 
     public GameObject placementConfirmationMenu;
+    public GameObject upgradeConfirmationMenu;
 
     private void Start()
     {
@@ -234,5 +235,23 @@ public class UIHandler : MonoBehaviour
     {
         Player.localPlayer.ConfirmPlacement(false);
         placementConfirmationMenu.SetActive(false);
+    }
+
+    // -- Upgrade Building --
+    public void OpenUpgradingConfirmation()
+    {
+        upgradeConfirmationMenu.SetActive(true);
+    }
+
+    public void UpgradingConfirmationYes()
+    {
+        Player.localPlayer.ConfirmUpgrade(true);
+        upgradeConfirmationMenu.SetActive(false);
+    }
+
+    public void UpgradingConfirmationNo()
+    {
+        Player.localPlayer.ConfirmUpgrade(false);
+        upgradeConfirmationMenu.SetActive(false);
     }
 }

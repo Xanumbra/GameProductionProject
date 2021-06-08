@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class ObjectPlacer : NetworkBehaviour
 {
@@ -119,6 +120,14 @@ public class ObjectPlacer : NetworkBehaviour
         NetworkServer.Spawn(newObj);
     }
 
+    // -- Upgrade Building --
+    [Server]
+    public void UpgradeBuilding(Vector3 pos, Quaternion rot, Player owner)
+    {
+        SpawnBuilding(pos, rot, Enums.BuildingType.City, owner);
+    }
+
+    // -- Space Pirates --
     [Server]
     public bool SpawnSpacePirates(Vector3 pos)
     {
@@ -177,4 +186,6 @@ public class ObjectPlacer : NetworkBehaviour
             }
         }
     }
+
+
 }

@@ -57,26 +57,35 @@ public class ObjectClicker : MonoBehaviour
                 {
                     type = Enums.BuildingType.Settlement;
                     var hexVertex = clickedObject.GetComponent<HexVertices>();
+
+
                     if (hexVertex.IsSettlementValid())
                     {
-                        if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(type))
-                            || GameManager.Instance.curGameState == Enums.GameState.preGame)
+                        if (hexVertex.hasBuilding)
                         {
-                            Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
+                            Debug.Log("Settlement Clicked");
+
+                            if (GameManager.Instance.curGameState != Enums.GameState.preGame /*&& Player.localPlayer.HasResources(Enums.BuildingType.City)*/
+                                && hexVertex.ownerIndex == TurnManager.Instance.players.IndexOf(Player.localPlayer))
+                            {
+                                Debug.Log("Upgrading Settlement");
+                                var clickedBuilding = FindObjectsOfType<Building>().Where(b => b.transform.position == clickedObject.transform.position).Select(b => b).ElementAt(0);
+                                Player.localPlayer.UpgradeBuildung(clickedBuilding, hexGrid.hexVertices.IndexOf(hexVertex));
+                            }
                         }
                         else
                         {
-                            ResourceError();
+                            if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(type))
+                                || GameManager.Instance.curGameState == Enums.GameState.preGame)
+                            {
+                                Player.localPlayer.PlaceBuilding(clickedObject, type, hexGrid.hexVertices.IndexOf(hexVertex));
+                            }
+                            else
+                            {
+                                ResourceError();
+                            }
                         }
                     }
-                }
-                else if (clickedObject.name.Contains("Settlement"))
-                {
-                    Debug.Log("Settlement Clicked");
-
-                    //if ((GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(Enums.BuildingType.City)) {
-                    //    Player.localPlayer.UpgradeBuildung(clickedObject, type);
-                    //}
                 }
                 else
                 {
@@ -113,7 +122,7 @@ public class ObjectClicker : MonoBehaviour
 
     public void RpcUpdateVertex(int index, bool localOwner, int ownerIndex)
     {
-        hexGrid.hexVertices[index].hasSettlement = true;
+        hexGrid.hexVertices[index].hasBuilding = true;
         hexGrid.hexVertices[index].localPlayerOwnsSettlement = localOwner;
         hexGrid.hexVertices[index].ownerIndex = ownerIndex;
         Debug.Log("Rpc Update Vertexx");
