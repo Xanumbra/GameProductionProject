@@ -336,6 +336,7 @@ public class Player : NetworkBehaviour
         if (confirm)
         {
             CmdConfirmUpgrade(buildingToUpgrade, upgradeVertexIndex);
+            UseResources(Enums.BuildingType.City);
         }
     }
 

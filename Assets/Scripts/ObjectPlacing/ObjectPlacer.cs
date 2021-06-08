@@ -54,7 +54,7 @@ public class ObjectPlacer : NetworkBehaviour
         objClicker.enabled = false;
 
         var prefab = GetColoredPrefab(type, playerColor);
-
+        prefab.GetComponent<Building>().type = type;
         currentBuilding = Instantiate(prefab, buildingsParent);
 
 
@@ -132,6 +132,7 @@ public class ObjectPlacer : NetworkBehaviour
 
         newObj.GetComponent<Building>().owner = owner;
         newObj.GetComponent<Building>().parent = buildingsParent;
+        newObj.GetComponent<Building>().type = type;
         newObj.transform.position = pos;
         newObj.transform.rotation = rot;
 

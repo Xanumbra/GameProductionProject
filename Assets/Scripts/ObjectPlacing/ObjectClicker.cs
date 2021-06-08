@@ -61,7 +61,7 @@ public class ObjectClicker : MonoBehaviour
 
                     if (hexVertex.IsSettlementValid())
                     {
-                        if (hexVertex.hasBuilding)
+                        if (hexVertex.hasBuilding && !hexVertex.hasCity)
                         {
                             Debug.Log("Settlement Clicked");
 

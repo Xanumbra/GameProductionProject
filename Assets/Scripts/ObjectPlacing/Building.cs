@@ -14,6 +14,8 @@ public class Building : NetworkBehaviour
     [SyncVar(hook = nameof(UpdateType))]
     public Enums.BuildingType type;
 
+    private float rotSpeed = 30;
+
     void UpdateOwner(Player oldVal, Player newVal)
     {
         owner = newVal;
@@ -26,5 +28,13 @@ public class Building : NetworkBehaviour
 
     void UpdateType(Enums.BuildingType oldVal, Enums.BuildingType newVal)
     {
+    }
+
+    private void Update()
+    {
+        if (type == Enums.BuildingType.City || type == Enums.BuildingType.Settlement)
+        {
+            transform.Rotate(0, rotSpeed * Time.deltaTime, 0);
+        }
     }
 }
