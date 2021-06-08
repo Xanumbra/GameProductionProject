@@ -41,7 +41,7 @@ public class InfoBoxManager : NetworkBehaviour
     [ClientRpc]
     public void robberActivatedMessage()
     {
-        infoBox.text += "<color=black>Robber has been activated!</color>Players who have more than <b>7</b> cards loses half of it(9 Cards = 4 cards being discarded)";
+        infoBox.text += "<color=black>Space Pirates have been activated!</color>Players who have more than <b>7</b> cards lose half of it(9 Cards = 4 cards being discarded)";
     }
     [Client]
     public void ErrorMessageOnClient(string message)
@@ -65,13 +65,13 @@ public class InfoBoxManager : NetworkBehaviour
                 coloredName = "<color=red><b>" + playerName + BoldColorEnding;
                 break;
             case 1:
-                coloredName = "<color=blue><b>" + playerName + BoldColorEnding;
+                coloredName = "<color=green><b>" + playerName + BoldColorEnding;
                 break;
             case 2:
-                coloredName = "<color=magenta><b>" + playerName + BoldColorEnding;
+                coloredName = "<color=yellow><b>" + playerName + BoldColorEnding;
                 break;
             case 3:
-                coloredName = "<color=green><b>" + playerName + BoldColorEnding;
+                coloredName = "<color=blue><b>" + playerName + BoldColorEnding;
                 break;
         }
         return coloredName;
@@ -85,13 +85,13 @@ public class InfoBoxManager : NetworkBehaviour
                 coloredName = "<color=red><b>" + playerName + "'s" + BoldColorEnding;
                 break;
             case 1:
-                coloredName = "<color=blue><b>" + playerName + "'s" + BoldColorEnding;
+                coloredName = "<color=green><b>" + playerName + "'s" + BoldColorEnding;
                 break;
             case 2:
-                coloredName = "<color=magenta><b>" + playerName + "'s" + BoldColorEnding;
+                coloredName = "<color=yellow><b>" + playerName + "'s" + BoldColorEnding;
                 break;
             case 3:
-                coloredName = "<color=green><b>" + playerName + "'s" + BoldColorEnding;
+                coloredName = "<color=blue><b>" + playerName + "'s" + BoldColorEnding;
                 break;
         }
         return coloredName;
