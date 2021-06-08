@@ -22,9 +22,18 @@ public class ObjectPlacer : NetworkBehaviour
         objClicker = GetComponent<ObjectClicker>();
     }
 
-    public GameObject cityPrefab;
-    public GameObject roadPrefab;
-    public GameObject settlementPrefab;
+    public GameObject redCityPrefab;
+    public GameObject greenCityPrefab;
+    public GameObject yellowCityPrefab;
+    public GameObject blueCityPrefab;
+    public GameObject redRoadPrefab;
+    public GameObject greenRoadPrefab;
+    public GameObject yellowRoadPrefab;
+    public GameObject blueRoadPrefab;
+    public GameObject redSettlementPrefab;
+    public GameObject greenSettlementPrefab;
+    public GameObject yellowSettlementPrefab;
+    public GameObject blueSettlementPrefab;
     public Transform buildingsParent;
 
     public GameObject spacePiratePrefab;
@@ -44,23 +53,42 @@ public class ObjectPlacer : NetworkBehaviour
         currentlyPreviewing = true;
         objClicker.enabled = false;
 
-        switch (type)
-        {
-            case Enums.BuildingType.City:
-                currentBuilding = Instantiate(cityPrefab, buildingsParent);
-                break;
-            case Enums.BuildingType.Road:
-                currentBuilding = Instantiate(roadPrefab, buildingsParent);
-                break;
-            case Enums.BuildingType.Settlement:
-                currentBuilding = Instantiate(settlementPrefab, buildingsParent);
-                break;
-        }
+        var prefab = GetColoredPrefab(type, playerColor);
 
-        currentBuilding.GetComponent<MeshRenderer>().material.color = playerColor;
+        currentBuilding = Instantiate(prefab, buildingsParent);
+
+
         currentBuilding.transform.position = hexObject.transform.position + new Vector3(0, 8, 0);
         currentBuilding.transform.rotation = hexObject.transform.rotation;
         StartCoroutine(AnimatePreviewBuilding());
+    }
+
+    private GameObject GetColoredPrefab(Enums.BuildingType type, Color playerColor)
+    {
+        if (type == Enums.BuildingType.Settlement)
+        {
+            if (playerColor == Color.red) return redSettlementPrefab;
+            if (playerColor == Color.green) return greenSettlementPrefab;
+            if (playerColor == Color.yellow) return yellowSettlementPrefab;
+            if (playerColor == Color.blue) return blueSettlementPrefab;  
+        }
+        else if (type == Enums.BuildingType.City)
+        {
+            if (playerColor == Color.red) return redCityPrefab;
+            if (playerColor == Color.green) return greenCityPrefab;
+            if (playerColor == Color.yellow) return yellowCityPrefab;
+            if (playerColor == Color.blue) return blueCityPrefab;
+        }
+        else
+        {
+            if (playerColor == Color.red) return redRoadPrefab;
+            if (playerColor == Color.green) return greenRoadPrefab;
+            if (playerColor == Color.yellow) return yellowRoadPrefab;
+            if (playerColor == Color.blue) return blueRoadPrefab;
+
+        }
+
+        return null;
     }
 
     [Client]
@@ -98,19 +126,9 @@ public class ObjectPlacer : NetworkBehaviour
     [Server]
     public void SpawnBuilding(Vector3 pos, Quaternion rot, Enums.BuildingType type, Player owner)
     {
-        var newObj = gameObject;
-        switch (type)
-        {
-            case Enums.BuildingType.City:
-                newObj = Instantiate(cityPrefab, buildingsParent);
-                break;
-            case Enums.BuildingType.Road:
-                newObj = Instantiate(roadPrefab, buildingsParent);
-                break;
-            case Enums.BuildingType.Settlement:
-                newObj = Instantiate(settlementPrefab, buildingsParent);
-                break;
-        }
+        var prefab = GetColoredPrefab(type, owner.playerColor);
+
+        var newObj = Instantiate(prefab, buildingsParent);
 
         newObj.GetComponent<Building>().owner = owner;
         newObj.GetComponent<Building>().parent = buildingsParent;

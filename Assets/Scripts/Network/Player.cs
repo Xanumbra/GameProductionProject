@@ -84,13 +84,13 @@ public class Player : NetworkBehaviour
                 playerColor = Color.red;
                 break;
             case 1:
-                playerColor = Color.blue;
+                playerColor = Color.green;
                 break;
             case 2:
-                playerColor = Color.magenta;
+                playerColor = Color.yellow;
                 break;
             case 3:
-                playerColor = Color.green;
+                playerColor = Color.blue;
                 break;
         }
     }

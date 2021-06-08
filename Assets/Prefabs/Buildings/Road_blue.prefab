@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4387409851682932366
+--- !u!1 &6799296179515817733
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 372670895204700870}
-  - component: {fileID: 4844715630685611501}
-  - component: {fileID: 5101718689852228515}
-  - component: {fileID: 5810588488076083077}
-  - component: {fileID: -9222517348378935776}
-  - component: {fileID: 8077500893111392301}
+  - component: {fileID: 7463374900970138445}
+  - component: {fileID: 2414816607368240230}
+  - component: {fileID: 2626785798417332776}
+  - component: {fileID: 3610653986976564750}
+  - component: {fileID: 7114504954300549035}
+  - component: {fileID: 1342575846219030950}
   m_Layer: 0
-  m_Name: Road
+  m_Name: Road (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &372670895204700870
+--- !u!4 &7463374900970138445
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387409851682932366}
+  m_GameObject: {fileID: 6799296179515817733}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 10}
+  m_LocalScale: {x: 0.5, y: 0.1, z: 8}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4844715630685611501
+--- !u!33 &2414816607368240230
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387409851682932366}
+  m_GameObject: {fileID: 6799296179515817733}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5101718689852228515
+--- !u!23 &2626785798417332776
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387409851682932366}
+  m_GameObject: {fileID: 6799296179515817733}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 01a1a9785c17a3b489d6f38bf13db39d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,26 +82,26 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5810588488076083077
+--- !u!65 &3610653986976564750
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387409851682932366}
+  m_GameObject: {fileID: 6799296179515817733}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-9222517348378935776
+--- !u!114 &7114504954300549035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387409851682932366}
+  m_GameObject: {fileID: 6799296179515817733}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
@@ -112,13 +112,13 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &8077500893111392301
+--- !u!114 &1342575846219030950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387409851682932366}
+  m_GameObject: {fileID: 6799296179515817733}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a7d620a3f477a04e9c5530c1ad2d24c, type: 3}
@@ -128,3 +128,4 @@ MonoBehaviour:
   syncInterval: 0
   owner: {fileID: 0}
   parent: {fileID: 0}
+  type: 0

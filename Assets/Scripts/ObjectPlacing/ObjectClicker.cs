@@ -65,7 +65,7 @@ public class ObjectClicker : MonoBehaviour
                         {
                             Debug.Log("Settlement Clicked");
 
-                            if (GameManager.Instance.curGameState != Enums.GameState.preGame /*&& Player.localPlayer.HasResources(Enums.BuildingType.City)*/
+                            if (GameManager.Instance.curGameState != Enums.GameState.preGame && Player.localPlayer.HasResources(Enums.BuildingType.City)
                                 && hexVertex.ownerIndex == TurnManager.Instance.players.IndexOf(Player.localPlayer))
                             {
                                 Debug.Log("Upgrading Settlement");

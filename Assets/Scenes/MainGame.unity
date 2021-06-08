@@ -4692,11 +4692,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cityPrefab: {fileID: 8243604876779945431, guid: 7bdfdfc0d3f2e854f9775018ed01c9d8,
+  redCityPrefab: {fileID: 138655625257268677, guid: 43d65407076aa854ea0c5d3b358cfe63,
     type: 3}
-  roadPrefab: {fileID: 4387409851682932366, guid: bab7ae8a0e5944a4aa8eb23709659dc7,
+  greenCityPrefab: {fileID: 8153591374064281540, guid: 8d121df0465f26546aabfbbd4010fe38,
     type: 3}
-  settlementPrefab: {fileID: 6843492552080999462, guid: 42a06e63f9d1860418ecb018936cc24e,
+  yellowCityPrefab: {fileID: 3907310702477502820, guid: ef35389c1137e0d4cbfbf2951b67ebf4,
+    type: 3}
+  blueCityPrefab: {fileID: 6392598176171583921, guid: a104eae4dcddcf54cb39c9ef3d18e424,
+    type: 3}
+  redRoadPrefab: {fileID: 4387409851682932366, guid: bab7ae8a0e5944a4aa8eb23709659dc7,
+    type: 3}
+  greenRoadPrefab: {fileID: 6462307641705817, guid: f8ca977f91cc30348a6a20dabce76e5a,
+    type: 3}
+  yellowRoadPrefab: {fileID: 5270721997720114849, guid: b2316b255b905504fb84fe5b8a3b4bf6,
+    type: 3}
+  blueRoadPrefab: {fileID: 6799296179515817733, guid: a601e85c4f9048146afb3ae60d245f54,
+    type: 3}
+  redSettlementPrefab: {fileID: 2316341481243436987, guid: abd5d56be2e82134f9529bb428748bd8,
+    type: 3}
+  greenSettlementPrefab: {fileID: 5399390803085663012, guid: 380931a97fb3743419b5a1a32e322069,
+    type: 3}
+  yellowSettlementPrefab: {fileID: 1822933084921323155, guid: 2aa53bddd28fb0f4ca1584fa921aa670,
+    type: 3}
+  blueSettlementPrefab: {fileID: 6998631653139678687, guid: ff94fa2abd32abc488c3cba749faeb16,
     type: 3}
   buildingsParent: {fileID: 557483174}
   spacePiratePrefab: {fileID: 177799504693605133, guid: 2a1c5dc6e67a89b4bbdcb93700c3f994,
