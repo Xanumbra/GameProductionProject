@@ -10,6 +10,7 @@ public class UIHandler : MonoBehaviour
     public TMP_Text localPlayerName;
 
     public GameObject mapGenerationStateBtns;
+    public GameObject startGameBtn;
     public GameObject seedInputParent;
     InputField seedInput;
 
@@ -39,6 +40,7 @@ public class UIHandler : MonoBehaviour
     {
         var seed = seedInput.text;
         Player.localPlayer.GenerateMap(seed);
+        startGameBtn.SetActive(true);
     }
 
     public void StartGameBtn()
@@ -50,6 +52,8 @@ public class UIHandler : MonoBehaviour
     {
         Player.localPlayer.RollDice();
         rollDiceBtn.GetComponent<Button>().interactable = false;
+
+        if (GameManager.Instance.curGameState == Enums.GameState.inGame) finishTurnBtn.SetActive(true);
     }
 
     public void FinishTurnBtn()
@@ -121,7 +125,7 @@ public class UIHandler : MonoBehaviour
 
         if (GameManager.Instance.curGameState == Enums.GameState.inGame)
         {
-            finishTurnBtn.SetActive(true);
+            //finishTurnBtn.SetActive(true);
         }
 
         if (GameManager.Instance.curGameState != Enums.GameState.preGame)

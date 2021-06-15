@@ -2142,7 +2142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &766140553
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3844,6 +3844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localPlayerName: {fileID: 950117051}
   mapGenerationStateBtns: {fileID: 1784067800}
+  startGameBtn: {fileID: 766140552}
   seedInputParent: {fileID: 1014448735}
   curPlayerParent: {fileID: 419710611}
   curPlayerVal: {fileID: 149805699}

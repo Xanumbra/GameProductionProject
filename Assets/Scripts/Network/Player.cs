@@ -60,7 +60,7 @@ public class Player : NetworkBehaviour
         clientId = TurnManager.Instance.players.IndexOf(p);
         TargetClientJoined(clientId);
         SetPlayerColor();
-        InfoBoxManager.Instance.playerJoinMessage("Player " + p.clientId, p.clientId);
+        InfoBoxManager.Instance.playerJoinMessage("Player" + p.clientId, p.clientId);
 
         if (TurnManager.Instance.players.Count == 2)
         {
@@ -100,7 +100,7 @@ public class Player : NetworkBehaviour
     [TargetRpc]
     private void TargetClientJoined(int clientId)
     {
-        uiHandler.SetLocalPlayerName("player " + clientId);
+        uiHandler.SetLocalPlayerName("player" + clientId);
     }
 
     // -- Map Generation --
@@ -171,6 +171,7 @@ public class Player : NetworkBehaviour
 
             if (diceSum == 7)
             {
+                InfoBoxManager.Instance.robberActivatedMessage();
                 Debug.Log("Space Pirates Time");
                 ObjectPlacer.Instance.placeSpacePirates = true;
                 ObjectPlacer.Instance.MarkCurrentSpacePirates();

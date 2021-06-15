@@ -39,6 +39,34 @@ public class GameManager : NetworkBehaviour
 
         Player.localPlayer.UpdateGameState(newState.ToString());
         Player.localPlayer.SwitchGameStateUI(newState);
+
+        ShowNewGameStateMessage(newState);
+    }
+
+    void ShowNewGameStateMessage(Enums.GameState state)
+    {
+        switch (state)
+        {
+            case Enums.GameState.waitingForPlayers:
+                InfoBoxManager.Instance.ErrorMessageOnClient("<b>Waiting for Players</b> - Not enough players joined your game");
+                break;
+            case Enums.GameState.mapGeneration:
+                InfoBoxManager.Instance.ErrorMessageOnClient("<b>Map Generation</b> - Host can generate random map now");
+                break;
+            case Enums.GameState.turnDetermization:
+                InfoBoxManager.Instance.ErrorMessageOnClient("<b>Turn Determization</b> - Everybody rolls the dice - the player with the highest number will be first, the player with the lowest number will be last");
+                break;
+            case Enums.GameState.preGame:
+                InfoBoxManager.Instance.ErrorMessageOnClient("<b>Pre Game</b> - Everyone can place a Settlement and a Road on his turn");
+                break;
+            case Enums.GameState.inGame:
+                InfoBoxManager.Instance.ErrorMessageOnClient("<b>In Game</b> - Roll dice to gain resources to build something");
+                break;   
+            case Enums.GameState.postGame:
+                InfoBoxManager.Instance.ErrorMessageOnClient("<b>Post Game</b> - Congratulations, the game is over");
+                break;
+
+        }
     }
 
     [Server]
