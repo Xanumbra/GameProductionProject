@@ -14,7 +14,7 @@ public class Building : NetworkBehaviour
     [SyncVar(hook = nameof(UpdateType))]
     public Enums.BuildingType type;
 
-    private float rotSpeed = 30;
+    private float rotSpeed = 12;
 
     void UpdateOwner(Player oldVal, Player newVal)
     {
