@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2345189105332769891}
   - component: {fileID: 8731074596081707802}
   m_Layer: 0
-  m_Name: City_red (1)
+  m_Name: City_green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1259c43305dc2642833c5c5dbcc9f60, type: 2}
+  - {fileID: 2100000, guid: bf924a96d89cd094da3d1e0e9771fa0d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
