@@ -60,12 +60,14 @@ public class Player : NetworkBehaviour
         clientId = TurnManager.Instance.players.IndexOf(p);
         TargetClientJoined(clientId);
         SetPlayerColor();
+        InfoBoxManager.Instance.playerJoinMessage("Player " + p.clientId, p.clientId);
 
-        if (TurnManager.Instance.players.Count == 1)
+        if (TurnManager.Instance.players.Count == 2)
         {
             Debug.Log("Enough Players joined - Active UI");
 
             GameManager.Instance.curGameState = Enums.GameState.mapGeneration;
+            InfoBoxManager.Instance.writeMessage("Enough players joined - starting game");
         }
     }
 

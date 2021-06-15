@@ -32,6 +32,14 @@ public class InfoBoxManager : NetworkBehaviour
         playerName = SetPlayerNameBoldColorWithS(playerName, order);
         infoBox.text += "\nIt's " + playerName + " turn.";
     }
+
+    [ClientRpc]
+    public void playerJoinMessage(string playerName, int order)
+    {
+        playerName = SetPlayerNameBoldColor(playerName, order);
+        infoBox.text += "\n"+ playerName + " joined the game";
+    }
+
     [ClientRpc]
     public void diceRollMessage(string playerName, int order, int diceTotal)
     {
@@ -41,7 +49,7 @@ public class InfoBoxManager : NetworkBehaviour
     [ClientRpc]
     public void robberActivatedMessage()
     {
-        infoBox.text += "<color=black>Space Pirates have been activated!</color>Players who have more than <b>7</b> cards lose half of it(9 Cards = 4 cards being discarded)";
+        infoBox.text += "<color=black>Space Pirates have been activated!</color>";
     }
     [Client]
     public void ErrorMessageOnClient(string message)
