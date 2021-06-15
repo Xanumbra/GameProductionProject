@@ -22,6 +22,11 @@ public class Player : NetworkBehaviour
 
     private bool hasPlacedSpacePirates;
 
+    public int GetAllResources()
+    {
+        return darkMatterAmount + spacePigAmount + waterAmount + metalAmount + energyAmount;
+    }
+
     [Client]
     public override void OnStartClient()
     {
@@ -176,6 +181,7 @@ public class Player : NetworkBehaviour
                 ObjectPlacer.Instance.placeSpacePirates = true;
                 ObjectPlacer.Instance.MarkCurrentSpacePirates();
                 hasPlacedSpacePirates = false;
+                GameManager.Instance.SpacePiratesRobResources();
             }
             else
             {
@@ -216,6 +222,7 @@ public class Player : NetworkBehaviour
         {
             ObjectPlacer.Instance.placeSpacePirates = false;
             ObjectPlacer.Instance.UnMarkCurrentSpacePirates();
+            GameManager.Instance.StealResources();
         }
         SrvFinishTurn();
     }
@@ -405,6 +412,8 @@ public class Player : NetworkBehaviour
     public void ChangeResourceAmount(Enums.Resources resource, int amount)
     {
         Debug.Log("Resources Change: " + resource.ToString() + " - " + amount);
+        InfoBoxManager.Instance.ResourceMessage(clientId, amount, resource);
+
         switch (resource)
         {
             case Enums.Resources.darkMatter:

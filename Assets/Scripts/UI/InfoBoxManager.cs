@@ -58,10 +58,12 @@ public class InfoBoxManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void ResourceMessage(string playerName, int receiverId, int amount, Enums.Resources type)
+    public void ResourceMessage(int receiverId, int amount, Enums.Resources type)
     {
-        playerName = SetPlayerNameBoldColor(playerName, receiverId);
-        infoBox.text += "\n" + playerName + " received " + amount + " " + type;
+        var playerName = SetPlayerNameBoldColor("Player " + receiverId, receiverId);
+        var s = " <b>received</b> ";
+        if (amount < 0) s = " <b>lost</b> ";
+        infoBox.text += "\n" + playerName + s + amount + " " + type;
     }
 
     string SetPlayerNameBoldColor(string playerName, int order)

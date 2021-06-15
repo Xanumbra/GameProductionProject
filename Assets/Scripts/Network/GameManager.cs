@@ -88,14 +88,12 @@ public class GameManager : NetworkBehaviour
                 {
                     var p = TurnManager.Instance.players[i];
                     p.ChangeResourceAmount(cell.cellResourceType, 1);
-                    InfoBoxManager.Instance.ResourceMessage("Player" + p.clientId, p.clientId, 1, cell.cellResourceType);
                 }
 
                 foreach (var i in cityOwnerIndices)
                 {
                     var p = TurnManager.Instance.players[i];
                     p.ChangeResourceAmount(cell.cellResourceType, 2);
-                    InfoBoxManager.Instance.ResourceMessage("Player" + p.clientId, p.clientId, 2, cell.cellResourceType);
                 }
             }
             else
@@ -110,5 +108,92 @@ public class GameManager : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [Server]
+    public void StealResources()
+    {
+        foreach (var cell in hexGrid.cells)
+        {
+            if (cell.hasSpacePirates)
+            {
+                var playersWithBuilding = new List<Player>();
+                foreach (var vertex in cell.hexVertices)
+                {
+                    if (vertex.hasBuilding) playersWithBuilding.Add(TurnManager.Instance.players[vertex.ownerIndex]);
+                }
+
+                foreach (var player in playersWithBuilding)
+                {
+                    Debug.Log("Stealing resources from player");
+                    if (player != TurnManager.Instance.curPlayer)
+                    {
+                        var type = cell.cellResourceType;
+                        switch (type)
+                        {
+                            case Enums.Resources.darkMatter:
+                                if (player.darkMatterAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.energy:
+                                if (player.energyAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.metal:
+                                if (player.metalAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.spacePig:
+                                if (player.spacePigAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.water:
+                                if (player.waterAmount <= 0) Debug.Log("Cannot steal!"); return;
+                        }
+                        player.ChangeResourceAmount(type, -1);
+                        TurnManager.Instance.curPlayer.ChangeResourceAmount(type, 1);
+                    }
+                }
+            }
+        }
+    }
+
+    [Server]
+    public void SpacePiratesRobResources()
+    {
+        /*var validPlayers = TurnManager.Instance.players.Where(p => p.GetAllResources() > 7).Select(p => p);
+
+        foreach (var p in validPlayers)
+        {
+            int resourceSum = p.GetAllResources() / 2;
+            Random.InitState(System.Environment.TickCount);
+
+            while (p.GetAllResources() > resourceSum)
+            {
+                
+                var typeIndex = Random.Range(0, 4);
+                var type = Enums.Resources.darkMatter;
+                var curAmount = 0;
+
+                switch (typeIndex)
+                {
+                    case 0:
+                        type = Enums.Resources.darkMatter; 
+                        curAmount = p.darkMatterAmount;
+                        break;
+                    case 1:
+                        type = Enums.Resources.water;
+                        curAmount = p.waterAmount;
+                        break;
+                    case 2:
+                        type = Enums.Resources.energy;
+                         curAmount = p.energyAmount;
+                        break;
+                    case 3:
+                        type = Enums.Resources.metal;
+                        curAmount = p.metalAmount;
+                        break;
+                    case 4:
+                        type = Enums.Resources.spacePig;
+                        curAmount = p.spacePigAmount;
+                        break;
+                }
+
+                var reduceAmount = Random.Range(1, (curAmount / 2) * (-1));
+                p.ChangeResourceAmount(type, reduceAmount);
+            }
+        }*/
     }
 }

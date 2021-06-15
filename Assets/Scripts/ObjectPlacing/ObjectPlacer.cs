@@ -185,25 +185,25 @@ public class ObjectPlacer : NetworkBehaviour
     [ClientRpc]
     public void MarkCurrentSpacePirates()
     {
-        if (curSpacePirates != null) // curSpacePirates is null if no pirates have been been paced yet
-        {
+        //if (curSpacePirates != null) // curSpacePirates is null if no pirates have been been paced yet
+        //{
             foreach (var cell in objClicker.hexGrid.cells)
             {
                 if (cell.hasSpacePirates) cell.hadSpacePiratesBefore = true;
             }
-        }
+        //}
     }
 
     [ClientRpc]
     public void UnMarkCurrentSpacePirates()
     {
-        if (curSpacePirates != null) // curSpacePirates is null if no pirates have been been paced yet
-        {
+        //if (curSpacePirates != null) // curSpacePirates is null if no pirates have been been paced yet
+        //{
             foreach (var cell in objClicker.hexGrid.cells)
             {
                 cell.hadSpacePiratesBefore = false;
             }
-        }
+       // }
     }
 
 
