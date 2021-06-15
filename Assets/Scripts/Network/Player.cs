@@ -219,6 +219,7 @@ public class Player : NetworkBehaviour
         {
             ObjectPlacer.Instance.placeSpacePirates = false;
             ObjectPlacer.Instance.UnMarkCurrentSpacePirates();
+            GameManager.Instance.StealResources();
         }
         SrvFinishTurn();
     }

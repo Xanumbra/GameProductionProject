@@ -83,9 +83,49 @@ public class GameManager : NetworkBehaviour
     }
 
     [Server]
+    public void StealResources()
+    {
+        foreach (var cell in hexGrid.cells)
+        {
+            if (cell.hasSpacePirates)
+            {
+                var playersWithBuilding = new List<Player>();
+                foreach (var vertex in cell.hexVertices)
+                {
+                    if (vertex.hasBuilding) playersWithBuilding.Add(TurnManager.Instance.players[vertex.ownerIndex]);
+                }
+
+                foreach (var player in playersWithBuilding)
+                {
+                    Debug.Log("Stealing resources from player");
+                    if (player != TurnManager.Instance.curPlayer)
+                    {
+                        var type = cell.cellResourceType;
+                        switch (type)
+                        {
+                            case Enums.Resources.darkMatter:
+                                if (player.darkMatterAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.energy:
+                                if (player.energyAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.metal:
+                                if (player.metalAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.spacePig:
+                                if (player.spacePigAmount <= 0) Debug.Log("Cannot steal!"); return;
+                            case Enums.Resources.water:
+                                if (player.waterAmount <= 0) Debug.Log("Cannot steal!"); return;
+                        }
+                        player.ChangeResourceAmount(type, -1);
+                        TurnManager.Instance.curPlayer.ChangeResourceAmount(type, 1);
+                    }
+                }
+            }
+        }
+    }
+
+    [Server]
     public void SpacePiratesRobResources()
     {
-        var validPlayers = TurnManager.Instance.players.Where(p => p.GetAllResources() > 7).Select(p => p);
+        /*var validPlayers = TurnManager.Instance.players.Where(p => p.GetAllResources() > 7).Select(p => p);
 
         foreach (var p in validPlayers)
         {
@@ -126,6 +166,6 @@ public class GameManager : NetworkBehaviour
                 var reduceAmount = Random.Range(1, (curAmount / 2) * (-1));
                 p.ChangeResourceAmount(type, reduceAmount);
             }
-        }
+        }*/
     }
 }
