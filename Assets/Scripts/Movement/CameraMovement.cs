@@ -54,6 +54,10 @@ public class CameraMovement : MonoBehaviour
     float mouseScrollWheelInput;
     private float zoomTime = 0f;
 
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
+
     [Range(0.1f, 5.0f)]
     public float moveSpeed = 1.0f;
 
@@ -65,6 +69,9 @@ public class CameraMovement : MonoBehaviour
 
     public float maxZoomDepth = 20;
     public float maxZoomHeight = 80;
+
+
+    public Collider boundingBox;
 
     void GetInput()
     {
@@ -89,9 +96,13 @@ public class CameraMovement : MonoBehaviour
     void Move()
     {
         transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * verticalInput * moveSpeed;
-        transform.position += transform.right * horizontalInput * moveSpeed;
-    }
+        if (!boundingBox.bounds.Contains(transform.position))
+            transform.position -= new Vector3(transform.forward.x, 0, transform.forward.z) * verticalInput * moveSpeed;
 
+        transform.position += transform.right * horizontalInput * moveSpeed;
+        if (!boundingBox.bounds.Contains(transform.position))
+            transform.position -= transform.right * horizontalInput * moveSpeed;
+    }
     void Rotate()
     {
         transform.eulerAngles += new Vector3(mouseVerticalInput * (-1), mouseHorizontalInput, 0) * rotationSpeed;
@@ -99,19 +110,22 @@ public class CameraMovement : MonoBehaviour
 
     void Zoom()
     {
+        bool zoomingIn = mouseScrollWheelInput > 0;
         if (mouseScrollWheelInput != 0) zoomTime = 0;
         zoomTime += Time.deltaTime;
 
         var translation = transform.position + (transform.forward * mouseScrollWheelInput * zoomSpeed);
-        if (transform.position.y > maxZoomDepth && transform.position.y < maxZoomHeight)
+        if ((transform.position.y < maxZoomDepth && !zoomingIn || transform.position.y > maxZoomHeight && zoomingIn)
+            || (transform.position.y > maxZoomDepth && transform.position.y < maxZoomHeight))
         {
             transform.position = Vector3.Lerp(transform.position, translation, zoomTime / 4f);
         }
-        else
-        {
-            if (transform.position.y < maxZoomDepth) transform.position = new Vector3(transform.position.x, maxZoomDepth + 1 , transform.position.z);
-            else transform.position = new Vector3(transform.position.x, maxZoomHeight - 1, transform.position.z);
-        }
+    }
+
+    private void Start()
+    {
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
     }
 
     private void FixedUpdate()
@@ -124,7 +138,11 @@ public class CameraMovement : MonoBehaviour
     private void Update()
     {
         Zoom();
+    }
 
+    public void ResetCameraBtn()
+    {
+        transform.SetPositionAndRotation(initialPosition, initialRotation);
     }
 }
 

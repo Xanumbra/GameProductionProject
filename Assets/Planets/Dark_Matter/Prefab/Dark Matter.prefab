@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 3401406935809400202}
   - component: {fileID: 8788937284045479196}
   - component: {fileID: -1178611910115492074}
+  - component: {fileID: 5538466262396615543}
   m_Layer: 0
   m_Name: Dark Matter
   m_TagString: Untagged
@@ -328,3 +329,15 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &5538466262396615543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3401406935809400203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baec790721a9eba489ccb96052075338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
