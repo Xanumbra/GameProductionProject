@@ -5,43 +5,126 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-    private float moveSpeed = 0.1f;
-    private float scrollSpeed = 1f;
-    private float rotationSpeed = 1f;
-    public bool movable = true;
+    //private float moveSpeed = 0.1f;
+    //private float scrollSpeed = 1f;
+    //private float rotationSpeed = 1f;
+    //public bool movable = true;
 
-    public void setMovable(bool value) {
-        movable = value;
-    }
+    //public void setMovable(bool value) {
+    //    movable = value;
+    //}
 
-    public bool getMovable() {
-        return this.movable;
-    }
-    // Start is called before the first frame update
-    void Start()
+    //public bool getMovable() {
+    //    return this.movable;
+    //}
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+
+    //}
+
+    //// Update is called once per frame
+    //void Update () {
+    //    if (movable) {
+    //        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
+    //            transform.position += moveSpeed * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+    //        }
+
+    //        if (Input.GetAxis("Mouse ScrollWheel") != 0) {
+    //            transform.position += scrollSpeed * new Vector3(0, -Input.GetAxis("Mouse ScrollWheel"), 0);
+    //        }
+
+    //        if (Input.GetKey(KeyCode.K)) {
+    //            transform.Rotate(0,rotationSpeed,0,0);
+    //        }
+
+    //        if (Input.GetKey(KeyCode.J)) {
+    //            transform.Rotate(0,-rotationSpeed,0,0);
+    //        }
+    //    }
+    //} 
+
+    //#### END OF OLD CAMERA CONTROLER ####
+    //#### NEW ON IS BELOW ###
+
+    float horizontalInput;
+    float verticalInput;
+    float mouseHorizontalInput;
+    float mouseVerticalInput;
+    float mouseScrollWheelInput;
+    private float zoomTime = 0f;
+
+    [Range(0.1f, 5.0f)]
+    public float moveSpeed = 1.0f;
+
+    [Range(0.1f, 5.0f)]
+    public float rotationSpeed = 1.0f;
+
+    [Range(1f, 10000f)]
+    public float zoomSpeed = 1000f;
+
+    public float maxZoomDepth = 20;
+    public float maxZoomHeight = 80;
+
+    void GetInput()
     {
-        
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        mouseScrollWheelInput = Input.GetAxis("Mouse ScrollWheel");
+
+        if (Input.GetMouseButton(1))
+        {
+            mouseHorizontalInput = Input.GetAxis("Mouse X");
+            mouseVerticalInput = Input.GetAxis("Mouse Y");
+
+        }
+        else
+        {
+            mouseHorizontalInput = 0;
+            mouseVerticalInput = 0;
+        }
+
     }
 
-    // Update is called once per frame
-    void Update () {
-        if (movable) {
-            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
-                transform.position += moveSpeed * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            }
+    void Move()
+    {
+        transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * verticalInput * moveSpeed;
+        transform.position += transform.right * horizontalInput * moveSpeed;
+    }
 
-            if (Input.GetAxis("Mouse ScrollWheel") != 0) {
-                transform.position += scrollSpeed * new Vector3(0, -Input.GetAxis("Mouse ScrollWheel"), 0);
-            }
+    void Rotate()
+    {
+        transform.eulerAngles += new Vector3(mouseVerticalInput * (-1), mouseHorizontalInput, 0) * rotationSpeed;
+    }
 
-            if (Input.GetKey(KeyCode.K)) {
-                transform.Rotate(0,rotationSpeed,0,0);
-            }
+    void Zoom()
+    {
+        if (mouseScrollWheelInput != 0) zoomTime = 0;
+        zoomTime += Time.deltaTime;
 
-            if (Input.GetKey(KeyCode.J)) {
-                transform.Rotate(0,-rotationSpeed,0,0);
-            }
+        var translation = transform.position + (transform.forward * mouseScrollWheelInput * zoomSpeed);
+        if (transform.position.y > maxZoomDepth && transform.position.y < maxZoomHeight)
+        {
+            transform.position = Vector3.Lerp(transform.position, translation, zoomTime / 4f);
         }
+        else
+        {
+            if (transform.position.y < maxZoomDepth) transform.position = new Vector3(transform.position.x, maxZoomDepth + 1 , transform.position.z);
+            else transform.position = new Vector3(transform.position.x, maxZoomHeight - 1, transform.position.z);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        GetInput();
+        Move();
+        Rotate();
+    }
+
+    private void Update()
+    {
+        Zoom();
+
     }
 }
 

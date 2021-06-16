@@ -13,10 +13,10 @@ public class NumberInput : MonoBehaviour
 		//Debug.Log(inputField);
   //      Debug.Log(inputField.GetComponent<InputField>());
   //      Debug.Log(inputField.GetComponent<InputField>().isFocused);
-        if(inputField.GetComponent<InputField>().isFocused == true) {
-            cameraComponent.setMovable(false);
-        } else {
-            cameraComponent.setMovable(true);
-        }
+        //if(inputField.GetComponent<InputField>().isFocused == true) {
+        //    cameraComponent.setMovable(false);
+        //} else {
+        //    cameraComponent.setMovable(true);
+        //}
 	}
 }
