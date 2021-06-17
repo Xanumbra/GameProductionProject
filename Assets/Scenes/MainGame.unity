@@ -1033,7 +1033,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1582224480}
         m_MethodName: ResetCameraBtn
         m_Mode: 1
         m_Arguments:

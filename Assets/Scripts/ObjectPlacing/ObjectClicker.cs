@@ -38,6 +38,7 @@ public class ObjectClicker : MonoBehaviour
                 Enums.BuildingType type = Enums.BuildingType.None;
                 if (clickedObject.name.Contains("Edge"))
                 {
+                    if (clickedObject.GetComponent<HexEdges>().hasRoad) return;
                     type = Enums.BuildingType.Road;
                     var hexEdge = clickedObject.GetComponent<HexEdges>();
                     if (hexEdge.IsRoadValid())
@@ -55,6 +56,7 @@ public class ObjectClicker : MonoBehaviour
                 }
                 else if (clickedObject.name.Contains("Vertex"))
                 {
+                    if (clickedObject.GetComponent<HexVertices>().hasCity) return;
                     type = Enums.BuildingType.Settlement;
                     var hexVertex = clickedObject.GetComponent<HexVertices>();
 
