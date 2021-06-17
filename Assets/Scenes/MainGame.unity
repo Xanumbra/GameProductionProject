@@ -1929,7 +1929,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.7560587, b: 0.6179246, a: 1}
+  m_Color: {r: 1, g: 0.9246256, b: 0.8820755, a: 1}
   m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
@@ -2890,7 +2890,7 @@ MonoBehaviour:
   - planetPrefab: {fileID: 5761989650644836351, guid: f5026a77dc5db2c4d81ab264c5b52ef4,
       type: 3}
     resource: 1
-  - planetPrefab: {fileID: 6918734734687564252, guid: cb6773cf6de990748947222b316efed7,
+  - planetPrefab: {fileID: 8112575309842796234, guid: 01a742a9de0062741a49873dea0a2ba2,
       type: 3}
     resource: 2
   - planetPrefab: {fileID: 1111100286403596457, guid: 264de5361a509384cbd4d1f80662b9d0,
@@ -5002,7 +5002,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.61960787, g: 0.8013802, b: 1, a: 1}
+  m_Color: {r: 0.8632076, g: 0.9280782, b: 1, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30

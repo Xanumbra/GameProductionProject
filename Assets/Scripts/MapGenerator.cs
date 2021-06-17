@@ -38,7 +38,7 @@ public class MapGenerator : NetworkBehaviour
     {
         Enums.Resources.darkMatter,
         Enums.Resources.darkMatter,
-        Enums.Resources.darkMatter,
+        Enums.Resources.darkMatter, 
         Enums.Resources.spacePig,
         Enums.Resources.spacePig,
         Enums.Resources.spacePig,

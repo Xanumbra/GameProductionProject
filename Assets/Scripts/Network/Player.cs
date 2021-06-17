@@ -56,7 +56,7 @@ public class Player : NetworkBehaviour
         }
 
         localPlayer.CmdClientLeft(this);
-    }
+    } 
 
     [Command]
     void CmdClientJoined(Player p)
