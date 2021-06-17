@@ -67,7 +67,7 @@ public class Player : NetworkBehaviour
         SetPlayerColor();
         InfoBoxManager.Instance.playerJoinMessage("Player" + p.clientId, p.clientId);
 
-        if (TurnManager.Instance.players.Count == 2)
+        if (TurnManager.Instance.players.Count == 1)
         {
             Debug.Log("Enough Players joined - Active UI");
 

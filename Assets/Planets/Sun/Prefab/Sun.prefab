@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1111100286403596457}
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.013, y: 0.013, z: 0.013}
+  m_LocalScale: {x: 0.011, y: 0.011, z: 0.011}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -114,4 +114,5 @@ MonoBehaviour:
   syncInterval: 0.1
   owner: {fileID: 0}
   parent: {fileID: 297443726360021523}
-  type: 3
+  type: 2
+  rotSpeed: -2

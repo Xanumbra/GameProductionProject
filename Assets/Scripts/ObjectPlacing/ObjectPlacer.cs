@@ -56,10 +56,14 @@ public class ObjectPlacer : NetworkBehaviour
         var prefab = GetColoredPrefab(type, playerColor);
         prefab.GetComponent<Building>().type = type;
         currentBuilding = Instantiate(prefab, buildingsParent);
-
+        
+        
+        var rot = hexObject.transform.rotation;
+        rot *= Quaternion.Euler(0, 90, 0);
 
         currentBuilding.transform.position = hexObject.transform.position + new Vector3(0, 8, 0);
-        currentBuilding.transform.rotation = hexObject.transform.rotation;
+
+        currentBuilding.transform.rotation = rot;
         StartCoroutine(AnimatePreviewBuilding());
     }
 
@@ -134,7 +138,9 @@ public class ObjectPlacer : NetworkBehaviour
         newObj.GetComponent<Building>().parent = buildingsParent;
         newObj.GetComponent<Building>().type = type;
         newObj.transform.position = pos;
+        rot *= Quaternion.Euler(0, 90, 0);
         newObj.transform.rotation = rot;
+
 
         NetworkServer.Spawn(newObj);
     }
