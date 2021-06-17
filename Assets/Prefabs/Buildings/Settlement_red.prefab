@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4081476998782389580}
   - component: {fileID: 847112669648029948}
   m_Layer: 0
-  m_Name: Settlement_final
+  m_Name: Settlement_red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,4 +114,5 @@ MonoBehaviour:
   syncInterval: 0.1
   owner: {fileID: 0}
   parent: {fileID: 0}
-  type: 0
+  type: 1
+  rotSpeed: 5
