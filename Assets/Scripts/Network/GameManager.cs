@@ -147,7 +147,7 @@ public class GameManager : NetworkBehaviour
                     }
                 }
             }
-        }
+		}
     }
 
     [Server]
