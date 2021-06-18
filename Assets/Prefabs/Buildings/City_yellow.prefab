@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3258761226593716401}
   - component: {fileID: 7463915209987676867}
   - component: {fileID: 4482748847900698042}
+  - component: {fileID: 6258903921338765639}
   m_Layer: 0
   m_Name: City_yellow
   m_TagString: Untagged
@@ -115,3 +116,21 @@ MonoBehaviour:
   owner: {fileID: 0}
   parent: {fileID: 0}
   type: 0
+--- !u!114 &6258903921338765639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3907310702477502820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e09c4212ecfc9104ea1ca058adabff9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotSpeedYmin: 9
+  rotSpeedYmax: 15
+  rotSpeedXmin: 0
+  rotSpeedXmax: 0
+  rotSpeedZmin: 0
+  rotSpeedZmax: 0

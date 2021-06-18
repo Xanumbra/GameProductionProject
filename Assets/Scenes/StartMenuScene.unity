@@ -543,6 +543,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Metal_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4292014694449522323, guid: 4f0c22a93ee23a944b99e750eb6fca26,
+        type: 3}
+      propertyPath: rotSpeedY
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6980711117648239335, guid: 4f0c22a93ee23a944b99e750eb6fca26,
         type: 3}
       propertyPath: m_sharedMaterial

@@ -13,8 +13,9 @@ public class Building : NetworkBehaviour
 
     [SyncVar(hook = nameof(UpdateType))]
     public Enums.BuildingType type;
-    [Range(-100, 100)]
-    public float rotSpeed = 12;
+
+    //[Range(-100, 100)]
+    //public float rotSpeed = 12;
 
     void UpdateOwner(Player oldVal, Player newVal)
     {
@@ -30,11 +31,11 @@ public class Building : NetworkBehaviour
     {
     }
 
-    private void Update()
-    {
-        if (type == Enums.BuildingType.City || type == Enums.BuildingType.Settlement)
-        {
-            transform.Rotate(0, rotSpeed * Time.deltaTime, 0);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (type == Enums.BuildingType.City || type == Enums.BuildingType.Settlement)
+    //    {
+    //        transform.Rotate(0, rotSpeed * Time.deltaTime, 0);
+    //    }
+    //}
 }
