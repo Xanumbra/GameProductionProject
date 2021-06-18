@@ -29,6 +29,7 @@ public class UIHandler : MonoBehaviour
 
     public GameObject placementConfirmationMenu;
     public GameObject upgradeConfirmationMenu;
+    public GameObject tradePanel;
 
     private void Start()
     {
@@ -258,4 +259,18 @@ public class UIHandler : MonoBehaviour
         Player.localPlayer.ConfirmUpgrade(false);
         upgradeConfirmationMenu.SetActive(false);
     }
+
+    #region Trade UI
+    public void TradePanel()
+    {
+        if (tradePanel.activeSelf)
+        {
+            tradePanel.SetActive(false);
+        }
+        else
+        {
+            tradePanel.SetActive(true);
+        }
+    }
+    #endregion
 }
