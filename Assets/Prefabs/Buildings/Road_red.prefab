@@ -69,7 +69,6 @@ MonoBehaviour:
   owner: {fileID: 0}
   parent: {fileID: 0}
   type: 0
-  rotSpeed: 12
 --- !u!95 &2243901099296131645
 Animator:
   serializedVersion: 3
@@ -96,6 +95,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 372670895204700870}
     m_Modifications:
+    - target: {fileID: 3752073542477706494, guid: 5c49f7504f6c84d4697f1404b45b2b78,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 095ab23a37ed17a44b88f5433ed5c06c, type: 2}
     - target: {fileID: 8122977527655484355, guid: 5c49f7504f6c84d4697f1404b45b2b78,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -171,6 +175,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 372670895204700870}
     m_Modifications:
+    - target: {fileID: 3752073542477706494, guid: 5c49f7504f6c84d4697f1404b45b2b78,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 095ab23a37ed17a44b88f5433ed5c06c, type: 2}
     - target: {fileID: 8122977527655484355, guid: 5c49f7504f6c84d4697f1404b45b2b78,
         type: 3}
       propertyPath: m_LocalPosition.x
