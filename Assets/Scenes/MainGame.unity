@@ -5542,10 +5542,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  rotationSpeed: 2
-  zoomSpeed: 6500
-  maxZoomDepth: 20
-  maxZoomHeight: 80
+  rotationSpeed: 5
+  zoomSpeed: 8000
+  maxZoomDepth: 5
+  maxZoomHeight: 60
   boundingBox: {fileID: 1456107291}
 --- !u!81 &1582224481
 AudioListener:

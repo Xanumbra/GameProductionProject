@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3615932667646515286}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967294
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 8736958394189148905}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5358196354165968587}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967294
@@ -450,6 +450,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpacePig
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5f1ae41d998fa9f4482676238023468e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Planet
       objectReference: {fileID: 0}
     - target: {fileID: 1277664210887787240, guid: 5f1ae41d998fa9f4482676238023468e,
         type: 3}

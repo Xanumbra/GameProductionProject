@@ -89,7 +89,7 @@ public class ObjectClicker : MonoBehaviour
                         }
                     }
                 }
-                else /*if (clickedObject.c)*/
+                else if (clickedObject.gameObject.CompareTag("Planet"))
                 {
                     Debug.Log("Planet Clicked");
                     if(clickedObject.transform.GetComponentInParent<HexCell>().hadSpacePiratesBefore)
@@ -99,7 +99,7 @@ public class ObjectClicker : MonoBehaviour
                     }
                     else
                     {
-                        Player.localPlayer.SpawnSpacePirates(clickedObject, Array.FindIndex(hexGrid.cells, val => val.Equals(clickedObject.transform.parent.GetComponent<HexCell>())));
+                        Player.localPlayer.SpawnSpacePirates(clickedObject, Array.FindIndex(hexGrid.cells, val => val.Equals(clickedObject.transform.GetComponentInParent<HexCell>())));
                     }
                 }
             }
