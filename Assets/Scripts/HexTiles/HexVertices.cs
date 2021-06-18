@@ -10,6 +10,9 @@ public class HexVertices : MonoBehaviour
     public bool hasCity = false;
     public bool localPlayerOwnsSettlement = false;
     public int ownerIndex = -1;
+    public bool isHarbor = false;
+    public int harborType = 0;
+    public Enums.Resources harborResource;
 
     public bool IsSettlementValid()
     {
