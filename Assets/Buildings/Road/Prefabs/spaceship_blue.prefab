@@ -67,6 +67,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 28e0884e7f4882c46ad94b9a6e1b59fd, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 6d517e0ce34cf4f47aa00a7ecd5eff5b,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6d517e0ce34cf4f47aa00a7ecd5eff5b,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6d517e0ce34cf4f47aa00a7ecd5eff5b,
+        type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6d517e0ce34cf4f47aa00a7ecd5eff5b,
         type: 3}
       propertyPath: m_Name

@@ -13,7 +13,7 @@ public class Enums
     }
     public enum BuildingType 
     { 
-        Road,
+        Road, 
         Settlement,
         City,
         None 
