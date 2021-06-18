@@ -89,10 +89,10 @@ public class ObjectClicker : MonoBehaviour
                         }
                     }
                 }
-                else
+                else /*if (clickedObject.c)*/
                 {
                     Debug.Log("Planet Clicked");
-                    if(clickedObject.transform.parent.GetComponent<HexCell>().hadSpacePiratesBefore)
+                    if(clickedObject.transform.GetComponentInParent<HexCell>().hadSpacePiratesBefore)
                     {
 
                         Debug.Log("space pirates before");
