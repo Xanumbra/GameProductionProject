@@ -26,6 +26,11 @@ public class InfoBoxManager : NetworkBehaviour
     {
         infoBox.text += "\n" + message;
     }
+    [Client]
+    public void ClientWriteMessage(string message)
+    {
+        infoBox.text += "\n" + message;
+    }
     [ClientRpc]
     public void playerTurnMessage(string playerName, int order)
     {

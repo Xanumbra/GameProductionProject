@@ -272,5 +272,9 @@ public class UIHandler : MonoBehaviour
             tradePanel.SetActive(true);
         }
     }
+    public void CloseTradePanel()
+    {
+        tradePanel.SetActive(false);
+    }
     #endregion
 }
