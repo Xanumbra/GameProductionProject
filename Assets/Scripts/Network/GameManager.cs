@@ -168,6 +168,9 @@ public class GameManager : NetworkBehaviour
                                     return;
                                 }
                                 break;
+                            case Enums.Resources.sun:
+                                Debug.Log("Cannot steal when at sun!");
+                                return;
                         }
 
                         player.ChangeResourceAmount(cell.cellResourceType, -1);
