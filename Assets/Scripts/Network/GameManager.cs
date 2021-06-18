@@ -23,6 +23,7 @@ public class GameManager : NetworkBehaviour
     [SyncVar(hook = nameof(UpdateGameState))]
     public Enums.GameState curGameState;
 
+    public SoundManager soundManager;
 
     private HexGrid hexGrid;
 
@@ -49,12 +50,14 @@ public class GameManager : NetworkBehaviour
         {
             case Enums.GameState.waitingForPlayers:
                 InfoBoxManager.Instance.ErrorMessageOnClient("<b>Waiting for Players</b> - Not enough players joined your game");
+                soundManager.ChangeAudioClip("WaitingForPlayers");
                 break;
             case Enums.GameState.mapGeneration:
                 InfoBoxManager.Instance.ErrorMessageOnClient("<b>Map Generation</b> - Host can generate random map now");
                 break;
             case Enums.GameState.turnDetermization:
                 InfoBoxManager.Instance.ErrorMessageOnClient("<b>Turn Determization</b> - Everybody rolls the dice - the player with the highest number will be first, the player with the lowest number will be last");
+                soundManager.ChangeAudioClip("InGame");
                 break;
             case Enums.GameState.preGame:
                 InfoBoxManager.Instance.ErrorMessageOnClient("<b>Pre Game</b> - Everyone can place a Settlement and a Road on his turn");
