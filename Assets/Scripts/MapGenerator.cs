@@ -155,6 +155,7 @@ public class MapGenerator : NetworkBehaviour
             var planet = Instantiate(planetPrefabs.Where(dict => dict.resource == resources[i]).Select(dict => dict.planetPrefab).ElementAt(0), hexGrid.cells[i].transform);
             spawnedPlanets.Add(planet);
             hexGrid.cells[i].cellResourceType = resources[i];
+            hexGrid.cells[i].cellDiceNumber = numbers[i];
             try
             {
                 planet.GetComponentInChildren<TMP_Text>().text = numbers[i].ToString();

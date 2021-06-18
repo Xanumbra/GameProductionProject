@@ -83,7 +83,7 @@ public class GameManager : NetworkBehaviour
 
             var settlementOwnerIndices = cell.hexVertices.Where(v => v.hasBuilding && !v.hasCity).Select(v => v.ownerIndex);
             var cityOwnerIndices = cell.hexVertices.Where(v => v.hasCity).Select(v => v.ownerIndex);
-
+                
             if (!cell.hasSpacePirates)
             {
 
@@ -128,27 +128,53 @@ public class GameManager : NetworkBehaviour
 
                 foreach (var player in playersWithBuilding)
                 {
-                    Debug.Log("Stealing resources from player");
                     if (player != TurnManager.Instance.curPlayer)
                     {
-                        var type = cell.cellResourceType;
-                        switch (type)
+                        Debug.Log("Player " + TurnManager.Instance.curPlayer.clientId + " steals resource " + cell.cellResourceType + " from player " + player.clientId);
+                        switch (cell.cellResourceType)
                         {
                             case Enums.Resources.darkMatter:
-                                if (player.darkMatterAmount <= 0) Debug.Log("Cannot steal!"); return;
+                                if (player.darkMatterAmount <= 0)
+                                {
+                                    Debug.Log("Cannot steal!");
+                                    return;
+                                }
+                                break;
                             case Enums.Resources.energy:
-                                if (player.energyAmount <= 0) Debug.Log("Cannot steal!"); return;
+                                if (player.energyAmount <= 0)
+                                {
+                                    Debug.Log("Cannot steal!");
+                                    return;
+                                }
+                                break;
                             case Enums.Resources.metal:
-                                if (player.metalAmount <= 0) Debug.Log("Cannot steal!"); return;
+                                if (player.metalAmount <= 0)
+                                {
+                                    Debug.Log("Cannot steal!");
+                                    return;
+                                }
+                                break;
                             case Enums.Resources.spacePig:
-                                if (player.spacePigAmount <= 0) Debug.Log("Cannot steal!"); return;
+                                if (player.spacePigAmount <= 0)
+                                {
+                                    Debug.Log("Cannot steal!");
+                                    return;
+                                }
+                                break;
                             case Enums.Resources.water:
-                                if (player.waterAmount <= 0) Debug.Log("Cannot steal!"); return;
+                                if (player.waterAmount <= 0)
+                                {
+                                    Debug.Log("Cannot steal!");
+                                    return;
+                                }
+                                break;
                         }
-                        player.ChangeResourceAmount(type, -1);
-                        TurnManager.Instance.curPlayer.ChangeResourceAmount(type, 1);
+
+                        player.ChangeResourceAmount(cell.cellResourceType, -1);
+                        TurnManager.Instance.curPlayer.ChangeResourceAmount(cell.cellResourceType, 1);
                     }
                 }
+                
             }
 		}
     }
