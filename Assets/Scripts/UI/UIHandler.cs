@@ -10,6 +10,7 @@ public class UIHandler : MonoBehaviour
     public TMP_Text localPlayerName;
 
     public GameObject mapGenerationStateBtns;
+    public GameObject inGameStateBtn;
     public GameObject startGameBtn;
     public GameObject seedInputParent;
     InputField seedInput;
@@ -25,11 +26,13 @@ public class UIHandler : MonoBehaviour
 
     public GameObject clickManager;
 
-    public GameObject finishTurnBtn;
-
     public GameObject placementConfirmationMenu;
     public GameObject upgradeConfirmationMenu;
     public GameObject tradePanel;
+
+    public GameObject resourcePanel;
+
+
 
     private void Start()
     {
@@ -54,7 +57,11 @@ public class UIHandler : MonoBehaviour
         Player.localPlayer.RollDice();
         rollDiceBtn.GetComponent<Button>().interactable = false;
 
-        if (GameManager.Instance.curGameState == Enums.GameState.inGame) finishTurnBtn.SetActive(true);
+        if (GameManager.Instance.curGameState == Enums.GameState.inGame)
+        {
+            inGameStateBtn.SetActive(true);
+            clickManager.GetComponent<ObjectClicker>().enabled = true;
+        }
     }
 
     public void FinishTurnBtn()
@@ -85,6 +92,7 @@ public class UIHandler : MonoBehaviour
                 break;
             case Enums.GameState.inGame:
                 // Activate Resource UI, etc..
+                resourcePanel.SetActive(true);
 
                 if (Player.localPlayer.isCurPlayer)
                 {
@@ -124,18 +132,13 @@ public class UIHandler : MonoBehaviour
     {
         Debug.Log("Activate CurPlayer UI");
 
-        if (GameManager.Instance.curGameState == Enums.GameState.inGame)
-        {
-            //finishTurnBtn.SetActive(true);
-        }
-
         if (GameManager.Instance.curGameState != Enums.GameState.preGame)
         {
             ActivateDiceUI(true);
             ActivateRemoteDiceUI(false);
         }
 
-        if (GameManager.Instance.curGameState == Enums.GameState.inGame || GameManager.Instance.curGameState == Enums.GameState.preGame)
+        if (GameManager.Instance.curGameState == Enums.GameState.preGame)
         {
             clickManager.GetComponent<ObjectClicker>().enabled = true;
         }
@@ -148,7 +151,7 @@ public class UIHandler : MonoBehaviour
         ActivateDiceUI(false);
         ActivateRemoteDiceUI(true);
 
-        finishTurnBtn.SetActive(false);
+        inGameStateBtn.SetActive(false);
 
         clickManager.GetComponent<ObjectClicker>().enabled = false;
     }
