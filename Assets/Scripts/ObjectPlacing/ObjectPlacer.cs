@@ -173,7 +173,7 @@ public class ObjectPlacer : NetworkBehaviour
 
         curSpacePirates = newObj;
 
-        newObj.transform.position = pos + new Vector3(0, 8, 0);
+        newObj.transform.position = pos + new Vector3(0, 2, 0);
 
         NetworkServer.Spawn(newObj);
         return true;
