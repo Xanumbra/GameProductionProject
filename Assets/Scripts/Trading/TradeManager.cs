@@ -43,7 +43,6 @@ public class TradeManager : NetworkBehaviour
     }
     public void ChangeResourceAmount(Enums.Resources resourceType,int amount)
     {
-        amount *= 4;
         switch(resourceType){
             case Enums.Resources.darkMatter:
                 darkMatterAmount += amount;
@@ -119,6 +118,8 @@ public class TradeManager : NetworkBehaviour
                     Player.localPlayer.waterAmount += waterAmount;
                     Player.localPlayer.metalAmount += metalAmount;
                     Player.localPlayer.energyAmount += energyAmount;
+                    InfoBoxManager.Instance.writeMessage("Player" + Player.localPlayer.clientId + " traded with the bank.");
+                    ResourceManager.Instance.UpdateResourceUI();
                     ResetResourceAmount();
                 }
                 else
@@ -147,11 +148,11 @@ public class TradeManager : NetworkBehaviour
                 && Player.localPlayer.metalAmount + metalAmount >= 0
                 && Player.localPlayer.energyAmount + energyAmount >= 0)
         {
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
     }
     public bool CheckTradeValidityForBankTrade()

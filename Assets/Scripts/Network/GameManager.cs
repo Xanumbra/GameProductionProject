@@ -111,6 +111,7 @@ public class GameManager : NetworkBehaviour
                 }
             }
         }
+        ResourceManager.Instance.UpdateResourceUI();
     }
 
     [Server]

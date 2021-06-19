@@ -413,7 +413,7 @@ public class Player : NetworkBehaviour
     {
         Debug.Log("Resources Change: " + resource.ToString() + " - " + amount);
         InfoBoxManager.Instance.ResourceMessage(clientId, amount, resource);
-
+        
         switch (resource)
         {
             case Enums.Resources.darkMatter:
@@ -431,7 +431,8 @@ public class Player : NetworkBehaviour
             case Enums.Resources.water:
                 waterAmount += amount;
                 break;
-        } 
+        }
+        ResourceManager.Instance.UpdateResourceUI();
     }
 
     // -- UI Updates --
