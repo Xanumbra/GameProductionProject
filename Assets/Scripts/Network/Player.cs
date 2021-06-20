@@ -12,11 +12,11 @@ public class Player : NetworkBehaviour
     [SyncVar] public int clientId;
     [SyncVar] public Color playerColor;
 
-    [SyncVar] public int darkMatterAmount;
-    [SyncVar] public int spacePigAmount;
-    [SyncVar] public int waterAmount;
-    [SyncVar] public int metalAmount;
-    [SyncVar] public int energyAmount;
+    [SyncVar(hook = nameof(UpdateDarkMatterAmountUI))] public int darkMatterAmount;
+    [SyncVar(hook = nameof(UpdateSpacePigAmountUI))] public int spacePigAmount;
+    [SyncVar(hook = nameof(UpdateWaterAmountUI))] public int waterAmount;
+    [SyncVar(hook = nameof(UpdateMetalAmountUI))] public int metalAmount;
+    [SyncVar(hook = nameof(UpdateEnergyAmountUI))] public int energyAmount;
 
     private UIHandler uiHandler;
 
@@ -41,6 +41,27 @@ public class Player : NetworkBehaviour
         {
             Debug.Log("Spawning remote Player");
         }
+    }
+
+    void UpdateDarkMatterAmountUI(int oldDarkMatter,int newDarkMatter)
+    {
+        ResourceManager.Instance.UpdateDarkMatterUI();
+    }
+    void UpdateSpacePigAmountUI(int oldSpacePig, int newSpacePig)
+    {
+        ResourceManager.Instance.UpdateSpacePigUI();
+    }
+    void UpdateWaterAmountUI(int oldWater, int newWater)
+    {
+        ResourceManager.Instance.UpdateWaterUI();
+    }
+    void UpdateMetalAmountUI(int oldMetal, int newMetal)
+    {
+        ResourceManager.Instance.UpdateMetalUI();
+    }
+    void UpdateEnergyAmountUI(int oldEnergy, int newEnergy)
+    {
+        ResourceManager.Instance.UpdateEnergyUI();
     }
 
     [Client]
@@ -435,7 +456,6 @@ public class Player : NetworkBehaviour
                 break;
         }
         PlayerStatsManager.Instance.setPlayerTotalResources(clientId, amount);
-        ResourceManager.Instance.UpdateResourceUI();
     }
 
     // -- UI Updates --

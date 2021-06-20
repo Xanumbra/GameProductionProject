@@ -119,7 +119,6 @@ public class TradeManager : NetworkBehaviour
                     Player.localPlayer.ChangeResourceAmount(Enums.Resources.metal, metalAmount);
                     Player.localPlayer.ChangeResourceAmount(Enums.Resources.energy, energyAmount);
                     InfoBoxManager.Instance.playerTradedMessage("Player" + Player.localPlayer.clientId, Player.localPlayer.clientId);
-                    ResourceManager.Instance.UpdateResourceUI();
                     ResetResourceAmount();
                 }
                 else

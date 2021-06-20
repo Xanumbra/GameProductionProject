@@ -27,19 +27,31 @@ public class ResourceManager : NetworkBehaviour
             _instance = this;
         }
     }
-    [ClientRpc]
-    public void UpdateResourceUI()
+    [Client]
+    public void UpdateDarkMatterUI()
     {
-        Debug.Log("DM: "+ Player.localPlayer.darkMatterAmount+
-            "\nSP: "+ Player.localPlayer.spacePigAmount+
-            "\nM: "+ Player.localPlayer.metalAmount +
-            "\nW: "+Player.localPlayer.waterAmount+
-            "\nE: "+ Player.localPlayer.energyAmount
-            );
         darkMatterText.text = Player.localPlayer.darkMatterAmount.ToString();
+
+    }
+    [Client]
+    public void UpdateSpacePigUI()
+    {
         spacePigText.text = Player.localPlayer.spacePigAmount.ToString();
+    }
+    [Client]
+    public void UpdateMetalUI()
+    {
         metalText.text = Player.localPlayer.metalAmount.ToString();
+    }
+    [Client]
+    public void UpdateWaterUI()
+    { 
         waterText.text = Player.localPlayer.waterAmount.ToString();
+    }
+    [Client]
+    public void UpdateEnergyUI()
+    {
         energyText.text = Player.localPlayer.energyAmount.ToString();
     }
+
 }
