@@ -30,6 +30,12 @@ public class ResourceManager : NetworkBehaviour
     [ClientRpc]
     public void UpdateResourceUI()
     {
+        Debug.Log("DM: "+ Player.localPlayer.darkMatterAmount+
+            "\nSP: "+ Player.localPlayer.spacePigAmount+
+            "\nM: "+ Player.localPlayer.metalAmount +
+            "\nW: "+Player.localPlayer.waterAmount+
+            "\nE: "+ Player.localPlayer.energyAmount
+            );
         darkMatterText.text = Player.localPlayer.darkMatterAmount.ToString();
         spacePigText.text = Player.localPlayer.spacePigAmount.ToString();
         metalText.text = Player.localPlayer.metalAmount.ToString();

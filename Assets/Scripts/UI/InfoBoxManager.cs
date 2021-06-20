@@ -46,6 +46,12 @@ public class InfoBoxManager : NetworkBehaviour
     }
 
     [ClientRpc]
+    public void playerTradedMessage(string playerName, int order)
+    {
+        playerName = SetPlayerNameBoldColor(playerName, order);
+        infoBox.text = "\n" + playerName + " traded with the bank.";
+    }
+    [ClientRpc]
     public void diceRollMessage(string playerName, int order, int diceTotal)
     {
         playerName = SetPlayerNameBoldColor(playerName, order);

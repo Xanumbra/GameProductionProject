@@ -416,8 +416,6 @@ public class Player : NetworkBehaviour
     {
         Debug.Log("Resources Change: " + resource.ToString() + " - " + amount);
         InfoBoxManager.Instance.ResourceMessage(clientId, amount, resource);
-        PlayerStatsManager.Instance.setPlayerTotalResources(clientId, amount);
-        
         switch (resource)
         {
             case Enums.Resources.darkMatter:
@@ -436,6 +434,7 @@ public class Player : NetworkBehaviour
                 waterAmount += amount;
                 break;
         }
+        PlayerStatsManager.Instance.setPlayerTotalResources(clientId, amount);
         ResourceManager.Instance.UpdateResourceUI();
     }
 

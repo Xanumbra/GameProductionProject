@@ -12,11 +12,11 @@ public class TradeResourceButton : MonoBehaviour, IPointerClickHandler
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            TradeManager.Instance.ChangeResourceAmount(resourceType, adjustAmount);
+            TradeManager.Instance.ChangeOfferResourceAmount(resourceType, adjustAmount);
         }
         else if(eventData.button == PointerEventData.InputButton.Right)
         {
-            TradeManager.Instance.ChangeResourceAmount(resourceType, adjustAmount * 4);
+            TradeManager.Instance.ChangeOfferResourceAmount(resourceType, adjustAmount * 4);
         }
     }
 }
