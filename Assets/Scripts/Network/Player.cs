@@ -66,6 +66,7 @@ public class Player : NetworkBehaviour
         TargetClientJoined(clientId);
         SetPlayerColor();
         InfoBoxManager.Instance.playerJoinMessage("Player" + p.clientId, p.clientId);
+        PlayerStatsManager.Instance.setPlayerStats(clientId);
 
         if (TurnManager.Instance.players.Count == 1)
         {
