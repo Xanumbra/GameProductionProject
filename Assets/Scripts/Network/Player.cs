@@ -66,6 +66,7 @@ public class Player : NetworkBehaviour
         TargetClientJoined(clientId);
         SetPlayerColor();
         InfoBoxManager.Instance.playerJoinMessage("Player" + p.clientId, p.clientId);
+        PlayerStatsManager.Instance.setPlayerStats(clientId);
 
         if (TurnManager.Instance.players.Count == 1)
         {
@@ -321,10 +322,12 @@ public class Player : NetworkBehaviour
         if (type == Enums.BuildingType.Settlement)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+            PlayerStatsManager.Instance.setPlayerTotalSettlements(TurnManager.Instance.players.IndexOf(owner), 1);
         }
         else if (type == Enums.BuildingType.Road)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+            PlayerStatsManager.Instance.setPlayerTotalRoads(TurnManager.Instance.players.IndexOf(owner), 1);
         }
     }
 
@@ -413,6 +416,7 @@ public class Player : NetworkBehaviour
     {
         Debug.Log("Resources Change: " + resource.ToString() + " - " + amount);
         InfoBoxManager.Instance.ResourceMessage(clientId, amount, resource);
+        PlayerStatsManager.Instance.setPlayerTotalResources(clientId, amount);
         
         switch (resource)
         {
