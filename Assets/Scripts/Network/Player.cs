@@ -18,6 +18,8 @@ public class Player : NetworkBehaviour
     [SyncVar(hook = nameof(UpdateMetalAmountUI))] public int metalAmount;
     [SyncVar(hook = nameof(UpdateEnergyAmountUI))] public int energyAmount;
 
+    [SyncVar]public int victoryPoints = 0;
+
     private UIHandler uiHandler;
 
     private bool hasPlacedSpacePirates;
@@ -25,6 +27,25 @@ public class Player : NetworkBehaviour
     public int GetAllResources()
     {
         return darkMatterAmount + spacePigAmount + waterAmount + metalAmount + energyAmount;
+    }
+    [Server]
+    public void UpdateVictoryPoints(int amount)
+    {
+        victoryPoints += amount;
+        CheckWinCondition();
+    }
+    public void CheckWinCondition()
+    {
+        if(victoryPoints >= 6)
+        {
+            EndGame(Player.localPlayer.clientId);
+        }
+    }
+    [ClientRpc]
+    public void EndGame(int clientId)
+    {
+        Time.timeScale = 0;
+        uiHandler.EndGameMessage(clientId);
     }
 
     [Client]
@@ -343,6 +364,7 @@ public class Player : NetworkBehaviour
         if (type == Enums.BuildingType.Settlement)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+            UpdateVictoryPoints(1);
             PlayerStatsManager.Instance.setPlayerTotalSettlements(TurnManager.Instance.players.IndexOf(owner), 1);
         }
         else if (type == Enums.BuildingType.Road)
@@ -378,6 +400,7 @@ public class Player : NetworkBehaviour
     void CmdConfirmUpgrade(Building building, int vertexIndex)
     {
         ObjectPlacer.Instance.UpgradeBuilding(building.transform.position, building.transform.rotation, building.owner);
+        UpdateVictoryPoints(2);
         RpcConfirmUpgrade(building, vertexIndex);
     }
 

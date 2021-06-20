@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 
 public class UIHandler : MonoBehaviour
 {
@@ -31,6 +31,10 @@ public class UIHandler : MonoBehaviour
     public GameObject tradePanel;
 
     public GameObject resourcePanel;
+
+
+    public GameObject endGameMessagePanel;
+    public TMP_Text endGameMessage;
 
 
 
@@ -280,4 +284,18 @@ public class UIHandler : MonoBehaviour
         tradePanel.SetActive(false);
     }
     #endregion
+
+    public void EndGameMessage(int clientid)
+    {
+        endGameMessagePanel.SetActive(true);
+        endGameMessage.text = "Player" + clientid + " wins!\nGoing back to Main Menu";
+        FinishGame();
+    }
+    // Does not work Properly
+    public IEnumerable FinishGame()
+    {
+        yield return new WaitForSecondsRealtime(10);
+        Debug.Log("Going Back to Main Menu");
+        SceneManager.LoadScene("StartMenuScene");
+    }
 }
