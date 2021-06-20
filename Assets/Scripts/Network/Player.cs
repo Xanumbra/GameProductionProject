@@ -319,6 +319,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     void RpcUpdateVertexSettlement(Enums.BuildingType type, int objectIndex, Player owner)
     {
+        // Using CurrentType and player index add roads and settlements to user stats.
         if (type == Enums.BuildingType.Settlement)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
@@ -414,6 +415,7 @@ public class Player : NetworkBehaviour
     {
         Debug.Log("Resources Change: " + resource.ToString() + " - " + amount);
         InfoBoxManager.Instance.ResourceMessage(clientId, amount, resource);
+        PlayerStatsManager.Instance.setPlayerTotalResources(clientId, amount);
         
         switch (resource)
         {
