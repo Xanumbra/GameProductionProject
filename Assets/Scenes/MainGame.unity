@@ -2698,6 +2698,22 @@ MonoBehaviour:
   totalResourceText1: {fileID: 1016443085}
   totalResourceText2: {fileID: 1967499250}
   totalResourceText3: {fileID: 1246054210}
+  totalSettlementText0: {fileID: 751148297}
+  totalSettlementText1: {fileID: 19527427}
+  totalSettlementText2: {fileID: 1657718637}
+  totalSettlementText3: {fileID: 604490549}
+  totalRoadText0: {fileID: 1391139273}
+  totalRoadText1: {fileID: 28716827}
+  totalRoadText2: {fileID: 1201959053}
+  totalRoadText3: {fileID: 213750500}
+  totalSettlement0: 0
+  totalSettlement1: 0
+  totalSettlement2: 0
+  totalSettlement3: 0
+  totalRoad0: 0
+  totalRoad1: 0
+  totalRoad2: 0
+  totalRoad3: 0
 --- !u!114 &299124720
 MonoBehaviour:
   m_ObjectHideFlags: 0

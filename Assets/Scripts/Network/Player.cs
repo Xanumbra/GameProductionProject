@@ -323,10 +323,12 @@ public class Player : NetworkBehaviour
         if (type == Enums.BuildingType.Settlement)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+            PlayerStatsManager.Instance.setPlayerTotalSettlements(TurnManager.Instance.players.IndexOf(owner), 1);
         }
         else if (type == Enums.BuildingType.Road)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
+            PlayerStatsManager.Instance.setPlayerTotalRoads(TurnManager.Instance.players.IndexOf(owner), 1);
         }
     }
 
