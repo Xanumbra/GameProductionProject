@@ -32,6 +32,8 @@ public class UIHandler : MonoBehaviour
 
     public GameObject resourcePanel;
 
+    public GameObject yourTurnOverlay;
+
 
     public GameObject endGameMessagePanel;
     public TMP_Text endGameMessage;
@@ -146,6 +148,15 @@ public class UIHandler : MonoBehaviour
         {
             clickManager.GetComponent<ObjectClicker>().enabled = true;
         }
+
+        StartCoroutine(ActivateYourTurnOverlay());
+    }
+
+    private IEnumerator ActivateYourTurnOverlay()
+    {
+        yourTurnOverlay.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        yourTurnOverlay.SetActive(false);
     }
 
     public void DeActivateCurPlayerUI()
@@ -172,6 +183,7 @@ public class UIHandler : MonoBehaviour
     {
         diceValRemote.text = "";
         diceValRemote.gameObject.SetActive(activate);
+        diceValRemote.color = TurnManager.Instance.curPlayer.playerColor;
     }
 
     // -- Text Updates --
@@ -182,12 +194,12 @@ public class UIHandler : MonoBehaviour
 
     public void UpdateCurPlayerVal(string curPlayer)
     {
-        curPlayerVal.text = curPlayer;
+        //curPlayerVal.text = curPlayer;
     }
 
     public void UpdateCurStateVal(string curState)
     {
-        curStateVal.text = curState;
+        //curStateVal.text = curState;
     }
 
     public void SetLocalPlayerName(string name)

@@ -108,7 +108,12 @@ public class Player : NetworkBehaviour
         TargetClientJoined(clientId);
         SetPlayerColor();
         InfoBoxManager.Instance.playerJoinMessage("Player" + p.clientId, p.clientId);
-        PlayerStatsManager.Instance.setPlayerStats(clientId);
+
+        foreach (var players in TurnManager.Instance.players)
+        {
+            PlayerStatsManager.Instance.setPlayerStats(players.clientId);
+        }
+        
 
         if (TurnManager.Instance.players.Count == 1)
         {
@@ -365,13 +370,19 @@ public class Player : NetworkBehaviour
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
             UpdateVictoryPoints(1);
-            PlayerStatsManager.Instance.setPlayerTotalSettlements(TurnManager.Instance.players.IndexOf(owner), 1);
+            CmdsetPlayerTotalSettlements(TurnManager.Instance.players.IndexOf(owner), 1);
         }
         else if (type == Enums.BuildingType.Road)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
             PlayerStatsManager.Instance.setPlayerTotalRoads(TurnManager.Instance.players.IndexOf(owner), 1);
         }
+    }
+
+    [Command]
+    public void CmdsetPlayerTotalSettlements(int index, int amount)
+    {
+        PlayerStatsManager.Instance.setPlayerTotalSettlements(index, amount);
     }
 
     // -- Upgrading Buildings

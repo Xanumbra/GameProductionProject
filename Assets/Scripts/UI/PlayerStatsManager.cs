@@ -34,6 +34,11 @@ public class PlayerStatsManager : NetworkBehaviour
     public GameObject userStatsPanel3;
     public GameObject userStatsPanel4;
 
+    public GameObject userStatsPanel1ColorContainer;
+    public GameObject userStatsPanel2ColorContainer;
+    public GameObject userStatsPanel3ColorContainer;
+    public GameObject userStatsPanel4ColorContainer;
+
     private int totalResource0 = 0;
     private int totalResource1 = 0;
     private int totalResource2 = 0;
@@ -74,16 +79,21 @@ public class PlayerStatsManager : NetworkBehaviour
       {
         case 0:
             statsText0.text = "Player 0";
-            break;
+                userStatsPanel1ColorContainer.SetActive(true);
+                break;
         case 1:
             statsText1.text = "Player 1";
-            break;
+                userStatsPanel2ColorContainer.SetActive(true);
+                break;
         case 2:
             statsText2.text = "Player 2";
-            break;
+                userStatsPanel3ColorContainer.SetActive(true);
+                break;
         case 3:
             statsText3.text = "Player 3";
-            break;
+                userStatsPanel4ColorContainer.SetActive(true);
+
+                break;
         default:
             Debug.Log("Invalid player index");
             break;
@@ -99,24 +109,22 @@ public class PlayerStatsManager : NetworkBehaviour
       {
         case 0:
             panelOutline = userStatsPanel1.GetComponent<Outline>();
-            panelOutline.effectColor = new Color(0,1,0,1);
             break;
         case 1:
             panelOutline = userStatsPanel2.GetComponent<Outline>();
-            panelOutline.effectColor = new Color(0,1,0,1);
-            break;
+                break;
         case 2:
             panelOutline = userStatsPanel3.GetComponent<Outline>();
-            panelOutline.effectColor = new Color(0,1,0,1);
             break;
         case 3:
             panelOutline = userStatsPanel4.GetComponent<Outline>();
-            panelOutline.effectColor = new Color(0,1,0,1);
             break;
         default:
             Debug.Log("Invalid player index");
             break;
       }
+
+        panelOutline.effectColor = new Color(0, 1, 0, 0.5f);
     }
 
     [ClientRpc]
@@ -145,7 +153,12 @@ public class PlayerStatsManager : NetworkBehaviour
       }
     }
 
-    [ClientRpc]
+    [Command]
+    public void CmdsetPlayerTotalSettlements(int index, int amount)
+    {
+        setPlayerTotalSettlements(index, amount);
+    }
+        [ClientRpc]
     public void setPlayerTotalSettlements(int index, int amount) {
         switch (index)
       {
