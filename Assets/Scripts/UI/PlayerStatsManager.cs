@@ -29,10 +29,18 @@ public class PlayerStatsManager : NetworkBehaviour
     public TMP_Text totalRoadText2;
     public TMP_Text totalRoadText3;
 
+    public GameObject userStatsPanel1;
+    public GameObject userStatsPanel2;
+    public GameObject userStatsPanel3;
+    public GameObject userStatsPanel4;
+
     private int totalResource0 = 0;
     private int totalResource1 = 0;
     private int totalResource2 = 0;
     private int totalResource3 = 0;
+
+    private Outline panelOutline;
+    private Color panelColor;
 
     public int totalSettlement0 = 0;
     public int totalSettlement1 = 0;
@@ -75,6 +83,35 @@ public class PlayerStatsManager : NetworkBehaviour
             break;
         case 3:
             statsText3.text = "Player 3";
+            break;
+        default:
+            Debug.Log("Invalid player index");
+            break;
+      }
+    }
+
+    [ClientRpc]
+    public void setCurrentPlayer(int index) {
+        if (panelOutline) {
+            panelOutline.effectColor = new Color(0,0,0,1);
+        }
+         switch (index)
+      {
+        case 0:
+            panelOutline = userStatsPanel1.GetComponent<Outline>();
+            panelOutline.effectColor = new Color(0,1,0,1);
+            break;
+        case 1:
+            panelOutline = userStatsPanel2.GetComponent<Outline>();
+            panelOutline.effectColor = new Color(0,1,0,1);
+            break;
+        case 2:
+            panelOutline = userStatsPanel3.GetComponent<Outline>();
+            panelOutline.effectColor = new Color(0,1,0,1);
+            break;
+        case 3:
+            panelOutline = userStatsPanel4.GetComponent<Outline>();
+            panelOutline.effectColor = new Color(0,1,0,1);
             break;
         default:
             Debug.Log("Invalid player index");

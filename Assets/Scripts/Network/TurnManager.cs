@@ -79,6 +79,7 @@ public class TurnManager : NetworkBehaviour
         p.isCurPlayer = true;
         Debug.Log($"Switched curPlayer");
         InfoBoxManager.Instance.playerTurnMessage("Player" + curPlayer.clientId, curPlayer.clientId);
+        PlayerStatsManager.Instance.setCurrentPlayer(curPlayer.clientId);
     }
 
     [Server]
