@@ -19,20 +19,20 @@ public class PlayerStatsManager : NetworkBehaviour
     public TMP_Text totalResourceText2;
     public TMP_Text totalResourceText3;
 
-    public TMP_Text totalSettlementText0;
-    public TMP_Text totalSettlementText1;
-    public TMP_Text totalSettlementText2;
-    public TMP_Text totalSettlementText3;
+    //public TMP_Text totalSettlementText0;
+    //public TMP_Text totalSettlementText1;
+    //public TMP_Text totalSettlementText2;
+    //public TMP_Text totalSettlementText3;
 
-    public TMP_Text totalRoadText0;
-    public TMP_Text totalRoadText1;
-    public TMP_Text totalRoadText2;
-    public TMP_Text totalRoadText3;
+    //public TMP_Text totalRoadText0;
+    //public TMP_Text totalRoadText1;
+    //public TMP_Text totalRoadText2;
+    //public TMP_Text totalRoadText3;
 
-    public GameObject userStatsPanel1;
-    public GameObject userStatsPanel2;
-    public GameObject userStatsPanel3;
-    public GameObject userStatsPanel4;
+    public GameObject curPlayerOverlay1;
+    public GameObject curPlayerOverlay2;
+    public GameObject curPlayerOverlay3;
+    public GameObject curPlayerOverlay4;
 
     public GameObject userStatsPanel1ColorContainer;
     public GameObject userStatsPanel2ColorContainer;
@@ -107,29 +107,30 @@ public class PlayerStatsManager : NetworkBehaviour
 
     [ClientRpc]
     public void setCurrentPlayer(int index) {
-        //if (panelOutline) {
-        //    panelOutline.effectColor = new Color(0,0,0,1);
-        //}
+            curPlayerOverlay1.SetActive(false);
+            curPlayerOverlay2.SetActive(false);
+            curPlayerOverlay3.SetActive(false);
+            curPlayerOverlay4.SetActive(false);
          switch (index)
       {
         case 0:
-            panelOutline = userStatsPanel1.GetComponent<Image>();
+                curPlayerOverlay1.SetActive(true);
             break;
         case 1:
-            panelOutline = userStatsPanel2.GetComponent<Image>();
+                curPlayerOverlay2.SetActive(true);
                 break;
         case 2:
-            panelOutline = userStatsPanel3.GetComponent<Image>();
+                curPlayerOverlay3.SetActive(true);
             break;
         case 3:
-            panelOutline = userStatsPanel4.GetComponent<Image>();
+                curPlayerOverlay4.SetActive(true);
             break;
         default:
             Debug.Log("Invalid player index");
             break;
       }
 
-        panelOutline.color = new Color(0, 1, 0, 0.4f);
+        //panelOutline.color = new Color(0, 1, 0, 0.4f);
     }
 
     [ClientRpc]
@@ -161,54 +162,54 @@ public class PlayerStatsManager : NetworkBehaviour
     
     [ClientRpc]
     public void setPlayerTotalSettlements(int index, int amount) {
-        switch (index)
-      {
-        case 0:
-            totalSettlement0 += amount;
-            totalSettlementText0.text = totalSettlement0.ToString();
-            break;
-        case 1:
-            totalSettlement1 += amount;
-            totalSettlementText1.text = totalSettlement1.ToString();
-            break;
-        case 2:
-            totalSettlement2 += amount;
-            totalSettlementText2.text = totalSettlement2.ToString();
-            break;
-        case 3:
-            totalSettlement3 += amount;
-            totalSettlementText3.text = totalSettlement3.ToString();
-            break;
-        default:
-            Debug.Log("Invalid player index");
-            break;
-      }
+      //  switch (index)
+      //{
+      //  case 0:
+      //      totalSettlement0 += amount;
+      //      totalSettlementText0.text = totalSettlement0.ToString();
+      //      break;
+      //  case 1:
+      //      totalSettlement1 += amount;
+      //      totalSettlementText1.text = totalSettlement1.ToString();
+      //      break;
+      //  case 2:
+      //      totalSettlement2 += amount;
+      //      totalSettlementText2.text = totalSettlement2.ToString();
+      //      break;
+      //  case 3:
+      //      totalSettlement3 += amount;
+      //      totalSettlementText3.text = totalSettlement3.ToString();
+      //      break;
+      //  default:
+      //      Debug.Log("Invalid player index");
+      //      break;
+      //}
     }
 
     [ClientRpc]
     public void setPlayerTotalRoads(int index, int amount) {
-        switch (index)
-      {
-        case 0:
-            totalRoad0 += amount;
-            totalRoadText0.text = totalRoad0.ToString();
-            break;
-        case 1:
-            totalRoad1 += amount;
-            totalRoadText1.text = totalRoad1.ToString();
-            break;
-        case 2:
-            totalRoad2 += amount;
-            totalRoadText2.text = totalRoad2.ToString();
-            break;
-        case 3:
-            totalRoad3 += amount;
-            totalRoadText3.text = totalRoad3.ToString();
-            break;
-        default:
-            Debug.Log("Invalid player index");
-            break;
-      }
+      //  switch (index)
+      //{
+      //  case 0:
+      //      totalRoad0 += amount;
+      //      totalRoadText0.text = totalRoad0.ToString();
+      //      break;
+      //  case 1:
+      //      totalRoad1 += amount;
+      //      totalRoadText1.text = totalRoad1.ToString();
+      //      break;
+      //  case 2:
+      //      totalRoad2 += amount;
+      //      totalRoadText2.text = totalRoad2.ToString();
+      //      break;
+      //  case 3:
+      //      totalRoad3 += amount;
+      //      totalRoadText3.text = totalRoad3.ToString();
+      //      break;
+      //  default:
+      //      Debug.Log("Invalid player index");
+      //      break;
+      //}
     }
 
     public void SetPlayerVictoryPoints(int index, int amount)
