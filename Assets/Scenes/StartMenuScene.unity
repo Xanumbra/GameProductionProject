@@ -742,6 +742,18 @@ PrefabInstance:
       propertyPath: m_text
       value: Join Game
       objectReference: {fileID: 0}
+    - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fc1e5caac8f6294d92de06012d9849c,
+        type: 2}
+    - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3302162105851149111, guid: 3fc1e5caac8f6294d92de06012d9849c,
+        type: 2}
     - target: {fileID: 576410549223193872, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
       propertyPath: m_Name
@@ -949,14 +961,14 @@ MonoBehaviour:
   m_text: Settlers in Space
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4289710592
-  m_fontColor: {r: 0, g: 0.7921569, b: 0.6862745, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1232,8 +1244,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3fc1e5caac8f6294d92de06012d9849c, type: 2}
+  m_sharedMaterial: {fileID: 3302162105851149111, guid: 3fc1e5caac8f6294d92de06012d9849c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2631,6 +2644,18 @@ PrefabInstance:
       propertyPath: m_text
       value: Host Game
       objectReference: {fileID: 0}
+    - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fc1e5caac8f6294d92de06012d9849c,
+        type: 2}
+    - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3302162105851149111, guid: 3fc1e5caac8f6294d92de06012d9849c,
+        type: 2}
     - target: {fileID: 576410549223193872, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
       propertyPath: m_Name
