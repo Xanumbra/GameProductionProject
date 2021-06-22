@@ -374,12 +374,12 @@ public class Player : NetworkBehaviour
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateVertex(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
             UpdateVictoryPoints(1);
-            CmdsetPlayerTotalSettlements(TurnManager.Instance.players.IndexOf(owner), 1);
+            CmdsetPlayerTotalSettlements(owner.clientId, 1);
         }
         else if (type == Enums.BuildingType.Road)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
-            CmdsetPlayerTotalRoads(TurnManager.Instance.players.IndexOf(owner), 1);
+            CmdsetPlayerTotalRoads(owner.clientId, 1);
         }
     }
 
