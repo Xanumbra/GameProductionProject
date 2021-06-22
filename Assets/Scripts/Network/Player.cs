@@ -18,7 +18,7 @@ public class Player : NetworkBehaviour
     [SyncVar(hook = nameof(UpdateMetalAmountUI))] public int metalAmount;
     [SyncVar(hook = nameof(UpdateEnergyAmountUI))] public int energyAmount;
 
-    [SyncVar]public int victoryPoints = 0;
+    [SyncVar(hook = nameof(UpdateVictoryPointsUI))] public int victoryPoints = 0;
 
     private UIHandler uiHandler;
 
@@ -88,6 +88,12 @@ public class Player : NetworkBehaviour
     {
         ResourceManager.Instance.UpdateEnergyUI();
     }
+
+    void UpdateVictoryPointsUI(int oldVp, int newVp)
+    {
+        PlayerStatsManager.Instance.SetPlayerVictoryPoints(clientId, newVp);
+    }
+
 
     [Client]
     public override void OnStopClient()

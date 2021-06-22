@@ -39,6 +39,11 @@ public class PlayerStatsManager : NetworkBehaviour
     public GameObject userStatsPanel3ColorContainer;
     public GameObject userStatsPanel4ColorContainer;
 
+    public TMP_Text victoryPoints0;
+    public TMP_Text victoryPoints1;
+    public TMP_Text victoryPoints2;
+    public TMP_Text victoryPoints3;
+
     private int totalResource0 = 0;
     private int totalResource1 = 0;
     private int totalResource2 = 0;
@@ -206,6 +211,28 @@ public class PlayerStatsManager : NetworkBehaviour
       }
     }
 
+    public void SetPlayerVictoryPoints(int index, int amount)
+    {
+        //switch (index)
+        //{
+        //    case 0:
+        //        victoryPoints0.text = amount.ToString();
+        //        break;
+        //    case 1:
+        //        victoryPoints1.text = amount.ToString();
+        //        break;
+        //    case 2:
+        //        victoryPoints2.text = amount.ToString();
+        //        break;
+        //    case 3:
+        //        victoryPoints3.text = amount.ToString();
+        //        break;
+        //    default:
+        //        Debug.Log("Invalid player index");
+        //        break;
+        //}
+        Debug.Log("Player" + index + "got victory point");
+    }
 
 
 
