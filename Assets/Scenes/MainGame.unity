@@ -5049,22 +5049,22 @@ PrefabInstance:
     - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
       propertyPath: m_fontColor.r
-      value: 0.17254902
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
       propertyPath: m_fontColor.g
-      value: 0.1882353
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
       propertyPath: m_fontColor.b
-      value: 0.27450982
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4282789932
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 576410548680190117, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
