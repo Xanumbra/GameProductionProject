@@ -111,7 +111,7 @@ public class Player : NetworkBehaviour
         clientId = TurnManager.Instance.players.IndexOf(p);
         TargetClientJoined(clientId);
         SetPlayerColor();
-        InfoBoxManager.Instance.playerJoinMessage("Player" + p.clientId, p.clientId);
+        InfoBoxManager.Instance.playerJoinMessage("Player " + p.clientId, p.clientId);
 
         foreach (var players in TurnManager.Instance.players)
         {
@@ -215,7 +215,7 @@ public class Player : NetworkBehaviour
             bool lastRollTurnDetermization;
             var diceSum = TurnManager.Instance.RollDiceTurnDetermization(out diceVal1, out diceVal2, out lastRollTurnDetermization);
             RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
-            InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
+            InfoBoxManager.Instance.diceRollMessage("Player " + clientId, clientId, diceSum);
 
             if (!lastRollTurnDetermization)
                 StartCoroutine(WaitForDiceAnimation());
@@ -223,7 +223,7 @@ public class Player : NetworkBehaviour
         else
         {
             var diceSum = TurnManager.Instance.RollDice(out diceVal1, out diceVal2);
-            InfoBoxManager.Instance.diceRollMessage("Player" + clientId, clientId, diceSum);
+            InfoBoxManager.Instance.diceRollMessage("Player " + clientId, clientId, diceSum);
             RpcShowDiceOnClients(diceSum, diceVal1, diceVal2);
 
             if (diceSum == 7)
@@ -510,7 +510,7 @@ public class Player : NetworkBehaviour
         ChangeResourceAmount(Enums.Resources.water, waterAmount);
         ChangeResourceAmount(Enums.Resources.metal, metalAmount);
         ChangeResourceAmount(Enums.Resources.energy, energyAmount);
-        InfoBoxManager.Instance.playerTradedMessage("Player" + clientId, clientId);
+        InfoBoxManager.Instance.playerTradedMessage("Player " + clientId, clientId);
     }
 
     // -- UI Updates --
