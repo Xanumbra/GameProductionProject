@@ -112,20 +112,15 @@ public class TradeManager : NetworkBehaviour
             if (isOfferContainingResource())
             {
                 if (CheckTradeValidityForPlayerResources())
-                {
-                    Player.localPlayer.ChangeResourceAmount(Enums.Resources.darkMatter, darkMatterAmount);
-                    Player.localPlayer.ChangeResourceAmount(Enums.Resources.spacePig, spacePigAmount);
-                    Player.localPlayer.ChangeResourceAmount(Enums.Resources.water, waterAmount);
-                    Player.localPlayer.ChangeResourceAmount(Enums.Resources.metal, metalAmount);
-                    Player.localPlayer.ChangeResourceAmount(Enums.Resources.energy, energyAmount);
-                    InfoBoxManager.Instance.playerTradedMessage("Player" + Player.localPlayer.clientId, Player.localPlayer.clientId);
+                {    
+                    Player.localPlayer.CmdCompleteTrade(darkMatterAmount, metalAmount, energyAmount, spacePigAmount, waterAmount);
                     ResetResourceAmount();
                 }
                 else
                 {
                     InfoBoxManager.Instance.ClientWriteMessage("You don't have enough resources!");
                 }
-                
+
             }
             else
             {
@@ -139,6 +134,8 @@ public class TradeManager : NetworkBehaviour
         }
         
     }
+
+
     public bool CheckTradeValidityForPlayerResources()
     {
         if (Player.localPlayer.darkMatterAmount + darkMatterAmount >= 0

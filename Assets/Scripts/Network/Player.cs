@@ -492,6 +492,17 @@ public class Player : NetworkBehaviour
         PlayerStatsManager.Instance.setPlayerTotalResources(clientId, amount);
     }
 
+    [Command]
+    public void CmdCompleteTrade(int darkMatterAmount, int metalAmount, int energyAmount, int spacePigAmount, int waterAmount)
+    {
+        ChangeResourceAmount(Enums.Resources.darkMatter, darkMatterAmount);
+        ChangeResourceAmount(Enums.Resources.spacePig, spacePigAmount);
+        ChangeResourceAmount(Enums.Resources.water, waterAmount);
+        ChangeResourceAmount(Enums.Resources.metal, metalAmount);
+        ChangeResourceAmount(Enums.Resources.energy, energyAmount);
+        InfoBoxManager.Instance.playerTradedMessage("Player" + Player.localPlayer.clientId, Player.localPlayer.clientId);
+    }
+
     // -- UI Updates --
     [Client]
     public void UpdateGameState(string curGameState)
