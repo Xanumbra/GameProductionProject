@@ -113,7 +113,7 @@ public class TradeManager : NetworkBehaviour
             {
                 if (CheckTradeValidityForPlayerResources())
                 {    
-                    Player.localPlayer.CmdCompleteTrade(darkMatterAmount, metalAmount, energyAmount, spacePigAmount, waterAmount);
+                    Player.localPlayer.CmdCompleteTrade(darkMatterAmount, metalAmount, energyAmount, spacePigAmount, waterAmount, Player.localPlayer.clientId);
                     ResetResourceAmount();
                 }
                 else

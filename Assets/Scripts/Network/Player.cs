@@ -493,14 +493,14 @@ public class Player : NetworkBehaviour
     }
 
     [Command]
-    public void CmdCompleteTrade(int darkMatterAmount, int metalAmount, int energyAmount, int spacePigAmount, int waterAmount)
+    public void CmdCompleteTrade(int darkMatterAmount, int metalAmount, int energyAmount, int spacePigAmount, int waterAmount, int clientId)
     {
         ChangeResourceAmount(Enums.Resources.darkMatter, darkMatterAmount);
         ChangeResourceAmount(Enums.Resources.spacePig, spacePigAmount);
         ChangeResourceAmount(Enums.Resources.water, waterAmount);
         ChangeResourceAmount(Enums.Resources.metal, metalAmount);
         ChangeResourceAmount(Enums.Resources.energy, energyAmount);
-        InfoBoxManager.Instance.playerTradedMessage("Player" + Player.localPlayer.clientId, Player.localPlayer.clientId);
+        InfoBoxManager.Instance.playerTradedMessage("Player" + clientId, clientId);
     }
 
     // -- UI Updates --
