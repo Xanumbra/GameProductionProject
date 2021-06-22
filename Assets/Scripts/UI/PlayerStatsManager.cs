@@ -49,7 +49,7 @@ public class PlayerStatsManager : NetworkBehaviour
     private int totalResource2 = 0;
     private int totalResource3 = 0;
 
-    private Outline panelOutline;
+    private Image panelOutline;
     private Color panelColor;
 
     public int totalSettlement0 = 0;
@@ -107,29 +107,29 @@ public class PlayerStatsManager : NetworkBehaviour
 
     [ClientRpc]
     public void setCurrentPlayer(int index) {
-        if (panelOutline) {
-            panelOutline.effectColor = new Color(0,0,0,1);
-        }
+        //if (panelOutline) {
+        //    panelOutline.effectColor = new Color(0,0,0,1);
+        //}
          switch (index)
       {
         case 0:
-            panelOutline = userStatsPanel1.GetComponent<Outline>();
+            panelOutline = userStatsPanel1.GetComponent<Image>();
             break;
         case 1:
-            panelOutline = userStatsPanel2.GetComponent<Outline>();
+            panelOutline = userStatsPanel2.GetComponent<Image>();
                 break;
         case 2:
-            panelOutline = userStatsPanel3.GetComponent<Outline>();
+            panelOutline = userStatsPanel3.GetComponent<Image>();
             break;
         case 3:
-            panelOutline = userStatsPanel4.GetComponent<Outline>();
+            panelOutline = userStatsPanel4.GetComponent<Image>();
             break;
         default:
             Debug.Log("Invalid player index");
             break;
       }
 
-        panelOutline.effectColor = new Color(0, 1, 0, 0.5f);
+        panelOutline.color = new Color(0, 1, 0, 0.4f);
     }
 
     [ClientRpc]
