@@ -8,6 +8,22 @@ public class StartMenuUI : MonoBehaviour
 {
     [SerializeField] NetworkManager networkManager;
     [SerializeField] TMP_InputField ipInput;
+    [SerializeField] GameObject creditsOverlay;
+    [SerializeField] GameObject creditsButton;
+
+    public void Credits()
+    {
+        creditsOverlay.SetActive(!creditsOverlay.activeInHierarchy);
+
+        if (creditsOverlay.activeInHierarchy)
+        {
+            creditsButton.GetComponentInChildren<TMP_Text>().text = "Close";
+        }
+        else
+        {
+            creditsButton.GetComponentInChildren<TMP_Text>().text = "Credits";
+        }
+    }
 
     public void HostGame()
     {
