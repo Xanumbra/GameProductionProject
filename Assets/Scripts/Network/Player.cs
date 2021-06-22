@@ -411,7 +411,7 @@ public class Player : NetworkBehaviour
     void CmdConfirmUpgrade(Building building, int vertexIndex)
     {
         ObjectPlacer.Instance.UpgradeBuilding(building.transform.position, building.transform.rotation, building.owner);
-        UpdateVictoryPoints(2);
+        UpdateVictoryPoints(1);
         RpcConfirmUpgrade(building, vertexIndex);
     }
 
