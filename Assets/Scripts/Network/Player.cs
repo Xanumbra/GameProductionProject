@@ -379,7 +379,7 @@ public class Player : NetworkBehaviour
         else if (type == Enums.BuildingType.Road)
         {
             ObjectPlacer.Instance.objClicker.RpcUpdateEdge(objectIndex, localPlayer == owner, TurnManager.Instance.players.IndexOf(owner));
-            PlayerStatsManager.Instance.setPlayerTotalRoads(TurnManager.Instance.players.IndexOf(owner), 1);
+            CmdsetPlayerTotalRoads(TurnManager.Instance.players.IndexOf(owner), 1);
         }
     }
 
@@ -387,6 +387,12 @@ public class Player : NetworkBehaviour
     public void CmdsetPlayerTotalSettlements(int index, int amount)
     {
         PlayerStatsManager.Instance.setPlayerTotalSettlements(index, amount);
+    }
+
+    [Command]
+    public void CmdsetPlayerTotalRoads(int index, int amount)
+    {
+        PlayerStatsManager.Instance.setPlayerTotalRoads(index, amount);
     }
 
     // -- Upgrading Buildings

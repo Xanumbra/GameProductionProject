@@ -153,12 +153,8 @@ public class PlayerStatsManager : NetworkBehaviour
       }
     }
 
-    [Command]
-    public void CmdsetPlayerTotalSettlements(int index, int amount)
-    {
-        setPlayerTotalSettlements(index, amount);
-    }
-        [ClientRpc]
+    
+    [ClientRpc]
     public void setPlayerTotalSettlements(int index, int amount) {
         switch (index)
       {
@@ -184,6 +180,7 @@ public class PlayerStatsManager : NetworkBehaviour
       }
     }
 
+    [ClientRpc]
     public void setPlayerTotalRoads(int index, int amount) {
         switch (index)
       {
