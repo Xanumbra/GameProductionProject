@@ -2896,6 +2896,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CreditsBtn
       objectReference: {fileID: 0}
+    - target: {fileID: 576410549223193872, guid: eb8555698e618f84dae6f1183b0d00f0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 576410549223193874, guid: eb8555698e618f84dae6f1183b0d00f0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -3305,7 +3310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1452634505
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3819,6 +3824,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 420716105329580356, guid: e092971a7aab3734f8c0fa4c214113b7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 420716105329580357, guid: e092971a7aab3734f8c0fa4c214113b7,
         type: 3}
