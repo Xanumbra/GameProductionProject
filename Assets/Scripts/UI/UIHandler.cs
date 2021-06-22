@@ -305,13 +305,13 @@ public class UIHandler : MonoBehaviour
     public void EndGameMessage(int clientid)
     {
         endGameMessagePanel.SetActive(true);
-        endGameMessage.text = "Player" + clientid + " wins!\nGoing back to Main Menu";
-        FinishGame();
+        endGameMessage.text = "Player" + clientid + " wins!";
+        //FinishGame();
     }
     // Does not work Properly
-    public IEnumerable FinishGame()
+    public void FinishGame()
     {
-        yield return new WaitForSecondsRealtime(10);
+        Player.localPlayer.StopClient();
         Debug.Log("Going Back to Main Menu");
         SceneManager.LoadScene("StartMenuScene");
     }

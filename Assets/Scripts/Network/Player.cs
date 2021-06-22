@@ -52,6 +52,14 @@ public class Player : NetworkBehaviour
         uiHandler.EndGameMessage(clientId);
     }
 
+    [Command]
+    public void StopClient()
+    {
+        if (isServer) NetworkManager.singleton.StopHost();
+        else NetworkManager.singleton.StopClient();
+    }
+
+
     [Client]
     public override void OnStartClient()
     {
