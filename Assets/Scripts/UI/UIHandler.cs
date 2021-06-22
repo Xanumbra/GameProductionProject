@@ -38,7 +38,7 @@ public class UIHandler : MonoBehaviour
     public GameObject endGameMessagePanel;
     public TMP_Text endGameMessage;
 
-
+    public GameObject buildingCostsOverlay;
 
     private void Start()
     {
@@ -73,6 +73,11 @@ public class UIHandler : MonoBehaviour
     public void FinishTurnBtn()
     {
         Player.localPlayer.FinishTurn();
+    }
+
+    public void BuildingCostsBtn()
+    {
+        buildingCostsOverlay.SetActive(!buildingCostsOverlay.activeInHierarchy);
     }
 
     // -- UI Updates per State
