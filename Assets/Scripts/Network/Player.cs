@@ -36,9 +36,13 @@ public class Player : NetworkBehaviour
     }
     public void CheckWinCondition()
     {
-        if(victoryPoints >= 6)
+        foreach (Player p in TurnManager.Instance.players)
         {
-            EndGame(Player.localPlayer.clientId);
+            if(p.victoryPoints >= 6)
+            {
+                EndGame(p.clientId);
+                break;
+            }
         }
     }
     [ClientRpc]
