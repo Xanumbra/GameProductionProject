@@ -20848,9 +20848,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   statsText0: {fileID: 1917489626}
-  statsText1: {fileID: 1720389461}
-  statsText2: {fileID: 374390436}
-  statsText3: {fileID: 870246482}
+  statsText1: {fileID: 1524393157}
+  statsText2: {fileID: 372518608}
+  statsText3: {fileID: 472184337}
   totalResourceText0: {fileID: 1927697618}
   totalResourceText1: {fileID: 2077349799}
   totalResourceText2: {fileID: 1884769111}
