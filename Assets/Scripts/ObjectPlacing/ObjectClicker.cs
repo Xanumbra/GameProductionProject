@@ -10,7 +10,7 @@ public class ObjectClicker : MonoBehaviour
 
     private void Awake()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     private void OnEnable()
